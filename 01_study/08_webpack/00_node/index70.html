@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 반복문(Loops) 사용하기 (@for)</h1>
+        <dl>
+            <dt class="d_tit">Sass 반복문(Loops) 사용하기 (@for)</dt>
+            <dd class="d_txt">
+                @while 구문으로 생성한 960 그리드 시스템을 @for 구문으로 변경하여 자세히 알아봅니다. <br>
+                변경할 부분은 많지 않습니다. <br>
+                먼저 $i 반복자 변수 선언 부분과 @while 구문에서 $i : $i + 1 코드 부분을 삭제합니다. <br>
+                그리고 @while 구문을 아래 처럼 변경합니다. <br>
+                변경한 코드는 변수 $i 값을 1부터(from) $columns 값까지(through) 1씩 증가하면서 반복하라는 의미입니다. <br>
+                $columns 값이 24로 설정되어 있으니 총 24번 @for 구문을 반복합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp148.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <p class="phrase">
+                    <span class="em">깨알 Tip</span> <br>
+                    through 키워드 대신 to 키워드를 사용하면 $columns 값 전까지 반복합니다. <br>
+                    즉, $columns 값이 24일 때 to 키워드를 사용하면 23까지 반복합니다.
+                </p>
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

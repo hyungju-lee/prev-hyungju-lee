@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>eventDefault</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/tab.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <!--[if lt IE 9]>
+    <style>
+        code{overflow: auto}
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">javascript IIFE 이해하기</h1>
+        <p class="phrase">IIFE(Immediately Invoked Function Expressions : "iffy"라고 발음)는 즉시 호출 함수 표현식의 줄임말이다.<br>
+        기본적인 형태는 다음과 같다.</p>
+        <pre class="line-numbers">
+            <code class="language-javascript">
+                (function () {
+                    // Do fun stuff
+
+                })()
+            </code>
+        </pre>
+        이것은 즉시 호출되는 익명 함수 표현식이다.  <br>
+        이것은 자바스크립트에서 때에 따라 중요하게 사용될 수 있다.
+        <dl>
+            <dt class="d_tit">함수 선언(Declaration)과 표현(Expression)</dt>
+            <dd class="d_txt">
+                IIFE를 설명하기 전에 함수의 선언(Function Declaration)과 함수의 표현(Function Expression)의 차이점에 대해 이해할 필요가 있다.<br>
+                Mozilla Developer Site의 함수에 대한 설명을 보면 함수 표현식은 선언과 동일한 문법을 가지고 단지 표현식에서는 함수명이 생략될 수 있다고만 기술하고 있다.<br>
+                틀린말은 아니지만 사실 이 보다 좀 더 뚜렷한 형태와 동작의 차이점을 가지고 있다. <br><br>
+                함수 선언(declaration)은 미리 자바스크립트의 실행 컨텍스트(excution context)에 로딩되어 있으므로 언제든지 호출할 수 있지만,<br>
+                표현식(expression)은 인터프리터가 해당 라인에 도달하였을 때만 실행이 된다. <br><br>
+                즉, 함수 선언(declaration)을 조건(conditionally)에 따라 할당(assignment)하거나, 생성, 또는 괄호 연산자로 그루핑(grouping)하여 표현식으로 나타낼 수 있다.<br>
+                다음 소스는 함수 정의(선언과 표현)의 차이를 간단히 보여주고 있다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        foo(); // success!
+                        function foo() {
+                            alert('foo');
+                        }
+
+                        foo(); // "foo" is not defined.
+                        var foo = function() {
+                            alert('foo');
+                        };
+
+                        alert(foo); // "foo" is not defined.
+                        (function foo () {});
+                        alert(foo); // "foo" is not defined.
+                    </code>
+                </pre>
+                IIFE를 설명하기 위한 function declaration과 function expression의 설명은 이 정도로 끝내겠다.
+            </dd>
+            <dt class="d_tit">즉시 호출 함수 표현식(IIFE)은 어떻게 작동하는가?</dt>
+            <dd class="d_txt">
+                <ul class="lst">
+                    <li class="item">괄호쌍이 익명의 함수를 감싸서 함수 선언(declaration)을 함수 표현식(expression)으로 표현될 수 있다.<br>
+                    그러므로 단순한 익명의 함수를 global 스코프에 선언하지 않고 어디서든 익명의 함수 표현식으로 선언할 수 있다.</li>
+                    <li class="item">따라서 아래와 같은 표현식이 가능하다.
+                        <pre class="line-numbers">
+                            <code class="language-javascript">
+                                // 괄호 사용 안함
+                                x = function () {};
+                                // 괄호 사용
+                                (x = function () {});
+                                // 변수 x에는 함수의 값이 할당됩니다. 괄호로 둘러쌓인 함수는 익명의 함수 표현식이 됩니다.
+                            </code>
+                        </pre>
+                    </li>
+                    <li class="item">이와 유사하게 이름을 부여하고, 즉시 호출된 함수 표현식으로 생성할 수도 있다.
+                        <pre class="line-numbers">
+                            <code class="language-javascript">
+                                (showName = function (name) {
+                                    console.log(name || "No Name")
+                                }) (); // No Name
+                                showName("Rich"); // Rich
+                                showName(); // No Name
+                            </code>
+                        </pre>
+                    </li>
+                    <li class="item">showName 함수는 선언과 동시에 실행이되며, 이름이 있으므로 나중에 호출할수도 있다.</li>
+                    <li class="item">하지만, 익명의 표현식은 나중에 다시 호출할 수 없습니다. 참조할 방법이 없기 때문이다.</li>
+                    <li class="item">익명의 함수를 괄호 안에(group context) 위치시킬 경우, 전체 그룹을 평가(evaluate)하고 값을 리턴한다. 결국, 리턴값은 익명 함수 자신이다.</li>
+                    <li class="item">마지막 두 개 괄호는 JS컴파일러에게 이 익명 함수를 바로 호출하라고 말하는 것. 이것을 IIFE라고 부른다.</li>
+                </ul>
+            </dd>
+            <dt class="d_tit">언제 IIFE를 사용하는가?</dt>
+            <dd class="d_txt">
+                <strong>전역 영역(Global Scope)을 오염시키지 않기 위해서</strong><br><br>
+                IIFE를 사용하는 주된 이유는 변수를 전역(global scope)으로 선언하는 것을 피하기 위해서이다. <br>
+                많은 JavaScript 라이브러리와 전문가들이 이 기법을 사용한다. <br>
+                jQuery plugin 개발자들 사이에서 특히 인기가 많다. <br>
+                JS어플리케이션의 Top-Level - main.js 또는 app.js와 같은 - 에서도 IIFE를 사용할 수 있다.<br>
+                아래 코드는 지역변수를 익명함수로 위치시켜 외부와의 충돌을 방지할 수 있는걸 보여주고 있다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         // All the code is wrapped in the IIFE
+                        (function () {
+                            var firstName = “Richard”;
+                            function init () {
+                                doStuff (firstName);
+                                // code to start the application
+                            }
+                            function doStuff () {
+                                // Do stuff here
+                            }
+                            function doMoreStuff () {
+                                // Do more stuff here
+                            }
+                            // Start the application
+                            init ();
+                        }) ();
+                    </code>
+                </pre>
+                필요한 경우 마지막 괄호 안에 외부 객체나 변수를 넣어 익명의 함수에 전달할 수도 있다.
+            </dd>
+            <dt class="d_tit">조건문과 함께 사용하기</dt>
+            <dd class="d_txt">
+                잘 알려지지 않았지만, 복잡한 로직을 다룰 때 조건에 따라 함수 정의를 달리하여 설정하고 호출할 수도 있다. <br>
+                이 기법은 때론 유용할 수도 있겠으나, 대체로 사용하지 않길 바란다. <br>
+                프로그램의 전반적인 가독성을 떨어트리고 버그를 양산할 수 있다. <br>
+                꼭 사용해야 한다면 들여쓰기를 충분히 하여 코드를 읽기 쉽도록 유지하기 바란다.
+            </dd>
+            <dt class="d_tit">클로저에서 값의 중복 현상 해결</dt>
+            <dd class="d_txt">
+                <a href="study6.html">자바스크립트 클로저 쉽게 이해하기</a>에서 다뤘던 것처럼, 순환문 내에서 클로저 사용시 IIFE 기법을 사용해 참조에 의한 클로저의 오작동을 해결할 수 있다.<br><br>
+                IIFE 기법은 이제 많은 JS 프레임워크들이나 오픈 소스에서 쉽게 찾아볼 수 있다. <br>
+                JS 코딩을 하면서 아직 이 기법에 대해 잘 모르거나 쓰고 있지만, 어떻게 작동하고 왜 사용하는지 모르고 있다면 이 글이 이해를 돕는데 조금이나마 도움이 되었길 바란다.
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+<script src="../../../js/tab.js"></script>
+</body>
+</html>

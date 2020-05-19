@@ -1,0 +1,12 @@
+Tip
+위에서 설명한 --merged, --no-merged 옵션을 사용할 때 커밋이나 브랜치 이름을 지정해주지 않으면
+현재 브랜치를 기준으로 Merge 되거나 Merge 되지 않은 내용을 출력한다.
+
+위 명령을 사용할 때 특정 브랜치를 기준으로 Merge 되거나 혹은 Merge 되지 않은 브랜치 정보를 살펴보려면
+명령에 브랜치 이름을 지정해주면 된다.
+예를 들어 master 브랜치에 아직 Merge되지 않은 브랜치를 살펴보려면 다음과 같은 명령을 실행한다.
+
+    $ git checkout testing
+    $ git branch --no-merged master
+    topicA
+    featureB

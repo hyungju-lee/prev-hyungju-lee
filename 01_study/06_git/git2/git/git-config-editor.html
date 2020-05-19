@@ -1,0 +1,15 @@
+<strong>편집기</strong>
+사용자 정보를 설정하고 나면 Git에서 사용할 텍스트 편집기를 고른다.
+기본적으로 Git은 시스템의 기본 편집기를 사용한다.
+
+하지만, Emacs 같은 다른 텍스트 편집기를 사용할 수 있고 아래와 같이 실행하면 된다.
+
+    <strong>$ git config --global core.editor emacs</strong>
+
+
+Windows 사용자라면 다른 텍스트 편집기를 사용할 수 있다.
+실행파일의 전체 경로를 설정해주면 된다.
+실행파일의 전체 경로는 사용하는 편집기에 따라 다르다.
+
+    <strong>$ git config --global core.editor "'C:/Program Files/Notepad++/notepad++.exe' -multiInst -nosession"</strong>
+    <strong>$ git config --global core.editor "'C:/Program Files (x86)/Notepad++/notepad++.exe' -multiInst -nosession"</strong>

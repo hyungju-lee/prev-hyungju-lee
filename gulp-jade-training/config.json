@@ -1,0 +1,28 @@
+{
+  "port": 90,
+  "livereload": true,
+  "browser": "chrome",
+  "lint": true,
+  "concat": true,
+  "uglify": true,
+  "rename": true,
+  "path": {
+    "html": {
+      "src": "src/html/",
+      "dest": "dist/"
+    },
+    "css": {
+      "src": [
+        "src/css/**/*.css",
+        "src/css/style.css"
+      ],
+      "dest": "dist/css/",
+      "filename": "style.css"
+    },
+    "js": {
+      "src": "src/js/libs/**/*.js",
+      "dest": "dist/js/",
+      "filename": "DOMlibrary.js"
+    }
+  }
+}

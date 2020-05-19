@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">비동기 흐름과 동기 흐름은 어떤 차이가 있나요?</h1>
+        <dl>
+            <dt class="d_tit">비동기 흐름과 동기 흐름은 어떤 차이가 있나요?</dt>
+            <dd class="d_txt">
+                비동기(Asynchronous)와 동기(Synchronous)의 차이는 간단하게 말해 '기다림'이라고 할 수 있습니다. <br>
+                예를 들어, 친구 A와 친구 B가 방과 후 박람회를 방문할 예정이라고 합시다. <br>
+                그런데 갑자기 친구 A에게 일이 생겨 친구 B는 친구 A의 일이 끝날 때까지 기다렸다 박람회를 가야 합니다. <br>
+                이것이 동기(Sync)입니다. <br>
+                반면 친구 A의 일이 끝나기를 기다리지 않고 친구 B 혼자 박람회를 방문한다면, 이는 비동기(Async)입니다. <br><br>
+                앞서 작성한 코드의 흐름을 이것에 맞춰 이야기하면 이렇습니다. <br>
+                프로세스 시작을 A, fs.readFile() 메소드의 동작 수행을 B, 프로세스 끝을 C라고 했을 때, <br>
+                A &gt; B &gt; C 코드가 순차적으로 실행되면 동기, 비순차적으로 실행되면 비동기입니다. <br>
+                앞의 코드에서 fs.readFile() 메소드가 아직 다 실행되지 않았음에도 뒤에 코드가 대기하지 않고 바로 실행되었습니다. <br>
+                그러므로 코드의 흐름이 비동기임을 알 수 있습니다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

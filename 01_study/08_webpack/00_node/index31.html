@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">del 모듈로 특정 디렉터리 및 파일 삭제</h1>
+        <dl>
+            <dt class="d_tit">del 모듈로 특정 디렉터리 및 파일 삭제</dt>
+            <dd class="d_txt">
+                간혹 테스트 목적으로 파일을 생성하다 보면, 생성했던 파일을 삭제하고 테스트해야 할 상황이 발생합니다. <br>
+                이때를 가정하여 업무를 수행할 때마다 기존 파일을 삭제한 후 새 파일을 생성하는 업무를 정의해 보겠습니다. <br>
+                다음을 참고하여 폴더 및 파일을 삭제하는 del 모듈을 현재 디렉터리에 로컬 설치합니다.
+                <span class="img_wrap"><img src="img/gulp18.jpg" alt=""></span>
+                gulpfile.js 파일의 위쪽에서 del 모듈을 호출하고, 폴더 및 파일을 삭제하는 새로운 모듈을 정의합니다. <br>
+                업무 이름은 clean으로 설정하고, 내부 코드는 del() 함수를 사용하여 삭제하려는 폴더 또는 파일 경로를 배열 데이터로 전달합니다.
+                <pre class="line-numbers" data-line="7, 17-20">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest]);
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('clean', 'js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default', function () {
+                            // 콘솔(Console)에 메시지 기록(log)
+                            console.log('gulp default 일이 수행되었습니다.');
+                        });
+                    </code>
+                </pre>
+                <p class="phrase">
+                    <strong class="em">깨알 Tip</strong> <br>
+                    del(['dist/*', '!dist/dont-delete.js']) 명령어를 수행하면 [dist] 디렉터리에서 dont-delete.js를 제외한 모든 파일을 삭제합니다.
+                    <br>
+                    즉, 디렉터리/파일 경로 앞에 느낌표(!)를 붙이면 삭제 대상에서 제외됩니다.
+                </p>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp19.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                Git Bash에서 clean 업무를 실행하면 설정한 대로 [dist] 폴더 자체가 삭제됩니다. <br>
+                <strong>dist 폴더 안의 모든 파일을 삭제하려면 'dist/*' 라고 입력해야됩니다.</strong> <br>
+                자세한 내용은 위 사진을 참고합니다.
+            </dd>
+            <dt class="d_tit">디렉터리를 정리한 후 조합한 업무를 기본 업무로 정의할 수 있나요?</dt>
+            <dd class="d_txt">
+                다음처럼 설정합니다. 그러면 scripts 업무 이전에 clean 업무가 실행됩니다. <br>
+                그리고 default 업무에 설정했으므로 이후부턴 gulp 명령어만 입력해도 clean, scripts 업무가 순서대로 실행됩니다. <br>
+                <strong class="em">scripts 업무는 js:hint, js:concat, js:uglify 업무 순으로 연계해서 실행됩니다.</strong>
+                <pre class="line-numbers" data-line="44-52">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+
+
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

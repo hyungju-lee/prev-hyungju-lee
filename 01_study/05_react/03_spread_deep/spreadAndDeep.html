@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>eventDefault</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/tab.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <!--[if lt IE 9]>
+    <style>
+        code{overflow: auto}
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">스프레드 연산자 &amp; deep copy</h1>
+        <dl>
+            <dt class="d_tit">shallow copy</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let book = {title: "인사이드 자바스크립트", price: 18000};
+
+                        // 1. book을 copyBook 으로 카피한후에 copyBook의 price를 바꾸면 book과 copyBook이 같이 바뀐다. 이유가 무엇인가?
+                        let copyBook = book;
+                        copyBook.price = 20000;
+                        console.log(book); // {title: "인사이드 자바스크립트", price: 20000}
+                        console.log(copyBook); // {title: "인사이드 자바스크립트", price: 20000}
+                    </code>
+                </pre>
+                array 와 object는 referencer type 으로 실제 값이 들어가 있는게 아니라 실제 값이 저장된 메모리 주소를 가르킨다. <br>
+                book을 copyBook에 대입한 것은 값을 카피한것이라 메모리 주소를 카피한 것입니다. <br>
+                즉, book과 copyBook 은 같은 메모리 주소를 가르키게 된다. <br>
+                그러므로 book.price 의 의미는 book의 메모리 주소를 참조하여 price 값을 바꾸게 되니 copyBook도 <strong>동일한 메모리 주소를 가르키게 되므로</strong> 당연히 같이 바뀌게 됩니다.
+                <br>
+                이러한 카피를 <strong>shallow copy</strong> 라고 합니다.
+            </dd>
+            <dt class="d_tit">es5 deep copy</dt>
+            <dd class="d_txt">
+                es5 에서는 <strong>Object.assign(target, …src)</strong>를 사용하여 deep copy를 수행합니다. <br>
+                여기서 deep copy라는 의미는 새로운 메모리 주소를 만들어서 복사한다는 의미입니다. <br><br>
+                <strong>Q. es5 방법으로 book을 copyBook1 으로 deep copy 하고 확인하시오.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let book = {title: "인사이드 자바스크립트", price: 18000};
+                        let copyBook1 = Object.assign({}, book);
+                        copyBook1.price = 20000;
+                        console.log(book); // {title: "인사이드 자바스크립트", price: 18000}
+                        console.log(copyBook1); // {title: "인사이드 자바스크립트", price: 20000}
+                    </code>
+                </pre>
+                <br>
+                <strong>Q. deep copy 하면서 author: song 을 추가할려면 어떻게 해야 하는가?</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let book = {title: "인사이드 자바스크립트", price: 18000};
+                        let copyBook2 = Object.assign({}, book, {author: 'song'});
+                        console.log(book); // {title: "인사이드 자바스크립트", price: 18000}
+                        console.log(copyBook2); // {title: "인사이드 자바스크립트", price: 18000, author: "song"}
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">es6 spread 연산자</dt>
+            <dd class="d_txt">
+                es6에서 추가된 <span class="em">…</span> 연산자는 두가지 용도로 사용됩니다. <br>
+                첫번째는 나머지 연산자이고 두번째는 스프레드 연산자입니다. <br>
+                여기서는 두번째용도이며 deep copy 하기 위해서 사용됩니다. <br><br>
+                <strong>Q. es6 방법으로 book을 copyBook3 으로 deep copy 하고 확인하시오.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let book = {title: "인사이드 자바스크립트", price: 18000};
+                        let copyBook3 = { ...book }
+                        copyBook3.price = 20000;
+                        console.log(book); // {title: "인사이드 자바스크립트", price: 18000}
+                        console.log(copyBook3); // {title: "인사이드 자바스크립트", price: 20000}
+                    </code>
+                </pre>
+                <br>
+                <strong>Q. deep copy 하면서 author: song 을 추가할려면 어떻게 해야 하는가?</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let book = {title: "인사이드 자바스크립트", price: 18000};
+                        let copyBook4 = { ...book, ...{author: 'song'} };
+                        copyBook4.price = 20000;
+                        console.log(book); // {title: "인사이드 자바스크립트", price: 18000}
+                        console.log(copyBook4); // {title: "인사이드 자바스크립트", price: 20000, author: "song"}
+                    </code>
+                </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+<script src="../../../js/tab.js"></script>
+</body>
+</html>

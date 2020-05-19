@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>simple</title>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/prism.css">
+    <link rel="stylesheet" href="../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Git과 Github</h1>
+        <dl>
+            <dt class="d_tit">Git은 왜 필요한 건가요?</dt>
+            <dd class="d_txt">
+                <dl>
+                    <dt class="d_tit">1. 버전관리</dt>
+                    <dd class="d_txt">
+                        소프트웨어 개발과정 - 계속해서 뭘 더하고 빼고, 복원하고의 반복 <br>
+                        과거 내용을 기록해두지 않으면 예상치 못한 상황에 닥쳤을 때 해결하기 어렵다.
+                    </dd>
+                    <dt class="d_tit">2. 협업</dt>
+                    <dd class="d_txt">
+                        여러 작업자가 참여해야하는 대규모 프로젝트일 시 <br>
+                        버전관리 및 각 작업자가 한 일을 기록, 그리고 프로젝트 내용 공유
+                    </dd>
+                    <dt class="d_tit">자주쓰는 git 명령어</dt>
+                    <dd class="d_txt">
+                        <dl class="d_table">
+                            <dt class="d_table_tit">git init</dt>
+                            <dd class="d_table_txt">.git 폴더 생성 (파일의 모습을 기록하는 공간)</dd>
+                            <dt class="d_table_tit">git add (파일명)</dt>
+                            <dd class="d_table_txt">기록하고 싶은 파일들을 stage에 올리는 명령어</dd>
+                            <dt class="d_table_tit">git commit</dt>
+                            <dd class="d_table_txt">현재 파일 모습을 기록하는 명령어(이전 commit 기록과 비교할 수 있음) <br>
+                                <span class="em">git은 다른 버전관리툴과는 다르게 스냅샷(사진처럼 찰칵찰칵!)이란걸 활용해 변경된 내용들만 기록, 때문에 상대적으로 용량이 적게 듦</span></dd>
+                            <dt class="d_table_tit">git commit -m '커밋메시지'</dt>
+                            <dd class="d_table_txt">커밋메시지를 인라인으로 같이 작성할 수 있게 해주는 옵션</dd>
+                            <dt class="d_table_tit">git log</dt>
+                            <dd class="d_table_txt">여태까지의 기록된(스냅샷) 내용들을 확인하는 명령어</dd>
+                            <dt class="d_table_tit">git log --oneline --graph</dt>
+                            <dd class="d_table_txt">커밋 기록을 한줄로 그리고 아스키 그래프로 보여주는 옵션</dd>
+                            <dt class="d_table_tit">git reset (옵션) (되돌리고싶은 시점의 체크섬번호)</dt>
+                            <dd class="d_table_txt">과거상태로 돌리는 명령어 <br>
+                                <span class="em">(주의!!!! : 원격저장소에 push 되기전 상태일때만 이 명령어를 쓴다. push되고 난 후엔 커밋 기록들이 꼬일 수 있으므로 revert 명령어 사용!)</span></dd>
+                            <dt class="d_table_tit">git reset --hard (되돌리고싶은 시점의 체크섬번호)</dt>
+                            <dd class="d_table_txt">돌아가려는 이력이후의 모든 내용을 지워 버립니다.</dd>
+                            <dt class="d_table_tit">git reset --soft (되돌리고싶은 시점의 체크섬번호)</dt>
+                            <dd class="d_table_txt">돌아가려 했던 이력으로 되돌아 갔지만, 이후의 내용이 지워지지 않고, 해당 내용의 인덱스(또는 스테이지)도 그대로 있습니다. 바로 다시 커밋할 수 있는 상태로 남아있는 것입니다.</dd>
+                            <dt class="d_table_tit">git reset --mixed  (되돌리고싶은 시점의 체크섬번호)</dt>
+                            <dd class="d_table_txt">옵션을 적지 않았을 때 기본값으로 mixed 옵션으로 실행됩니다. 역시 이력은 되돌려집니다. 이후에 변경된 내용에 대해서는 남아있지만, 인덱스는 초기화 됩니다. 커밋을 하려면 다시 변경된 내용은 추가해야 하는 상태입니다.</dd>
+                            <dt class="d_table_tit">git revert (되돌리고싶은 시점의 체크섬번호)</dt>
+                            <dd class="d_table_txt">복원시키고 싶은 시점의 기록들을 덮어써서 새 기록을 생성 (이전 기록은 모두 유지)</dd>
+                            <dt class="d_table_tit">git revert (되돌리고싶은 시점의 체크섬번호)..(되돌리고싶은 시점의 체크섬번호)</dt>
+                            <dd class="d_table_txt">되돌릴 커밋이 여러개라면 범위를 주어서 여러개를 선택할 수도 있습니다.</dd>
+                            <dt class="d_table_tit">git branch (브랜치명)</dt>
+                            <dd class="d_table_txt">가지치기 - 브랜치 생성하는 명령어</dd>
+                            <dt class="d_table_tit">git checkout (브랜치명)</dt>
+                            <dd class="d_table_txt">확인하고 싶은, 그리고 작업하고 싶은 브랜치를 불러와주는 명령어</dd>
+                            <dt class="d_table_tit">git merge (브랜치명)</dt>
+                            <dd class="d_table_txt">메인 브랜치에 (브랜치명) 브랜치를 합치는 명령어</dd>
+                            <dt class="d_table_tit">git rebase (기준이 되게하고싶은 브랜치명)</dt>
+                            <dd class="d_table_txt">현재 checkout된 브랜치의 base가 A 브랜치로 하고 싶을 때 git rebase A <br>
+                            <span class="em">rebase 또한 이미 원격 저장소에 push된 내용들은 rebase 하면 안된다. commit 기록들이 꼬일 수 있다. <br>
+                                다만, rebase된 커밋기록들이 변하지 않았다는 가정 하에 git pull --rebase라는 명령어로 이를 방지할 수는 있다. <br>
+                            때문에 작업 전에 이 부분에 대해 합의를 하고 넘어가는 것도 방법중에 하나이다.</span></dd>
+                        </dl>
+                    </dd>
+                    <dt class="d_tit">git remote, git fetch, git pull, git push...등등 <br>
+                        더 많은 명령어를 자세하게 보고 싶다면? 아래 사이트로~!</dt>
+                    <dd class="d_txt">
+                        <a href="https://hyungju-lee.github.io/hyungju-lee/01_study/06_git/git2/index.html" target="_blank">https://hyungju-lee.github.io/hyungju-lee/01_study/06_git/git2/index.html</a>
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">그러면 Github은 뭔가요?</dt>
+            <dd class="d_txt">
+                Git이 버전관리를 해줄 수 있게 하는 소프트웨어라면, <br>
+                Github은 그런 버전관리 기록들을 저장할 수 있는 "원격"저장소를 제공해주는 공간
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../js/prism.js"></script>
+</body>
+</html>

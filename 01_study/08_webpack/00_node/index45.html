@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">템플릿 상속 기본 값 설정(Inheritance Default Value)하기</h1>
+        <dl>
+            <dt class="d_tit">템플릿 상속 기본 값 설정(Inheritance Default Value)하기</dt>
+            <dd class="d_txt">
+                탬플릿 문서를 확장하여 새 문서를 만들 때 상속된 block 값이 동일함에도 매번 설정 값을 수정해야 한다면 매우 번거롭겠지요? <br>
+                이때 템플릿의 block 기본 값을 설정한다면 동일하게 사용할 block 값을 그대로 상속해서 사용할 수 있습니다. <br>
+                <br>
+                다음을 참고하져 _docTemplate.jade 파일에서 block 설정된 변수 바로 다음 줄에 들여쓰기 한 후 기본값을 설정하여 저장합니다. <br>
+                그리고 index2.jade 파일의 변수 block을 주석 처리하여 저장합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp86.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

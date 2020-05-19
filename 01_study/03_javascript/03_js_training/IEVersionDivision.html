@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>IE version division</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+
+<body>
+<div id="result"></div>
+
+<script>
+    // IE8, IE9, IE10+ 구분하는 식
+    // IE9에선 translate3d가 적용이 안되고 2d만 되고 IE10이상부터 translate3d가 적용됩니다.
+    // 이를 활용해 IE8, 9, 10 구분식을 만들었습니다.
+    function has3d() {
+        if (!window.getComputedStyle) {
+            return false;
+        }
+        var el = document.createElement('p'),
+            has3d,
+            transforms = {
+                'webkitTransform': '-webkit-transform',
+                'OTransform': '-o-transform',
+                'msTransform': '-ms-transform',
+                'MozTransform': '-moz-transform',
+                'transform': 'transform'
+            };
+        // Add it to the body to get the computed style.
+        document.body.insertBefore(el, null);
+        for (var t in transforms) {
+            if (el.style[t] !== undefined) {
+                el.style[t] = "translate3d(1px,1px,1px)";
+                has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+            }
+        }
+        document.body.removeChild(el);
+        var val = (has3d !== undefined && has3d.length > 0 && has3d !== "none") ? true : "IE9";
+        return val;
+    }
+
+    if (has3d() === true) {
+        document.getElementById("result").innerText = "현재 브라우저는 최소 IE10 이상의 모던 브라우저입니다.";
+    } else if (has3d() === "IE9") {
+        document.getElementById("result").innerText = "현재 브라우저는 IE9입니다.";
+    } else {
+        document.getElementById("result").innerText = "현재 브라우저는 IE8입니다.";
+    }
+</script>
+</body>
+</html>

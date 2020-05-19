@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">writeFileSync - 동기 처리</h1>
+        <dl>
+            <dt class="d_tit">writeFileSync - 동기 처리</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        console.log('문서 쓰기 프로세스 시작...');
+                        
+                        var cssDoc = '#nodejs {margin:0; padding:0;}';
+                        var options = {encoding: 'utf8'};
+                        fs.writeFileSync(
+                            'files/style.css',
+                            cssDoc,
+                            options
+                        );
+                        console.log('코드의 흐름이 동기(Sync)적으로 처리!');
+                        
+                        console.log('문서 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/node17.jpg">
+                                <img data-src="img/node17.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/node17-1.jpg">
+                                <img data-src="img/node17-1.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <strong>wirteFileSync는 인자값으로 콜백함수가 없음</strong>
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

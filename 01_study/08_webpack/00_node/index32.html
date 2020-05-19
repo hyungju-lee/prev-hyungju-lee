@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">scripts 업무 프로세스와 동일한 CSS 업무 정의</h1>
+        <dl>
+            <dt class="d_tit">scripts 업무 프로세스와 동일한 CSS 업무 정의</dt>
+            <dd class="d_txt">
+                자바스크립트 파일을 처리한 업무 프로세스와 유사하게 CSS 파일을 처리하는 업무도 정의합니다. <br>
+                CSS 파일에 처리 적용할 업무는 문법 검사, 코드 병합, 압축 과정으로, 필요한 모듈은 <br>
+                <strong>gulp-csslint, gulp-concat-css, gulp-uglifycss</strong> 입니다. <br>
+                다음 처럼 위 모듈을 한번에 설치할 수 있습니다. <br>
+                설치가 끝나면 gulpfile.js 상단에 각 모듈을 호출하는 코드를 작성합니다.
+                <span class="img_wrap"><img src="img/gulp20.jpg" alt=""></span>
+                다음을 참고하여 CSS 파일을 처리할 styles 업무를 정의합니다. <br>
+                [src/css] 디렉터리를 생성하여 모든 파일을 소스로 설정했고, 파이프로 문법 검사(csslint), 병합(concatcss), 압축(uglifycss) 과정을 수행한 후 <br>
+                [dist/css] 디렉터리에 결과물을 배포하도록 했습니다.
+                <pre class="line-numbers" data-line="25-35, 59-66">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            gulp.src('src/css/**/*.css')
+                                .pipe(csslint())
+                                .pipe(csslint.formatter())
+                                .pipe(concatcss('style.css'))
+                                .pipe(uglifycss())
+                                .pipe(gulp.dest('dist/css/'))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+                <strong class="em">csslint.reporter() 메소드가 작동하지 않아 검색을 해보았습니다.</strong> <br>
+                <a href="https://github.com/xtratio/amocrm-widget-starter-kit/issues/8" target="_blank">https://github.com/xtratio/amocrm-widget-starter-kit/issues/8</a>
+                <br>
+                위 사이트는 참고 사이트입니다. <br><br>
+                이제 [src/css] 디렉터리에 여러 개의 실습용 CSS 파일을 생성한 후 Git Bash에서 <strong>gulp styles</strong> 명령어를 실행하여 결과를 확인합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp21.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <p class="phrase">
+                    <strong class="em">깨알 Tip</strong> <br>
+                    자바스크립트 업무 프로세스를 나눠 별도의 업무를 정의했던 것처럼 CSS 업무도 동일하게 처리할 수 있습니다.
+                </p>
+            </dd>
+            <dt class="d_tit">파일 경로 환경 설정 객체에 CSS 설정 옵션 추가하기</dt>
+            <dd class="d_txt">
+                다음을 참고하여 styles 업무를 처리할 설정 값을 파일 경로 환경 설정 객체로 추가하면 쉽게 유지보수를 할 수 있습니다.
+                <pre class="line-numbers" data-line="13-17, 30-40">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            css: {
+                                src: 'src/css/**/*.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            return gulp.src(path.css.src)
+                                .pipe(csslint())
+                                .pipe(csslint.formatter())
+                                .pipe(concatcss(path.css.filename))
+                                .pipe(uglifycss())
+                                .pipe(gulp.dest(path.css.dest))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">CSS @import 규칙으로 파일 병합 처리하기</dt>
+            <dd class="d_txt">
+                CSS는 @import 규칙을 사용하여 분리된 CSS 파일 코드를 먼저 읽어 들일 수 있습니다. <br>
+                따라서 스타일을 역할에 따라 모듈별로 관리할 수 있습니다. <br>
+                <strong>하지만 실무에서는 @import 규칙을 거의 사용하지 않습니다.</strong> <br>
+                <strong class="em">@import 규칙으로 불러들인 CSS 파일 개수만큼 서버에서 요청(Request)이 늘어나 로딩 속도에 악영향을 미칩니다. <br>
+                    또 병렬 방식이 아닌 직렬 방식으로 다운로드하므로 전체 로딩 시간도 길어집니다. <br>
+                심지어 인터넷 익스플로러(IE)에서는 다운로드 순서가 다르게 작동하는 문제가 발생합니다.</strong> <br><br>
+                다시 말해, 다음처럼 각 역할에 따라 분리한 CSS 파일을 웹 문서에 적용할 때는 @import 규칙으로 호출하면 안되고, <br>
+                HTML 문서에서 &lt;link&gt; 요소를 사용하여 호출해야 합니다.
+                <span class="img_wrap"><img src="img/gulp22.jpg" alt=""></span>
+                이처럼 @import 규칙으로 스타일을 관리하는 데는 문제가 있습니다. <br>
+                하지만 gulp-concat-css 모듈을 사용한 styles 업무를 활용하면 @import 규칙을 사용하는 데 전혀 문제가 없습니다. <br>
+                @import 규칙으로 호출한 파일을 병합하여 하나의 CSS 파일로 만들기 때문에 문제가 말끔히 해결됩니다. <br>
+                즉, styles 업무를 사용하면 @import 규칙을 사용한 스타일 문서 모듈에 따른 관리가 실무에서도 가능합니다. <br>
+                자세한 방법을 알아보겠습니다. <br><br>
+                [src/css] 디렉터리에 [modules] 디렉터리를 생성하고, 호출하여 사용할 CSS 파일을 준비합니다. <br>
+                다음과 같이 [css] 디렉터리에 CSS 파일을 호출한 style.css 파일을 생성합니다.
+                <span class="img_wrap"><img src="img/gulp23.jpg" alt=""></span>
+                디렉터리와 파일 준비가 끝났으면 gulpfile.js의 CSS 파일 경로 환경 설정 객체에서 src 속성 값을 다음처럼 style.css 파일로 변경하여 저장합니다.
+                <pre class="line-numbers" data-line="13-17, 30-40">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            return gulp.src(path.css.src)
+                                .pipe(csslint())
+                                .pipe(csslint.formatter())
+                                .pipe(concatcss(path.css.filename))
+                                .pipe(uglifycss())
+                                .pipe(gulp.dest(path.css.dest))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+                Git Bash에서 gulp styles 명령어를 실행하면 @import로 호출된 CSS 파일들의 병합이 진행되며, <br>
+                [dist/css] 디렉터리에 style.css 파일이 생성됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/gulp24.jpg">
+                                <img data-src="img/gulp24.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/gulp25.jpg">
+                                <img data-src="img/gulp25.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">업무 처리 결과 오류(Error) 메시지가 출력되는데, 문제가 있는 건가요?</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/gulp26.jpg" alt=""></span>
+                화면에 출력된 <strong>@import prevents parallel downloads, use &lt;link&gt; instead.</strong> 오류 메시지는 <br>
+                @import 규칙을 사용했을 때 발생하는 문제를 gulp-csslint 모듈이 처리 과정에서 발견하여 지적한 것입니다. <br>
+                이것으로 CSS 파일 검사가 정상적으로 수행되고 있음을 확인할 수 있습니다.
+                <br><br>
+                그런데 사실 이 오류 메시지는 styles 업무 처리 과정에서 크게 신경쓰지 않아도 됩니다. <br>
+                @import로 호출한 파일들을 병합하기 전에 검사한 내용이기 때문입니다. <br>
+                검사 과정 이후에는 파일들이 병합되기 때문에 @import 규칙을 사용하는 문제는 실제 서비스에서는 아무런 장애가 되지 않습니다. <br>
+                화면에 출력되는 해당 오류 메시지는 무시합니다. <br>
+                <strong>하지만 업무를 수행할 때마다 표시되는 오류 메시지가 신경 쓰인다면 csslint() 함수에 import 옵션 값을 무시(false)하도록 설정합니다.</strong>
+                <br>
+                더 이상 @import 규칙 문제를 오류로 처리하지 않습니다. <br>
+                설정 가능한 옵션은 <a href="https://github.com/CSSLint/csslint/wiki/Rules-by-ID" target="_blank">https://github.com/CSSLint/csslint/wiki/Rules-by-ID</a>를 참고합니다.
+                <pre class="line-numbers" data-line="13-17, 30-42">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            return gulp.src(path.css.src)
+                                .pipe(csslint({
+                                    'import': false
+                                }))
+                                .pipe(csslint.formatter())
+                                .pipe(concatcss(path.css.filename))
+                                .pipe(uglifycss())
+                                .pipe(gulp.dest(path.css.dest))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp27.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">CSS 압축하지 않은 파일과 압축한 파일로 출력 설정하기</dt>
+            <dd class="d_txt">
+                scripts 업무에서 처리한 것과 유사한 방법으로 styles 업무에서도 압축한 파일과 압축하지 않은 파일을 동시에 출력할 수 있습니다. <br>
+                다음을 참고하여 압축하지 않은 파일과 이름을 바꿔 압축한 파일이 동시에 출력되도록 설정합니다. <br>
+                Git Bash에서 gulp styles 명령어를 실행하면, 압축하지 않은 파일과 압축한 파일(style.min.css)로 결과가 처리됩니다.
+                <pre class="line-numbers" data-line="30-46">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            return gulp.src(path.css.src)
+                                .pipe(csslint({
+                                    'import': false
+                                }))
+                                .pipe(csslint.formatter())
+                                .pipe(concatcss(path.css.filename))
+                                .pipe(gulp.dest(path.css.dest))
+                                .pipe(uglifycss())
+                                .pipe(rename({
+                                    suffix: '.min'
+                                }))
+                                .pipe(gulp.dest(path.css.dest))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp28.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

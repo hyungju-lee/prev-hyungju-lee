@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 문법과 Scss 문법은 어떤 차이가 있나요?</h1>
+        <dl>
+            <dt class="d_tit">Sass 문법과 Scss 문법은 어떤 차이가 있나요?</dt>
+            <dd class="d_txt">
+                확장자가 sass인 파일을 작성하는 방법은 Jade와 매우 유사합니다. <br>
+                다음처럼 중복 사용률이 높아 비효율적인 중괄호({})와 세미콜론(;)은 CSS 선언 구문에서 사용하지 않습니다. <br>
+                중괄호와 세미콜론 등을 사용하지 않아도 되므로 입력할 코드양이 대폭 줄고, 들여쓰기로 구분하는 방식을 사용합니다.(Jade와 동일) <br>
+                앞서 배운 jade와 문법 형태가 유사합니다.
+                <pre class="line-numbers">
+                    <code class="language-sass">
+                        html
+                            color: #55B7EC
+                    </code>
+                </pre>
+                반면 Scss 문법은 CSS 기본 작성 방법과 동일하므로, 중괄호({})와 세미콜론(;)을 반드시 사용해야 합니다. <br>
+                Sass 문법에 비해 코드량은 늘어나지만, CSS에 익숙한 사용자는 생소한 Sass 문법보다는 Scss 문법을 더 선호합니다.
+                <pre class="line-numbers">
+                    <code class="language-scss">
+                        .scss-syntax {
+                            margin: 0;
+                            padding: 0;
+                            .scss-syntax-child {
+                                color: #333;
+                            }
+                        }
+                    </code>
+                </pre>
+                정리하면, Sass 언어는 사용자의 기호에 따라 달리 사용할 수 있도록 두 개의 문법 모드를 지원합니다. <br>
+                CSS와 동일한 문법을 사용하고 싶다면 Scss 문법 모드를 선택하고, Jade와 유사한 방식을 선호한다면 Sass 문법 모드를 선택합니다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

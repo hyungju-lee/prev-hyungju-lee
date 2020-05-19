@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>eventDefault</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/tab.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <!--[if lt IE 9]>
+    <style>
+        code{overflow: auto}
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">function scope VS block scope</h1>
+        <p class="phrase">이번 글은 function scope와 block scope를 다뤄본다.<br>
+            es6에서 let과 const 키워드를 다루기 위한 필요한 지식들을 위한 글이다.<br>
+            자바스크립트에서 변수 선언시 var 키워드를 사용한다는 것을 알고 있다.<br>
+            아직까지는 es5를 대부분 사용한다. (잘 모르겠다면 현재 사용하거나 책에서 보는 것들이 es5)<br>
+            하지만 점차 es6를 접하고 있고 훨씬 빠른 속도로 지향할 것으로 생각한다.
+        </p>
+        <dl>
+            <dt class="d_tit">function scope VS block scope</dt>
+            <dd class="d_txt">
+                es6에서는 var 키워드만을 사용하지 않고, let, const가 추가되었다. <br>
+                var과 let, const의 차이점은 크게 유효 범위(scope)라고 볼 수 있다. <br>
+                var는 function scope이고, let, const는 block scope이다. <br>
+                functio scope는 함수(function) 단위, block scope는 중괄호 {} 를 단위로 범위를 정한다.<br><br>
+                관련 scope 예제를 살펴보자.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function scopeTest(){
+                            var is = true;
+                            if(is){
+                                var is = false;
+                            }
+                            for(var i=0; i<=5; i++){
+                                var inFor = i;
+                            }
+                            console.log(inFor); // 출력되는 값은?
+                            console.log(is);
+                        }
+                    </code>
+                </pre>
+                inFor 변수는 어떤 값이 출력될 것인가? <br>
+                출력되는 값은 inFor = 5, is = false 이다. <br>
+                큰 이유는 block scope가 아닌 function scope이기 때문이다. <br>
+                <strong>block scope라면 is 변수는 각각 다른 변수여야한다. (scopeTest 함수 내부, if문 내부)</strong><br><br>
+                자바스크립트에서는 block scope가 사실상 없다.(es5 기준)<br>
+                관련된 문제점을 통해 자세히 알아보자.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var es = [];
+                        for(var i=0; i<10; i++){
+                            es[i] = function(){
+                                console.log("ECMAScript is ES" + i);
+                            };
+                        }
+                        es[6](); // 출력되는 값은?
+                    </code>
+                </pre>
+                es[6]() 호출시 무엇이 출력될까? <br>
+                우리가 원하는 출력값은 "ECMAScript is ES6"이다. <br>
+                하지만 "ECMAScript is ES10"이 출력된다. <br>
+                이유는 function scope이기에 i는 scopeTest 함수단위인 scope에 존재한다. <br>
+                위에는 function으로 감싸있지 않기 때문에 전역변수처럼 적용되었다. <br>
+                결과적으로 es[6]() 호출 시 scope 안의 최종 i인 10을 참조하기 때문에 10이 출력된다. <br><br>
+                i에 대한 원하는 값을 위해 참조할 scope를 다르게 해야한다. <br>
+                즉, i가 참조할 scope는 block scope 형태로 만들어줘야한다. <br>
+                즉시실행함수를 사용하여 해결할 수 있다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var es = [];
+                        for(var i=0; i<10; i++){
+                            (function(i){
+                                es[i] = function(){
+                                    console.log("ECMAScript is ES" + i);
+                                };
+                            })(i);
+                        }
+                        es[6]();
+                    </code>
+                </pre>
+                즉시실행함수를 통해 i의 scope를 block scope와 같은 형태로 분리했다. <br>
+                es6인 경우에는 block scope인 let 키워드를 통해 해결할 수 있다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var es = [];
+                        for(let i=0; i<10; i++){
+                            es[i] = function(){
+                                console.log("ECMAScript is ES" + i);
+                            };
+                        }
+                        es[6]();
+                    </code>
+                </pre>
+            </dd>
+
+        </dl>
+
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+<script src="../../../js/tab.js"></script>
+</body>
+</html>

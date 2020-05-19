@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">http-server 웹서버 모듈 활용하기</h1>
+        <dl>
+            <dt class="d_tit">http-server 웹서버 모듈 활용하기</dt>
+            <dd class="d_txt">
+                http-server 모듈은 사용 방법이 매우 간단합니다. 웹서버로 사용할 디렉터리로 이동한 후 <strong>http-server</strong> 명령어를 입력하고 실행합니다. <br>
+                그러면 테스트용 웹서버(http://0.0.0.0:8080)가 작동됩니다. <br>
+                실행중인 웹서버를 종료하려면 ctrl+c를 누릅니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node23.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                http-server 모듈의 옵션을 추가하면 손쉽게 웹서버 설정을 변경할 수 있습니다. <br>
+                각 옵션을 단계별로 간단히 알아보겠습니다. <br>
+                <br>
+                먼저 -a 플래그 옵션은 웹서버의 주소(Address)를 나타내며, 기본 값인 0.0.0.0이 아닌 localhost를 사용하려면 플래그 뒤에 localhost를 입력한 후 실행합니다. <br>
+                그러면 웹서버(http://localhost:8080)가 작동됩니다. <br>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node24.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                ctrl+c 를 눌러 웹서버를 중지한 후 -p 플래그 옵션을 설정합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node25.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                이 옵션은 포트(port)를 변경합니다. <br>
+                기본 값인 8080이 아닌 다른 포트 값을 사용하려면 원하는 숫자를 입력하여 웹서버(http://localhost:90)를 작동합니다. <br>
+                마지막으로 -o 플래그 옵션을 추가로 입력하면 웹서버를 작도안 후 바로 웹브라우저를 엽니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node26.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                웹브라우저가 열리면 주소 표시줄에 웹서버 주소(http://localhost:90)가 출력되고, 디렉터리 안의 파일과 디렉터리 목록을 색인(indexing)하여 화면에 출력합니다.
+                <br>
+                위에 사진을 보면 Node.js 기반의 서버가 실행(running)되었습니다. <br>
+                색인된 링크 중 하나를 클릭하면 해당 웹페이지로 이동합니다. <br>
+                Git Bash에는 http-server 모듈기반의 웹서버가 처리한 결과가 출력됩니다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

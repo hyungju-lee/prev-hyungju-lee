@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">File System 모듈을 사용하여 파일 쓰기(Write File)</h1>
+        <dl>
+            <dt class="d_tit">File System 모듈을 사용하여 파일 쓰기(Write File)</dt>
+            <dd class="d_txt">
+                읽기에 이어 파일 쓰기도 알아봅니다. [nodejs] 디렉터리에 writeFile.js 파일을 생성한 후 그림을 참고하여 <br>
+                File System 모듈을 호출하는 코드와 프로세스 시작, 프로세스 끝 출력 코드를 입력합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        console.log('문서 쓰기 프로세스 시작...');
+
+                        console.log('문서 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+                변수 cssDoc을 선언하고, 간단한 CSS 코드를 문자(String) 데이터로 할당합니다. <br>
+                fs.writeFile() 메소드 코드를 작성한 후 첫 번째 전달인자 값으로 생성할 파일의 경로를 입력합니다. <br>
+                그리고 두 번째 전달인자 값으로 변수 cssDoc을 전달하는 코드를 입력합니다. <br>
+                입력한 코드는 [files] 디렉터리에 style.css 파일을 생성한 후 변소 cssDoc에 담긴 CSS 코드 문자열을 내용으로 삽입하라는 의미입니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        console.log('문서 쓰기 프로세스 시작...');
+
+                        var cssDoc = '#nodejs {margin:0;}';
+                        fs.writeFile('files/style.css', cssDoc);
+
+                        console.log('문서 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+                이제 작성한 문서를 저장하고 Git Bash에서 <strong>node writeFile.js</strong> 명령어를 실행하면 앞서 프로그래밍한 대로 파일이 생성됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node15.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                (그런데 이상한게.. 분명 책에서는 위의 코드처럼만 입력하면 실행된다고 나와있는데, <br>
+                직접 실행해보니까 callback 함수가 정의되어있지 않으면 실행이 안되네... 이건 이상.. 노드 버전이 달라서그런가?)
+                래퍼런스(<a href="http://nodejs.org/api/fs.html#fs_fs_writefile_filename_data_options_callback" target="_blank">http://nodejs.org/api/fs.html#fs_fs_writefile_filename_data_options_callback</a>)
+                에서 사용 방법을 좀 더 자세히 알아본 후 코드를 추가해 보겠습니다.
+            </dd>
+            <dd class="d_txt">
+                래퍼런스에서 설명한 fs.writeFile() 메소드를 보면, 전달인자 값으로 생성할 파일 이름(filename), 내용(data) 외에 추가로 옵션(options), 콜백(callback)도 전달할 수 있습니다.
+                <br>
+                앞서 작성한 코드에 파일 이름과 내용은 입력했으니 <strong>(이상하다..난 저 두개만입력하면 오류났었음..)</strong> <br>
+                이제 옵션과 콜백 전달인자를 설정해 보겠습니다. <br>
+                옵션은 필수 사항이 아니라 선택사항이니 생략해도 무방합니다. <br>
+                옵션을 사용하려면 <strong>자바스크립트 객체</strong> 형태로 입력해야 하며, <br>
+                <strong>객체 속성(properties)으로 인코딩(encoding), 모드(mode), 플래그(flag) 등을 설정할 수 있습니다.</strong>
+                <br><br>
+                콜백은 fs.writeFile() 메소드가 새 파일을 생성하는 일을 끝낸 후에 수행하는 일(function)입니다. <br>
+                즉, 일이 다 끝났을 때 어떤 일을 수행하고 싶다면 설정합니다. <br>
+                이 또한 선택사항이므로 입력한 코드만으로도 새 파일을 생성할 수 있습니다. (음..난 왜 안됐지..)
+                <br><br>
+                래퍼런스를 참조하여 다음과 같이 코드를 추가합니다. <br>
+                변수 options를 선언하고 파일 인코딩을 utf8로 설정하는 옵션을 자바스크립트 객체 형태로 할당합니다. <br>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        console.log('문서 쓰기 프로세스 시작...');
+
+                        var cssDoc = '#nodejs {margin:0;}';
+                        var options = {encoding: 'utf8'};
+                        fs.writeFile(
+                            'files/style.css',
+                            cssDoc,
+                            options,
+                            function(){
+                                console.log('files/style.css 파일 생성');
+                            }
+                        );
+
+                        console.log('문서 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node16.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                Git Bash에서 <strong>node writeFile.js</strong> 명령어를 실행하면 비동기적으로 코드를 수행합니다. <br>
+                프로세스 시작과 프로세스 끝 메시지를 출력한 후 마지막에 fs.writeFile() 메소드 코드를 수행한 결과를 출력합니다.
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

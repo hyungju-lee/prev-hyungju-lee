@@ -1,0 +1,15 @@
+<strong>커밋 순서 바꾸기</strong>
+대화형 Rebase 도구로 커밋 전체를 삭제하거나 순서를 조정할 수 있다.
+“added cat-file” 커밋을 삭제하고 다른 두 커밋의 순서를 변경하려면 아래와 같은 Rebase 스크립트를
+
+    pick f7f3f6d changed my name a bit
+    pick 310154e updated README formatting and added blame
+    pick a5f4a0d added cat-file
+
+아래와 같이 수정한다.
+
+    pick 310154e updated README formatting and added blame
+    pick f7f3f6d changed my name a bit
+
+수정한 내용을 저장하고 편집기를 종료하면 Git은 브랜치를 이 커밋의 부모로 이동시키고서 310154e 와 f7f3f6d 를 순서대로 적용한다.
+명령이 끝나고 나면 커밋 순서가 변경됐고 “added cat-file” 커밋이 제거된 것을 확인할 수 있다.

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>슬라이드</title>
+    <style>
+        *{margin:0;padding:0;border:0;box-sizing:border-box}
+        li, dt, dd{list-style:none}
+        .slide_area{width:50%;margin:0 auto}
+        .slide_lst{overflow:hidden;position:relative;padding-top:56.25%}
+
+        /* 페이드인아웃 */
+        .slide_item{position:absolute;top:0;left:0;width:100%;z-index:1;height:100%;background-color:#444444;color:#fff;opacity:0;transition:all 0.5s}
+        .slide_item.on{opacity:1;z-index:10}
+    </style>
+</head>
+<body>
+<div class="slide_area">
+    <ul class="slide_lst">
+        <li class="slide_item">슬라이드1</li>
+        <li class="slide_item">슬라이드2</li>
+        <li class="slide_item">슬라이드3</li>
+        <li class="slide_item">슬라이드4</li>
+        <li class="slide_item">슬라이드5</li>
+        <li class="slide_item">슬라이드6</li>
+    </ul>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+$(document).ready(function(){
+    function allSlide(className, startSlide, interval){
+        var slideArea = $('.'+className),
+            slideItem = slideArea.find('.slide_item');
+        slideItem.eq(startSlide).addClass('on');
+        function slideEx(){
+            setInterval(function(){
+                startSlide++;
+                if(startSlide >= slideItem.length){
+                    startSlide=0;
+                }
+                slideItem.removeClass('on');
+                slideItem.eq(startSlide).addClass('on');
+            }, interval)
+        }
+        return slideEx;
+    }
+
+    var exSlide = allSlide('slide_area', 0, 2000);
+    exSlide();
+})
+</script>
+</body>
+</html>

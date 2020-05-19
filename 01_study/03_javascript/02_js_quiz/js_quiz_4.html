@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #fff;
+        }
+
+        .head1 {
+            margin: 10px;
+            color: #000;
+            background-color: #fff;
+            box-shadow: 0 0 30px 0 rgba(0, 0, 0, .1);
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+
+        h2 {
+            font-size: 12px;
+            margin-top: 75px;
+            text-align: center
+        }
+
+        .clock {
+            position: relative;
+            width: 350px;
+            height: 350px;
+            margin: 0 auto;
+            background-color: #fff;
+            background-image: url('https://www.callmepmc.com/wp-content/uploads/2012/07/clocktemplate.gif');
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            border: 20px solid #fff;
+            box-shadow: inset 0 0 30px 0 rgba(0, 0, 0, .1), 0 20px 20px 0 rgba(0, 0, 0, .2), 0 0 0 4px rgba(255, 255, 255, 1);
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+
+        .clock::before {
+            position: absolute;
+            left: 50%;
+            bottom: 50%;
+            width: 15px;
+            height: 15px;
+            margin: 0 0 -7.5px -7.5px;
+            content: '';
+            background: black;
+            border-radius: 50%;
+            z-index: 1000;
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+
+        .hour, .minute, .second {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            zoom: 1;
+        }
+
+        .hr, .mn, .sec {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+
+        .hr:before {
+            content: '';
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            width: 8px;
+            margin-left: -4px;
+            height: 65px;
+            background: #848484;
+
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+
+            z-index: 10;
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+
+        .mn:before {
+            content: '';
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            width: 4px;
+            margin-left: -2px;
+            height: 90px;
+            background: #848484;
+
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+
+            z-index: 11;
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+
+        .sec:before {
+            content: '';
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            width: 2px;
+            margin-left: -1px;
+            height: 140px;
+            background: #ff6767;
+
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            border-bottom-right-radius: 0;
+            border-bottom-left-radius: 0;
+
+            z-index: 12;
+            behavior: url(PIE-1.0.0/PIE.htc);
+        }
+    </style>
+
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">IE8까지 지원</dd>
+            <dd class="d_txt">only javascript만 활용</dd>
+            <dt class="d_tit">기법</dt>
+            <dd class="d_txt">rotate 활용</dd>
+            <dd class="d_txt">IE8에선 CSS3 속성인 rotate가 지원되지 않으므로 filter를 활용하려고 시도함</dd>
+            <dt class="d_tit">한계</dt>
+            <dd class="d_txt">opacity는 filter alpha로 IE8에서도 조절이 가능해쓴데 rotate는 왜 안되지...</dd>
+        </dl>
+    </div>
+
+    <h1 class="head1">Clock</h1>
+    <div class="clock">
+        <h2>Time</h2>
+        <div class="hour">
+            <div class="hr" id="hr"></div>
+        </div>
+        <div class="minute">
+            <div class="mn" id="mn"></div>
+        </div>
+        <div class="second">
+            <div class="sec" id="sec"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    /*
+        오늘 시/분/초 를 가져와야하고..
+        매초마다 초침이 움직여야하고..그리고 분침/시침도...
+
+        원은 360도.
+        1분은 60초..
+        1초/1분 진행은 - 6도씩이동...
+        5분 = 30도
+        10분 = 60도
+        60분 = 360도.
+        360 도 도는데....5분에 30도씩 12번....
+        1일은 24시.  24*30 = 720 (두바뀌돌지...)
+
+    */
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+
+    function has3d() {
+        if (!window.getComputedStyle) {
+            return false;
+        }
+        var el = document.createElement('p'),
+            has3d,
+            transforms = {
+                'webkitTransform': '-webkit-transform',
+                'OTransform': '-o-transform',
+                'msTransform': '-ms-transform',
+                'MozTransform': '-moz-transform',
+                'transform': 'transform'
+            };
+        // Add it to the body to get the computed style.
+        document.body.insertBefore(el, null);
+        for (var t in transforms) {
+            if (el.style[t] !== undefined) {
+                el.style[t] = "translate3d(1px,1px,1px)";
+                has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+            }
+        }
+        document.body.removeChild(el);
+        var val = (has3d !== undefined && has3d.length > 0 && has3d !== "none") ? true : "IE9";
+        return val;
+    }
+
+    function nowTime(hourName, minuteName, secondName) {
+        var hour = getElementsByClassNameCompatible(hourName),
+            minute = getElementsByClassNameCompatible(minuteName),
+            second = getElementsByClassNameCompatible(secondName),
+            dateObj = new Date(),
+            //t = dateObj.toLocaleTimeString(),
+            h = dateObj.getHours(),
+            hh = h > 12 ? h - 12 : h,
+            i = dateObj.getMinutes(),
+            s = dateObj.getSeconds(),
+            ms = dateObj.getMilliseconds(),
+
+            sradian = s * 6,
+            mradian = i * 6 + (1 / 60 * s),
+            hradian = hh * 30 + (1 / 2 * i);
+
+        if (has3d() == false) {
+            var hradianIe8 = hradian * 1 / 90,
+                mradianIe8 = mradian * 1 / 90,
+                sradianIe8 = sradian * 1 / 90;
+
+            hour[0].style.filter = "progid:DXImageTransform.Microsoft.Wheel(" + hradianIe8 + ")";
+            minute[0].style.filter = "progid:DXImageTransform.Microsoft.Wheel(" + mradianIe8 + ")";
+            second[0].style.filter = "progid:DXImageTransform.Microsoft.Wheel(" + sradianIe8 + ")";
+        } else {
+            hour[0].style.webkitTransform = 'rotate(' + hradian + 'deg)';
+            hour[0].style.mozTransform = 'rotate(' + hradian + 'deg)';
+            hour[0].style.msTransform = 'rotate(' + hradian + 'deg)';
+            hour[0].style.oTransform = 'rotate(' + hradian + 'deg)';
+            hour[0].style.transform = 'rotate(' + hradian + 'deg)';
+
+            minute[0].style.webkitTransform = 'rotate(' + mradian + 'deg)';
+            minute[0].style.mozTransform = 'rotate(' + mradian + 'deg)';
+            minute[0].style.msTransform = 'rotate(' + mradian + 'deg)';
+            minute[0].style.oTransform = 'rotate(' + mradian + 'deg)';
+            minute[0].style.transform = 'rotate(' + mradian + 'deg)';
+
+            second[0].style.webkitTransform = 'rotate(' + sradian + 'deg)';
+            second[0].style.mozTransform = 'rotate(' + sradian + 'deg)';
+            second[0].style.msTransform = 'rotate(' + sradian + 'deg)';
+            second[0].style.oTransform = 'rotate(' + sradian + 'deg)';
+            second[0].style.transform = 'rotate(' + sradian + 'deg)';
+        }
+    }
+
+    var timer = setInterval(function () {
+        nowTime('hour', 'minute', 'second');
+    }, 1000);
+</script>
+
+
+</body>
+</html>

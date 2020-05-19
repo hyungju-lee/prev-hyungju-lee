@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">작성한 scripts 업무 역할별 분리</h1>
+        <dl>
+            <dt class="d_tit">작성한 scripts 업무 역할별 분리</dt>
+            <dd class="d_txt">
+                지금까지 작성한 자바스크립트 업무는 문법 검사, 병합, 압축 등 프로세스를 한데 묶어 처리합니다. <br>
+                그래서 용도에 따라 추가하거나 제외하기가 불편합니다. <br>
+                이러한 이유로 각 역할에 따라 업무를 분담하여 관리할 수 있도록 분리하는 것이 좋습니다. <br>
+                <strong>익숙해지면 처음부터 분리해서 관리하는 습관을 기릅니다.</strong>
+                <br><br>
+                먼저 문법 검사(jshint) 코드 부분을 분리하여 js:hint라는 이름으로 업무를 생성합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        gulp.task('js:hint', function () {
+                            gulp.src('src/js/libs/**/*.js')
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        })
+                    </code>
+                </pre>
+                병합(concat) 코드 부분을 분리하여 js:concat이라는 이름으로 업무를 생성합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        gulp.task('js:concat', function () {
+                            gulp.src('src/js/libs/**/*.js')
+                                .pipe(concat('DOMlibrary.js'))
+                                .pipe(gulp.dest('./dist'));
+                        })
+                    </code>
+                </pre>
+                마지막으로 압축(uglify) 코드 부분을 분리하여 js:uglify 라는 이름으로 업무를 생성합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        gulp.task('js:uglify', function () {
+                            gulp.src('dist/DOMlibrary.js')
+                                .pipe(uglify())
+                                .pipe(rename('DOMlibrary.min.js'))
+                                .pipe(gulp.dest('./dist'));
+                        })
+                    </code>
+                </pre>
+                즉, 원래 아래와 같던 코드들이,
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+
+                        // javascript 파일들을 병합
+                        gulp.task('scripts', function () {
+                            gulp
+                                // .src(['./src/script2.js', './src/*.js'])
+                                // .pipe(concat('combined.js'))
+                                // .pipe(gulp.dest('./dist'));
+                                .src('src/js/libs/**/*.js')
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish))
+                                .pipe(concat('DOMlibrary.js'))
+                                .pipe(gulp.dest('./dist'))
+                                .pipe(uglify({
+                                    mangle: false,
+                                    output: {
+                                        comments: 'all' // true or 'all', 'some'
+                                    },
+                                }))
+                                .pipe(rename('DOMlibrary.min.js'))
+                                .pipe(gulp.dest('./dist'))
+                        });
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default', function () {
+                            // 콘솔(Console)에 메시지 기록(log)
+                            console.log('gulp default 일이 수행되었습니다.');
+                        });
+                    </code>
+                </pre>
+                아래와 같이 바뀌게 됩니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            gulp.src('src/js/libs/**/*.js')
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        })
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            gulp.src('src/js/libs/**/*.js')
+                                .pipe(concat('DOMlibrary.js'))
+                                .pipe(gulp.dest('./dist'));
+                        })
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            gulp.src('dist/DOMlibrary.js')
+                                .pipe(uglify())
+                                .pipe(rename('DOMlibrary.min.js'))
+                                .pipe(gulp.dest('./dist'));
+                        })
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default', function () {
+                            // 콘솔(Console)에 메시지 기록(log)
+                            console.log('gulp default 일이 수행되었습니다.');
+                        });
+                    </code>
+                </pre>
+                이렇게 각 역할에 따라 업무를 분리했으니 필요한 역할만 골라서 수행할 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp16.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">분리된 업무를 조합하여 실행할 새로운 업무 정의하기</dt>
+            <dd class="d_txt">
+                역할에 따라 분리한 업무는 새로운 업무로 정의한 후 조립하여 순차적으로 실행할 수 있습니다. <br>
+                다음을 보면, scripts 업무를 만들어 역할마다 분리된 업무를 배열로 묶어 제공합니다. <br>
+                조립된 업무의 처리 순서는 배열 색인(index) 순서대로 실행됩니다. <br>
+                <strong>왼쪽에서 오른쪽 방향으로 실행됩니다.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del(['./dist']);
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src('src/js/libs/**/*.js')
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src('src/js/libs/**/*.js')
+                                .pipe(concat('DOMlibrary.js'))
+                                .pipe(gulp.dest('./dist'));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src('dist/DOMlibrary.js')
+                                .pipe(uglify())
+                                .pipe(rename('DOMlibrary.min.js'))
+                                .pipe(gulp.dest('./dist'));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('clean', 'js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default', function () {
+                            // 콘솔(Console)에 메시지 기록(log)
+                            console.log('gulp default 일이 수행되었습니다.');
+                        });
+                    </code>
+                </pre>
+                <strong>책 내용대로 따라했는데, 소스가 작동하지 않아서 찾아봤는데, <br>
+                    gulp가 4점대 버전으로 들어오면서 비동기 완료 신호를 꼭 보내야되도록 바뀌었다고 합니다.</strong>
+                <br><br>
+                <strong class="em">
+                    작업에 비동기 코드가 포함되어있을 수 있으므로 작업 실행이 완료되면 gulp에게 신호를 보내야합니다 (= "비동기 완료"). <br>
+                    <br>
+                    Gulp 3.x에서는이 작업을 수행하지 않고도 벗어날 수 있습니다. <br>
+                    비동기 완료를 명시 적으로 신호하지 않으면 gulp는 작업이 동기적이며 작업 함수가 반환되는 즉시 완료된 것으로 가정합니다. <br>
+                    Gulp 4.x는 이와 관련하여 더 엄격합니다. <br>작업 완료를 명시적으로 신호해야합니다. <br><br>
+                    6 가지 방법으로이를 수행 할 수 있습니다. <br>
+                    아래는 그 내용을 확인할 수 있는 참고 사이트입니다.
+                </strong><br><br>
+                <strong class="em">
+                    <a href="https://stackoverflow.com/questions/36897877/gulp-error-the-following-tasks-did-not-complete-did-you-forget-to-signal-async" target="_blank">https://stackoverflow.com/questions/36897877/gulp-error-the-following-tasks-did-not-complete-did-you-forget-to-signal-async</a>
+                    <br>
+                    <a href="https://fettblog.eu/gulp-4-parallel-and-series/" target="_blank">https://fettblog.eu/gulp-4-parallel-and-series/</a>
+                    <br>
+                    <a href="https://gulpjs.com/docs/en/getting-started/quick-start" target="_blank">https://gulpjs.com/docs/en/getting-started/quick-start</a>
+                </strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp17.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                Git Bash에서 <strong>gulp scripts</strong> 명령어를 실행하여 새롭게 생성한 scripts 업무의 실행 흐름을 확인합니다. <br>
+                위에처럼 조립되어 진행된 업무 프로세스를 한눈에 확인할 수 있습니다.
+            </dd>
+            <dt class="d_tit">파일 경로 환경 설정(Configuration) 객체로 유지보수하기</dt>
+            <dd class="d_txt">
+                역할 분리된 업무 코드 내부를 찬찬히 살펴보면, 중복 사용하는 설정이 있습니다. <br>
+                자바스크립트 파일 경로(path), 병합하여 생성될 파일 이름(Filename), 생성될 파일 목적지(Destination) 등이 중복 사용되었습니다. <br>
+                이처럼 중복되거나 수정이 필요한 설정을 업무 코드에 방치하기보다는 손쉽게 관리할 수 있는 형태로 변경하는 것이 좋습니다. <br><br>
+                파일 경로, 이름, 목적지 등을 업무 코드 몸체와 분리하여 관리할 수 있도록 다음처럼 변수 path에 객체를 참조하고 내부에 필요한 설정을 속성으로 하는 코드를 입력합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var path = {
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        }
+                    </code>
+                </pre>
+                그리고 환경 설정 path 객체의 속성이 참조한 값에 해당하는 업무 코드 내부의 설정 값을 다음을 참고하여 속성에 접근 가능하도록 변경합니다. <br>
+                <strong>위쪽 코드와 아래쪽 코드를 비교해보면 쉽게 이해할 수 있습니다.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const del = require('del');
+
+                        const path = {
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest]);
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('clean', 'js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default', function () {
+                            // 콘솔(Console)에 메시지 기록(log)
+                            console.log('gulp default 일이 수행되었습니다.');
+                        });
+                    </code>
+                </pre>
+
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

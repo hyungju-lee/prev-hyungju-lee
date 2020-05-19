@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 스크립트(Script) 사용 방법</h1>
+        <dl>
+            <dt class="d_tit">Sass 스크립트(Script) 사용 방법</dt>
+            <dd class="d_txt">
+                변수는 Jade에서도 배웠는데, 다른 점은 Sass 언어는 변수 이름 앞에 $ 기호를 사용합니다. <br>
+                다음을 참고하여 Sass 변수 사용 방법을 알오보겠습니다. 먼저 [modules] 디렉터리에 _variables.scss 파일을 생성한 후 <br>
+                글꼴, 색상 등을 정의한 변수를 설정합니다. <br>
+                <br>
+                다음처럼 이름만으로도 알아보기 쉽도록 변수 이름을 적절하게 입력합니다. <br>
+                필자는 고딕, 명조 계열의 글꼴을 담은 변수 이름을 각각 $gothic, $myungjo로, <br>
+                전경색과 배경색의 변수 이름을 각각 $fg-color, $bg-color로 설정했습니다. <br>
+                <br>
+                style.scss 파일 위쪽에 @import 구문을 사용하여 modules/_variables.scss 파일을 호출합니다. <br>
+                다음을 참고하여 scss 코드를 입력하고, 각 속성 값에 $gothic, $myungju, $fg-color, $bg-color 등을 대입하여 저장합니다. <br>
+                CSS 출력 결과를 보면, Sass 변수 설정 값이 잘 적용되어 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp116.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                변수를 사용하면 더 편리한 이유는 변수 값이 변경되었을 때 변수가 위치한 모든 값을 한 번에 바꿀 수 있기 때문입니다. <br>
+                CSS만으로 작업하면 문서에서 모든 전경색, 배경색 설정 값을 일일이 찾아 수정해야하지만, <br>
+                Sass 언어는 변수를 활용할 수 있기 때문에 유지보수가 손쉽고 빠릅니다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

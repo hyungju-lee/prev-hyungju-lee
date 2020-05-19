@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">gulpfile.js 파일 생성 및 수행할 업무(Task) 등록하기</h1>
+        <dl>
+            <dt class="d_tit">gulpfile.js 파일 생성 및 수행할 업무(Task) 등록하기</dt>
+            <dd class="d_txt">
+                Gulp를 프로젝트 디렉터리에도 설치했으나, 수행할 일(Task)을 정의하지 않았기에 아직은 작동하지 않습니다. <br>
+                그렇다면 일은 어디에서 정의해야 할까요? <br>
+                Git Bash에서 gulp 명령어를 실행했을 때 출력되는 메시지(No gulpfile found)에서 확인할 수 있습니다. 
+                <span class="img_wrap"><img src="img/node64.jpg" alt=""></span>
+                Gulp가 수행할 일의 정의는 gulpfile.js 문서에 작성해야 합니다. <br>
+                gulpfile.js 파일을 생성하여 간단한 일을 정의하고 실행해 보겠습니다. <br>
+                프로젝트 디렉터리에 gulpfile.js 파일을 생성한 후 Gulp 모듈을 위쪽에 호출합니다. <br>
+                Gulp가 수행할 일은 gulp.task() 메소드를 사용하여 정의합니다. <br>
+                gulp.task() 메소드는 두개의 전달인자를 받는데, 하나는 수행할 '업무 이름'이고 다른 하나는 처리해야 할 '업무 프로세스'입니다. <br>
+                다음을 보면 업무 이름을 default로 정의하고, 처리해야 할 일로 콘솔 메시지를 출력하도록 코드가 입력되어 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // Modules 호출
+                        var gulp = require('gulp');
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default', function () {
+                            // 콘솔(console)에 메시지 기록(log)
+                            console.log('gulp default 일이 수행되었습니다.');
+                        });
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/node65.jpg" alt=""></span>
+                코드를 저장한 후 <strong>gulp default</strong> 명령어를 실행하면 화면에 메시지가 출력됩니다. <br>
+                Gulp가 수행할 일을 실행하는 방법은 'gulp {업무 이름}' 명령어입니다. <br>
+                <strong>default는 기본 업무 이름으로 생략 가능합니다. 즉, gulp 명령어는 gulp default와 동일합니다.</strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node66.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">위에 책에있는 메시지가 나오지않고 다르게 나와서..(The following tasks did not...)</dt>
+            <dd class="d_txt">
+                <a href="https://gulpjs.com/docs/en/getting-started/quick-start" target="_blank">https://gulpjs.com/docs/en/getting-started/quick-start</a> <br>
+                위 사이트의 설명대로 다시 해봤더니,
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function defaultTask(cb) {
+                            // place code for your default task here
+                            cb();
+                        }
+
+                        exports.default = defaultTask
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node67.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                이제 책에나온 메시지대로 잘 나온다. <br>
+                아무래도 버전업이 되다보니까 식 사용이 약간 달라진 것 같다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

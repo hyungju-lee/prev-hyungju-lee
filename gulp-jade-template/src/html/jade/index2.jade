@@ -1,0 +1,43 @@
+extends parts/_docTemplate
+
+//- 환경설정 덮어쓰기
+block append mixins
+    -var curPage='/변수'
+
+//- block metatags 뒤에 내용 추가
+block append metatags
+    meta(name="descriptions", content="Jade 템플릿 엔진 사용법을 설명합니다.")
+    meta(name="keywords", content="Jade, Template, 템플릿, 사용법")
+
+//- block stylesheets 앞에 내용 추가
+block prepend stylesheets
+    link(res="stylesheet", href="css/style2.css")
+
+//- block scripts 앞/뒤에 내용 추가
+block prepend scripts
+    script(src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js")
+
+block append scripts
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/detectizr/1.5.0/detectizr.min.js")
+    script.
+        Modernizr.Detectizr.detect()
+
+//- 문서 제목 변경설정
+block pageTitle
+    | Jade 템플릿 엔진 실무활용
+
+//- 슬로건 변경설정
+//- block slogan
+    | Jade는 node.js 기반의 템플릿 언어입니다.
+
+//- 콘텐츠 변경 설정
+block contents
+    h2(lang="en") Jade Template
+    p Jade 템플릿은 3가지 기능을 제공합니다.
+    ul
+        li
+            | 포함 (include)
+        li
+            | 확장 (extends)
+        li
+            | 상속 (inheritance)

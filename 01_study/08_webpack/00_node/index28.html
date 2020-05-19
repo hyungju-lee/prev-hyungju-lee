@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Async Completion</h1>
+        <dl>
+            <dt class="d_tit">Async Completion</dt>
+            <dd class="d_txt">
+                노드 라이브러리는 다양한 방식으로 비동기 성을 처리합니다. <br>
+                가장 일반적인 패턴은 error-first callbacks이지만 streams, promises, event emitters, child processes 또는 observables가 발생할 수도 있습니다.
+                <br>
+                Gulp 작업은 이러한 모든 유형의 비동기성을 정규화합니다.
+            </dd>
+            <dt class="d_tit">Signal task completion</dt>
+            <dd class="d_txt">
+                stream, promise, event emitter, child process 또는 observable가 작업에서 반환될 때, <br>
+                성공 또는 오류는 Gulp가 계속할지 종료할지 그 여부를 알려줍니다.
+                <br>
+                작업 오류가 발생하면 gulp가 즉시 종료되고 해당 오류가 표시됩니다.
+            </dd>
+            <dd class="d_txt" style="margin-top:50px">
+                series ()로 작업을 구성 할 때 오류가 작성을 끝내고 더 이상 작업이 실행되지 않습니다. <br>
+                parallel ()으로 작업을 구성 할 때 오류가 작성을 끝내지 만 다른 병렬 작업은 완료되거나 완료되지 않을 수 있습니다.
+            </dd>
+            <dt class="d_tit">Returning a stream(스트림 반환)</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { src, dest } = require('gulp');
+
+                        function streamTask() {
+                          return src('*.js')
+                            .pipe(dest('output'));
+                        }
+
+                        exports.default = streamTask;
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Returning a promise(프로미스 반환)</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function promiseTask() {
+                          return Promise.resolve('the value is ignored');
+                        }
+
+                        exports.default = promiseTask;
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Returning an event emitter</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { EventEmitter } = require('events');
+
+                        function eventEmitterTask() {
+                          const emitter = new EventEmitter();
+                          // Emit has to happen async otherwise gulp isn't listening yet
+                          setTimeout(() => emitter.emit('finish'), 250);
+                          return emitter;
+                        }
+
+                        exports.default = eventEmitterTask;
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Returning a child process</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { exec } = require('child_process');
+
+                        function childProcessTask() {
+                          return exec('date');
+                        }
+
+                        exports.default = childProcessTask;
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Returning an observable</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { Observable } = require('rxjs');
+
+                        function observableTask() {
+                          return Observable.of(1, 2, 3);
+                        }
+
+                        exports.default = observableTask;
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Using an error-first callback</dt>
+            <dd class="d_txt">
+                작업에서 아무것도 반환되지 않으면 error-first callback을 사용하여 완료 신호를 보내야합니다. <br>
+                콜백은 아래 예제에서 cb ()라는 유일한 인수로 작업에 전달됩니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function callbackTask(cb) {
+                          // `cb()` should be called by some async work
+                          cb();
+                        }
+
+                        exports.default = callbackTask;
+                    </code>
+                </pre>
+                error-first callback을 사용하여 작업에서 오류가 발생했음을 알리려면 Error를 유일한 인수로 사용하여 호출하십시오.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function callbackError(cb) {
+                          // `cb()` should be called by some async work
+                          cb(new Error('kaboom'));
+                        }
+
+                        exports.default = callbackError;
+                    </code>
+                </pre>
+                그러나 종종이 콜백을 직접 호출하지 않고 다른 API로 전달합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const fs = require('fs');
+
+                        function passingCallback(cb) {
+                          fs.access('gulpfile.js', cb);
+                        }
+
+                        exports.default = passingCallback;
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">No synchronous tasks</dt>
+            <dd class="d_txt">
+                동기 작업이 더 이상 지원되지 않습니다. <br>
+                그들은 종종 작업에서 스트림을 반환하는 것을 잊어 버리는 것과 같이 디버그하기 어려운 미묘한 실수로 이어졌습니다. <br><br>
+
+                "비동기 완료를 알리는 것을 잊었습니까?" 경고, 위에서 언급 한 기술은 사용되지 않았습니다. <br>
+                이 오류를 해결하려면 error-first callback을 사용하거나 stream, promise, event emitter, child process 또는 observable 항목을 반환해야합니다.
+            </dd>
+            <dt class="d_tit">Using async/await</dt>
+            <dd class="d_txt">
+                이전 옵션 중 하나를 사용하지 않으면 작업을 약속으로 묶는 비동기 기능으로 작업을 정의 할 수 있습니다. <br>
+                이를 통해 Await를 사용하여 약속을 처리하고 다른 동기 코드를 사용할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const fs = require('fs');
+
+                        async function asyncAwaitTask() {
+                          const { version } = fs.readFileSync('package.json');
+                          console.log(version);
+                          await Promise.resolve('some result');
+                        }
+
+                        exports.default = asyncAwaitTask;
+                    </code>
+                </pre>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

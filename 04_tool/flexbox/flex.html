@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style data-style="flex">
+        .flexBox {
+            position: relative;
+            background-color: #ddd;
+            display: -webkit-box;       /* OLD - iOS 6-, Safari 3.1-6 */
+            display: -moz-box;          /* OLD - Firefox 19- (buggy but mostly works) */
+            display: -webkit-flex;      /* NEW - Chrome */
+            display: -ms-flexbox;       /* TWEENER - IE 10 */
+            display: flex;
+        }
+        .flexItem {
+            display: inline-block;
+            background-color: #0b2e13;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+<div id="example" class="example">
+    <div class="flexBox"></div>
+</div>
+
+<button type="button" id="btn-coordinate" class="btn-coordinate"></button>
+
+<div id="choice-and-source" class="choice-and-source">
+    <div id="choice" class="choice">
+        <h2 class="h2">Flex Box Tool</h2>
+        <p class="phrase">
+            flex Box : IE 10+, 안드로이드 4.4+ 부터 정식 지원합니다. <br>
+            주의 : 안드로이드 4.4 이상일지라도 삼성브라우저 버전이 낮으면 Flex Box가 지원 안될 수도 있습니다. <br>
+            해당 페이지 개발시 참고 자료 (Flex Box 크로스브라우징)
+            <a href="#" onclick="window.open('traning/flex3.html', 'new', 'resizable=yes, toolbar=no, location=no, status=no, top=80, left=200, width=900, height=800, scrollbars=yes');return false">링크</a>
+        </p>
+        <a href="#" onclick="window.open('traning/flex_array_method3.html', 'new', 'resizable=yes, toolbar=no, location=no, status=no, top=80, left=200, width=460, height=800, scrollbars=yes');return false">Flex Box로 만들 수 있는 레이아웃 예시</a>
+        <br>
+        위와 같은 Flex Box 레이아웃을 만들어보고 싶으시면 'YES'에 체크해주세요. <br>
+        해당 레이아웃에 관심이 없으시면 'NO'에 체크하시고 아래 속성들로 연습하시면 됩니다.
+        <div class="form-area">
+            <input type="radio" id="layout-yes" name="layout" class="inp-radio"> <label for="layout-yes">YES</label> <br>
+            <input type="radio" id="layout-no" name="layout" class="inp-radio" checked> <label for="layout-no">NO</label>
+        </div>
+        <p class="phrase note">
+            아래 빨강색 테두리"만" 입력하십시오 <br>
+            다른 Flex 관련 속성들은 default 값이어야 합니다. <br>
+            Flex Item layout 속성은 빈칸이어야 합니다. <br>
+            예외 : Flex Item 속성인 order 속성은 입력 가능합니다. <br>
+            (단, 최소 "Flex Item 총개수 - 1개"만큼의 Flex Item에게 각각 order 속성을 주어야합니다.)
+        </p>
+        <div class="note">
+            <h2 class="h2">위 레이아웃의 한계점</h2>
+            <p class="phrase">
+                위 레이아웃은 미디어쿼리와 :after 가상 선택자를 활용한 기법입니다. <br>
+                IE 크로스브라우징을 위해 min-width 속성값을 넣어줘야합니다. (파이어폭스나 크롬은 min-width 속성이 없어도 원하는대로 작동을 합니다.) <br>
+                바로 min-width에서 오는 한계점입니다. <br>
+                min-width 때문에 해당 페이지에 y-scroll이 있냐 없냐의 차이로 미디어쿼리 (분기지점 ~ 분기지점+17px) 구간에서 원하는대로 작동을 하지 않습니다. <br>
+                따라서 위 레이아웃은 IE는 고려하지 않는 작업 또는 IE 까지 고려하되 스크롤이 브라우저 너비를 차지하지 않는 상황(플러그인으로 변동이 되었던지)에서 사용해야됩니다. <br>
+                또는 해당 페이지는 무조건 y-scroll이 존재한다 또는 존재하지 않는다 라는 상황에서 사용해야됩니다.
+            </p>
+            <p class="phrase">
+                y-scroll에 체크하시면 미디어쿼리 분기지점에 17px(스크롤너비)가 더해집니다.
+            </p>
+            <div class="form-area">
+                <input type="radio" id="scroll-yes" name="scroll" class="inp-radio2"> <label for="scroll-yes">y-scroll</label> <br>
+                <input type="radio" id="scroll-no" name="scroll" class="inp-radio2" checked> <label for="scroll-no">no-scroll</label>
+            </div>
+        </div>
+        <hr>
+        <div class="form-area">
+            <button type="button" class="btn btn-add">flex item 추가</button>
+            <button type="button" class="btn btn-delete">flex item 삭제</button>
+        </div>
+        <h2 class="h2">Flex Box layout 관련 속성입니다.</h2>
+        <div class="form-area">
+            <p class="phrase">flex 박스 width 값을 입력하세요</p>
+            <input class="inp inp-txt" type="text">
+            <select class="sel sel-unit">
+                <option value="px">px (default)</option>
+                <option value="%">%</option>
+                <option value="vw">vw</option>
+                <option value="vh">vh</option>
+                <option value="vmin">vmin</option>
+                <option value="vmax">vmax</option>
+            </select>
+            <button type="button" class="btn btn-apply">적용</button>
+        </div>
+        <div class="form-area">
+            <p class="phrase">flex 박스 height 값을 입력하세요</p>
+            <input class="inp inp-txt2" type="text">
+            <select class="sel sel-unit2">
+                <option value="px">px (default)</option>
+                <option value="%">%</option>
+                <option value="vw">vw</option>
+                <option value="vh">vh</option>
+                <option value="vmin">vmin</option>
+                <option value="vmax">vmax</option>
+            </select>
+            <button type="button" class="btn btn-apply">적용</button>
+        </div>
+        <h2 class="h2">flex 박스에 적용되는 속성들입니다.</h2>
+        <div class="form-area">
+            <select class="sel sel-flex">
+                <option value="flex">display:flex</option>
+                <option value="inline-flex">display:inline-flex</option>
+            </select>
+        </div>
+        <div class="form-area">
+            <select class="sel sel-flex-direction">
+                <option value="row">flex-direction:row (default 값)</option>
+                <option value="row-reverse">flex-direction:row-reverse</option>
+                <option value="column">flex-direction:column</option>
+                <option value="column-reverse">flex-direction:column-reverse</option>
+            </select>
+        </div>
+        <div class="form-area">
+            <select class="sel sel-flex-wrap">
+                <option value="nowrap">flex-wrap:nowrap (default 값)</option>
+                <option value="wrap">flex-wrap:wrap</option>
+                <option value="wrap-reverse">flex-wrap:wrap-reverse</option>
+            </select>
+            <p class="phrase note">flex-wrap:wrap 또는 wrap-reverse로 설정해주세요</p>
+        </div>
+        <div class="form-area">
+            <select class="sel sel-justify-content">
+                <option value="flex-start">justify-content:flex-start (default 값)</option>
+                <option value="flex-end">justify-content:flex-end</option>
+                <option value="space-between">justify-content:space-between</option>
+                <option value="space-around">justify-content:space-around</option>
+                <option value="center">justify-content:center</option>
+            </select>
+        </div>
+        <div class="form-area">
+            <select class="sel sel-align-items">
+                <option value="stretch">align-items:stretch (default 값)</option>
+                <option value="flex-start">align-items:flex-start</option>
+                <option value="flex-end">align-items:flex-end</option>
+                <option value="center">align-items:center</option>
+                <option value="baseline">align-items:baseline</option>
+            </select>
+        </div>
+        <div class="form-area">
+            <select class="sel sel-align-content">
+                <option value="stretch">align-content: stretch (default 값)</option>
+                <option value="flex-start">align-content: flex-start</option>
+                <option value="flex-end">align-content: flex-end</option>
+                <option value="center">align-content: center</option>
+                <option value="space-between">align-content: space-between</option>
+                <option value="space-around">align-content: space-around</option>
+            </select>
+        </div>
+        <hr>
+        <h2 class="h2">flex 아이템에 적용되는 속성들입니다.</h2>
+        <h3 class="h3 note">flex 아이템 layout 속성입니다.</h3>
+        <div class="flexItem-layout note">
+            <span class="tit">min-width</span> : <input type="text" class="inp inp-min-width" placeholder="ex) 160px"><button type="button" class="btn btn-apply">적용</button><br>
+            <span class="tit">margin</span> : <input type="text" class="inp inp-margin" placeholder="ex) 0~4개, space bar로 구분"><button type="button" class="btn btn-apply">적용</button><br>
+            <span class="tit">padding</span> : <input type="text" class="inp inp-padding" placeholder="ex) 0~4개, space bar로 구분"><button type="button" class="btn btn-apply">적용</button>
+            <p class="phrase">원하시는 margin, padding값을 입력하세요</p>
+        </div>
+        <h3 class="h3">flex 아이템 공통 속성 : flex-grow, flex-shrink, flex-basis</h3>
+        <div class="common-grow-shrink-basis">
+            <div class="grow-shrink-basis"><span class="tit">flex-grow :</span> <input type="text" class="inp inp-grow" placeholder="default값 : 0"><button type="button" class="btn btn-apply">적용</button></div>
+            <p class="phrase note">'1'을 입력해주세요.</p>
+            <div class="grow-shrink-basis"><span class="tit">flex-shrink :</span> <input type="text" class="inp inp-shrink" placeholder="default값 : 0"><button type="button" class="btn btn-apply">적용</button></div>
+            <p class="phrase note">'1'을 입력해주세요.</p>
+            <div class="grow-shrink-basis"><span class="tit">flex-basis :</span> <input type="text" class="inp inp-basis" placeholder="default값 : auto"><button type="button" class="btn btn-apply">적용</button></div>
+            <p class="phrase note">'0px'을 입력해주세요.</p>
+            <p class="em">flex-basis - (단위 반드시 입력, 0이어도 0px로..IE10 고려)</p>
+        </div>
+        <h3 class="h3">flex 아이템 개별 속성 : order</h3>
+        <div class="flexItem-area-order">
+
+        </div>
+        <h3 class="h3">flex 아이템 개별 속성 : flex-grow, flex-shrink, flex-basis</h3>
+        <div class="flexItem-area-flex">
+
+        </div>
+        <h3 class="h3">flex 아이템 개별 속성 : align-self</h3>
+        <div class="flexItem-area-align-self">
+
+        </div>
+        <h3 class="h3">flex 아이템 개별 레이아웃 속성 : width, height</h3>
+        <div class="flexItem-layout-each">
+
+        </div>
+    </div>
+
+    <div id="source" class="source">
+        <div class="tabArea">
+            <div id="source-head" class="tabMenu">
+                <a href="#tab1" class="tab-btn">HTML</a>
+                <a href="#tab2" class="tab-btn">CSS</a>
+            </div>
+            <div id="source-cont" class="tabCont">
+                <pre id="tab1" class="tab-cont code"><code></code></pre>
+                <pre id="tab2" class="tab-cont code"><code></code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/area-control.js"></script>
+<script src="js/view.js"></script>
+<script src="js/style.js"></script>
+<script src="js/source.js"></script>
+</body>
+</html>

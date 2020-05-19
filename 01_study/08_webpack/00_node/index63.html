@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 연산(Operation) 처리하기</h1>
+        <dl>
+            <dt class="d_tit">Sass 연산(Operation) 처리하기</dt>
+            <dd class="d_txt">
+                Sass 언어는 자바스크립트와 같은 사칙연산(+, -, *, /), 비교연산(&lt;, &gt;, ==, &gt;=, &lt;=, !=), 문자 접합 등을 지원합니다. <br>
+                다시 말해, 값을 더하거나 빼거나 곱하거나 나눌 수 있으며, 값을 서로 비교할 수도 있습니다. <br>
+                또 나눈 문자를 변수를 활용하여 연산 결과에 따라 접합할 수도 있습니다. <br>
+                <br>
+                Git Bash에서 sass -i 명령어를 실행하면 sass 언어를 인터랙티브(interactive)하게 Git Bash에서 실행하고 결과를 확인할 수 있습니다. <br>
+                주의할 점은 나눗셈(/)을 할 때 단위가 붙은 값은 괄호로 묶어야 정상적으로 연산이 처리됩니다. <br>
+                <strong>px에서 %를 빼는 것처럼, 단위가 다르면 연산이 처리되지 않습니다.</strong>
+                <span class="img_wrap"><img src="img/gulp117.jpg" alt=""></span>
+                다음 사진처럼 각 값을 비교하는 연산도 잘 처리합니다. <br>
+                == 연산은 두 값이 같은지 비교하고, != 연산은 두 값이 다른지 비교합니다.
+                <span class="img_wrap"><img src="img/gulp118.jpg" alt=""></span>
+                문자열을 접합할 수도 있습니다. <br>
+                다음을 보면 자바스크립트 결과와 유사합니다. <br>
+                한가지 주의할 점은 색상 데이터 값을 나눈 후 접합할 때는 따옴표가 필요합니다.
+                <span class="img_wrap"><img src="img/gulp119.jpg" alt=""></span>
+                연산된 결과를 그대로 사용하기보다는 조건문(@if), 반복문(@for, @while, @each)과 함께 사용해야 유용합니다. <br>
+                이 부분은 조건문과 반복문을 배울 때 좀 더 자세히 다루겠습니다.
+                <p class="phrase">
+                    <span class="em">깨알 Tip</span> <br>
+                    Sass 인터랙티브 모드 연산을 끝낼 때는 ctrl + c 를 누릅니다.
+                </p>
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,352 @@
+<!DOCTYPE HTML>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>coustom select Box</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style type="text/css">
+		* {
+			margin: 0;
+			padding: 0;
+			border: 0;
+			box-sizing: border-box;
+		}
+
+        .dropdown__button {
+            background-color: #444;
+            color: white;
+            padding: 10px;
+            cursor: pointer;
+            width: 300px;
+            text-align: center;
+        }
+
+        .dropdown__button:hover {
+            background-color: #222;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown__content {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background-color: #eee;
+            text-align: center;
+            width: 100%;
+            z-index: 1;
+            padding: 0;
+            margin: 0;
+            list-style-type: none;
+        }
+
+        .dropdown__content .item {
+            color: black;
+            cursor: pointer;
+            padding: 10px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown__content .item:hover {
+            background-color: #666;
+            color: white;
+        }
+
+        ._show {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">IE8까지 지원</dd>
+            <dd class="d_txt">부트스트랩처럼 구현</dd>
+            <dd class="d_txt">only javascript만 활용</dd>
+            <dt class="d_tit">기법</dt>
+            <dd class="d_txt">addEventListener, attachEvent와 transform 속성을 활용해 IE8, IE9, IE10+ 나누기</dd>
+            <dd class="d_txt">스크롤과 클릭시 위치 읽어서 드롭다운 박스 뜨는 위치 조정하기</dd>
+            <dt class="d_tit">결과</dt>
+            <dd class="d_txt">저번엔 자바스크립트로 IE10까지밖에 못맞춰서 아쉬웠었는데 이번엔 IE8까지 성공~!</dd>
+        </dl>
+    </div>
+
+    <br/>
+    <br/>
+
+    <div class="dropdown">
+        <div class="dropdown__button aaa">Custom dropdown</div>
+        <ul class="dropdown__content bbb">
+            <li class="item ccc" tabindex="0">with</li>
+            <li class="item ddd" tabindex="0">css</li>
+            <li class="item eee" tabindex="0">html</li>
+            <li class="item fff" tabindex="0">js</li>
+        </ul>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="dropdown">
+        <div class="dropdown__button">Custom dropdown</div>
+        <ul class="dropdown__content">
+            <li class="item" tabindex="0">with</li>
+            <li class="item" tabindex="0">css</li>
+            <li class="item" tabindex="0">html</li>
+            <li class="item" tabindex="0">js</li>
+        </ul>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="dropdown">
+        <div class="dropdown__button">Custom dropdown</div>
+        <ul class="dropdown__content">
+            <li class="item" tabindex="0">with</li>
+            <li class="item" tabindex="0">css</li>
+            <li class="item" tabindex="0">html</li>
+            <li class="item" tabindex="0">js</li>
+        </ul>
+    </div>
+
+
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</div>
+
+<script>
+    // IE8 클래스명 선택 함수
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+
+    // IE8, IE9, IE10 이상 구분 함수
+    function has3d() {
+        if (!window.getComputedStyle) {
+            return false;
+        }
+        var el = document.createElement('p'),
+            has3d,
+            transforms = {
+                'webkitTransform': '-webkit-transform',
+                'OTransform': '-o-transform',
+                'msTransform': '-ms-transform',
+                'MozTransform': '-moz-transform',
+                'transform': 'transform'
+            };
+        // Add it to the body to get the computed style.
+        document.body.insertBefore(el, null);
+        for (var t in transforms) {
+            if (el.style[t] !== undefined) {
+                el.style[t] = "translate3d(1px,1px,1px)";
+                has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+            }
+        }
+        document.body.removeChild(el);
+        var val = (has3d !== undefined && has3d.length > 0 && has3d !== "none") ? true : "IE9";
+        return val;
+    }
+
+    function dropdown(className) {
+        var dropdown = getElementsByClassNameCompatible(className),
+            dropdownOpener = [],
+            dropdownContent = [],
+            classCompare = [],
+            bool = false;
+        for (var i = 0; i < dropdown.length; i++) {
+            dropdownOpener.push(dropdown[i].querySelector('.dropdown__button'));
+            dropdownContent.push(dropdown[i].querySelector('.dropdown__content'));
+        }
+
+        function dropdownInner() {
+            var wT = document.documentElement.scrollTop,
+                winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+                thDropHeight = [],
+                thDropOffsetTop = [],
+                thContHeight = [];
+            for (var k = 0; k < dropdown.length; k++) {
+                thDropHeight.push(dropdownOpener[k].clientHeight);
+                thDropOffsetTop.push(dropdown[k].offsetTop);
+                dropdownContent[k].style.visibility = "hidden";
+                dropdownContent[k].style.display = "block";
+                thContHeight.push(dropdownContent[k].clientHeight);
+                dropdownContent[k].style.visibility = "";
+                dropdownContent[k].style.display = "";
+            }
+            for (var k = 0; k < dropdown.length; k++) {
+                if (winHeight - (thDropOffsetTop[k] - wT) > thDropHeight[k] + thContHeight[k]) {
+                    if (has3d() == true) {
+                        dropdownContent[k].style.msTransform = "translate3d(0," + thDropHeight[k] + "px,0)";
+                        dropdownContent[k].style.WebkitTransform = "translate3d(0," + thDropHeight[k] + "px,0)";
+                        dropdownContent[k].style.transform = "translate3d(0," + thDropHeight[k] + "px,0)";
+                    } else if (has3d() == "IE9") {
+                        dropdownContent[k].style.msTransform = "translate(0," + thDropHeight[k] + "px)";
+                        dropdownContent[k].style.WebkitTransform = "translate(0," + thDropHeight[k] + "px)";
+                        dropdownContent[k].style.transform = "translate(0," + thDropHeight[k] + "px)";
+                    } else {
+                        dropdownContent[k].style.top = thDropHeight[k];
+                    }
+                } else {
+                    if (has3d() == true) {
+                        dropdownContent[k].style.msTransform = "translate3d(0," + (-thContHeight[k]) + "px,0)";
+                        dropdownContent[k].style.WebkitTransform = "translate3d(0," + (-thContHeight[k]) + "px,0)";
+                        dropdownContent[k].style.transform = "translate3d(0," + (-thContHeight[k]) + "px,0)";
+                    } else if (has3d() == "IE9") {
+                        dropdownContent[k].style.msTransform = "translate(0," + (-thContHeight[k]) + "px)";
+                        dropdownContent[k].style.WebkitTransform = "translate(0," + (-thContHeight[k]) + "px)";
+                        dropdownContent[k].style.transform = "translate(0," + (-thContHeight[k]) + "px)";
+                    } else {
+                        dropdownContent[k].style.top = -thContHeight[k];
+                    }
+                }
+            }
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener("scroll", function () {
+                dropdownInner();
+            })
+            window.addEventListener("click", function (event) {
+                var matchesForIe = event.target.matches ? event.target.matches(".dropdown__button") : event.target.msMatchesSelector('.dropdown__button');
+                var matchesForIe2 = event.target.matches ? event.target.matches(".item") : event.target.msMatchesSelector('.item');
+                if (!matchesForIe) {
+                    for (var i = 0; i < dropdownContent.length; i++) {
+                        dropdownContent[i].className = dropdownContent[i].className.replace(/\b _show\b/, "");
+                    }
+                    if (matchesForIe2) {
+                        event.target.parentElement.previousElementSibling.innerText = event.target.innerText;
+                    }
+                }
+            })
+            for (var i = 0; i < dropdownOpener.length; i++) {
+                dropdownOpener[i].addEventListener("click", function () {
+                    dropdownInner();
+                    classCompare = this.nextElementSibling.className.split(" ");
+                    for (var j = 0; j < classCompare.length; j++) {
+                        if (classCompare[j] == "_show") {
+                            bool = true;
+                        }
+                    }
+                    if (!bool) {
+                        for (var i = 0; i < dropdownContent.length; i++) {
+                            dropdownContent[i].className = dropdownContent[i].className.replace(/\b _show\b/, "");
+                        }
+                        this.nextElementSibling.className += " _show";
+                    } else {
+                        this.nextElementSibling.className = this.nextElementSibling.className.replace(/\b _show\b/, "");
+                        bool = false;
+                    }
+                    ;
+                })
+            }
+        } else if (window.attachEvent) {
+            window.onscroll = function () {
+                dropdownInner();
+            }
+            document.onclick = function () {
+                var matchesForIe = [],
+                    Iebool = false,
+                    Iebool2 = false;
+                matchesForIe = this.activeElement.className.split(" ");
+                for (var i = 0; i < matchesForIe.length; i++) {
+                    if (matchesForIe[i] == "dropdown__button") {
+                        Iebool = true;
+                    } else if (matchesForIe[i] == "item") {
+                        Iebool2 = true;
+                    }
+                }
+                if (!Iebool) {
+                    for (var i = 0; i < dropdownContent.length; i++) {
+                        dropdownContent[i].className = dropdownContent[i].className.replace(/\b _show\b/, "");
+                    }
+                    if (Iebool2) {
+                        this.activeElement.parentElement.previousSibling.innerText = this.activeElement.innerText;
+                        Iebool = false;
+                        Iebool2 = false;
+                    }
+                }
+            }
+            for (var i = 0; i < dropdownOpener.length; i++) {
+                dropdownOpener[i].onclick = function () {
+                    dropdownInner();
+                    classCompare = this.nextSibling.className.split(" ");
+                    for (var j = 0; j < classCompare.length; j++) {
+                        if (classCompare[j] == "_show") {
+                            bool = true;
+                        }
+                    }
+                    if (!bool) {
+                        for (var i = 0; i < dropdownContent.length; i++) {
+                            dropdownContent[i].className = dropdownContent[i].className.replace(/\b _show\b/, "");
+                        }
+                        this.nextSibling.className += " _show";
+                    } else {
+                        this.nextSibling.className = this.nextSibling.className.replace(/\b _show\b/, "");
+                        bool = false;
+                    }
+                    ;
+                };
+            }
+        }
+    }
+
+    dropdown('dropdown');
+</script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>study</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/child_style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">3주차 실습</h1>
+        <dl>
+            <dt class="d_tit">gulp-basic 저장소 예시</dt>
+            <dd class="d_txt">
+                <a href="https://github.com/hyungju-lee/gulp-basic" target="_blank">gulp-basic 저장소 링크</a>
+                <dl>
+                    <dt class="d_tit">gulp basic 소개</dt>
+                    <dd class="d_txt">
+                        gulp-basic 은 다음과 같은 기능이 구현되어있습니다.
+                        <p class="e_comment">
+                            node 최신 LTS 버전으로 이루어져있습니다. <br>
+                            gulp 최신 문법을 사용하였습니다. <br>
+                            문법도 CommonJS 모듈 문법이 아닌 ES6 import/export 문법을 사용할 수 있습니다. <br>
+                            <br>
+                            <span class="em">Gulp 4.X</span> <br>
+                            lastRun API로 수정된 파일만 함수 실행하여 작동시간을 최대한 빠르게 했습니다. <br>
+                            Gulp 3.X 버전에선 따로 설치가 필요했던 gulp-watch, sourcemap 모듈들은 사용하지 않았습니다. <br>
+                            내장 모듈을 사용했습니다.
+                            <br>
+                            <br>
+                            <span class="em">HTML Template</span> <br>
+                            Jade와 EJS 템플릿 사용 가능합니다. <br>
+                            (express-ejs-layouts 모듈을 통해 Jade의 layout 기능과 block 기능을 추가할 예정입니다.)<br>
+                            <br>
+                            <span class="em">CSS</span> <br>
+                            SASS 사용 가능합니다. <br>
+                            문법은 SCSS입니다. <br>
+                            SCSS Lint 모듈을 통해 문법검사를 통하여 잘못된 문법을 잡아줍니다.<br>
+                            SourceMap 기능이 구현되어있습니다. <br>
+                            <br>
+                            <span class="em">JS</span> <br>
+                            ES6의 모든 문법 사용가능합니다. <br>
+                            ES Lint 모듈을 통해 문법검사를 통하여 잘못된 문법을 잡아줍니다. <br>
+                            앞으로 TS로 업데이트 예정입니다. <br>
+                            <br>
+                            <span class="em">IMG</span> <br>
+                            Sprite 이미지는 Sprite 이미지로 자동 컴파일합니다. <br>
+                            이미지 용량을 최적화해줍니다. <br>
+                            Sprite 이미지가 아닌 이미지는 최적화만 해줍니다. <br>
+                            <br>
+                            주요 기능들만 정리했습니다. <br>
+                            이외 다수 기능들이 있습니다.
+                        </p>
+                    </dd>
+
+                </dl>
+
+            </dd>
+            <dt class="d_tit">gulp refactoring  예시</dt>
+            <dd class="d_txt">
+                <a href="https://github.com/hyungju-lee/gulp-refactoring" target="_blank">gulp-refactoring 저장소 링크</a>
+                <p class="e_comment">
+                    gulp basic 과 기능은 동일합니다. <br>
+                    단, 추가적으로 refactoring 에 대해 연구했습니다. <br>
+                    gulp 내부 함수들을 모듈화하여 폴더로 나눴습니다. <br>
+                    gulp 내부 함수들이 많아지면 복잡해지므로 refactoring을 통하여 gulpfile을 관리하기 쉽도록 만듭니다.
+                </p>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+
+
+<script src="../../js/prism.js"></script>
+</body>
+</html>

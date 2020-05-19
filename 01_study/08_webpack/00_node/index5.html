@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">클라이언트 자바스크립트 VS. 서버 사이드 자바스크립트</h1>
+        <dl>
+            <dt class="d_tit">클라이언트 자바스크립트 VS. 서버 사이드 자바스크립트</dt>
+            <dd class="d_txt">
+                지금까지 다룬 Node.js는 웹브라우저에서 해석되는 자바스크립트와 크게 다르지 않았습니다. <br>
+                하지만 이 장을 처음 시작할 때 이야기한 것처럼 Node.js 환경에서는 서버 사이드 언어로 자바스크립트를 사용할 수 있습니다. <br>
+                웹브라우저에서 해석되는 자바스크립트로는 할 수 없는 일을 간단한 실습으로 실행해 보겠습니다. <br>
+                이번에는 편집기에서 직접 코드를 추가합니다. <br>
+                스크립트 파일을 생성하고, 다음과 같이 코드를 입력한 후 저장합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var hyungju = {};
+                        console.log(__filename);
+                        console.log(__dirname);
+                    </code>
+                </pre>
+                이제 Git Bash에서 node 명령어를 사용하여 index5.js 파일을 실행합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node7.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                화면에 파일 이름과 디렉터리 이름이 연속해서 출력됩니다. <br>
+                이처럼 Node.js 환경에서는 자바스크립트 언어로 사용자 시스템 환경 정보에 접근하거나 조작할 수 있습니다. <br>
+                이것은 웹브라우저에서 해석되는 클라이언트 사이드 언어인 자바스크립트로는 불가능한 일입니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node8.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                index5.js 파일을 연결한 HTML 문서를 추가로 작성한 후 웹브라우저에서 열면, 콘솔 패널에 오류 메시지가 출력됩니다. <br>
+                __filename이 무엇인지 모르겠다는 오류 메시지입니다. <br>
+                이처럼 Node.js 환경과 달리 웹브라우저 환경에서는 사용자 시스템 환경 정보에 접근할 수 없습니다.
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

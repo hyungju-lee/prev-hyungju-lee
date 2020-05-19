@@ -1,0 +1,6 @@
+code[class*="language-"], pre[class*="language-"]{font-size:14px;font-family:맑은고딕, "Malgun Gothic", san-serif;}
+.pre_tit{display:inline-block;font-family:맑은고딕, "Malgun Gothic", san-serif;font-weight:bold;color:#000;font-size:14px}
+.pre_tit2{display:inline-block;font-family:맑은고딕, "Malgun Gothic", san-serif;font-weight:bold;color:#000;font-size:12px}
+.pre_cont{display:inline-block;font-size:14px}
+.pre_cont2{display:inline-block;font-size:12px}
+.no_select{user-select:none}

@@ -1,0 +1,13 @@
+반대로 현재 Checkout 한 브랜치에 Merge 하지 않은 브랜치를 살펴보려면 git branch --no-merged 명령을 사용한다.
+
+    $ git branch --no-merged
+    testing
+
+위에는 없었던 다른 브랜치가 보인다.
+아직 Merge 하지 않은 커밋을 담고 있기 때문에 git branch -d 명령으로 삭제되지 않는다.
+
+    $ git branch -d testing
+    error: The branch 'testing' is not fully merged.
+    If you are sure you want to delete it, run 'git branch -D testing'.
+
+Merge 하지 않은 브랜치를 강제로 삭제하려면 -D 옵션으로 삭제한다.

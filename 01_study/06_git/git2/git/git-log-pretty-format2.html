@@ -1,0 +1,81 @@
+<style>
+    .git-sub caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+    .git-sub{table-layout:fixed;border-collapse:collapse}
+    .git-sub th{padding:10px;background-color:#eee;text-align:center}
+    .git-sub td{padding:10px;}
+</style>
+<table class="git-sub">
+    <caption>git log --pretty=format 에 쓸 몇가지 유용한 옵션</caption>
+    <colgroup>
+        <col width="50px">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th scope="col">옵션</th>
+        <th scope="col">설명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>%H</td>
+        <td>커밋 해시</td>
+    </tr>
+    <tr>
+        <td>%h</td>
+        <td>짧은 길이 커밋 해시</td>
+    </tr>
+    <tr>
+        <td>%T</td>
+        <td>트리 해시</td>
+    </tr>
+    <tr>
+        <td>%t</td>
+        <td>짧은 길이 트리 해시</td>
+    </tr>
+    <tr>
+        <td>%P</td>
+        <td>부모 해시</td>
+    </tr>
+    <tr>
+        <td>%p</td>
+        <td>짧은 길이 부모 해시</td>
+    </tr>
+    <tr>
+        <td>%an</td>
+        <td>저자 이름</td>
+    </tr>
+    <tr>
+        <td>%ae</td>
+        <td>저자 메일</td>
+    </tr>
+    <tr>
+        <td>%ad</td>
+        <td>저자 시각 (형식은 –-date=옵션 참고)</td>
+    </tr>
+    <tr>
+        <td>%ar</td>
+        <td>저자 상대적 시각</td>
+    </tr>
+    <tr>
+        <td>%cn</td>
+        <td>커미터 이름</td>
+    </tr>
+    <tr>
+        <td>%ce</td>
+        <td>커미터 메일</td>
+    </tr>
+    <tr>
+        <td>%cd</td>
+        <td>커미터 시각</td>
+    </tr>
+    <tr>
+        <td>%cr</td>
+        <td>커미터 상대적 시각</td>
+    </tr>
+    <tr>
+        <td>%s</td>
+        <td>요약</td>
+    </tr>
+    </tbody>
+</table>

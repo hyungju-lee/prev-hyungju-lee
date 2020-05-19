@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>touch study1</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<p>현재 이 문서를 터치하고 있는 손가락 수 : <span id="demo">0</span>.</p>
+<div class="explain">
+    <h1 class="tit">설명</h1>
+    <dl>
+        <dt class="d_tit">touchEvent 객체의 touches, length 프로퍼티</dt>
+        <dd class="d_txt">표면에 닿는 손가락 수를 확인할 수 있다.</dd>
+        <dd class="d_txt">파라미터.touches 는 touch 객체의 Array를 반환한다. console.log(파라미터.touches)</dd>
+    </dl>
+</div>
+<script>
+    function countTouches(event) {
+        var x = event.touches.length;
+        document.getElementById("demo").innerHTML = x;
+    }
+
+    document.body.addEventListener("touchstart", countTouches);
+    document.body.addEventListener("touchend", countTouches);
+</script>
+</body>
+</html>

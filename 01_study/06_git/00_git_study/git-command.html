@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>git 명령어</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Git 명령어</h1>
+        <dl>
+            <dt class="d_tit">git ls-remote (저장소명)</dt>
+            <dd class="d_txt">
+                모든 리모트 Refs(레퍼런스들)을 조회할 수 있는 명령어이다.
+                <pre class="line-numbers">
+                    <code class="language-gitbash">
+                        23072c724f6dab2ac5d40d452e78879ea8d1bec1        HEAD
+                        917a72c3b98ea6a3137f60c55c034ae58dfe5643        refs/heads/gh-pages
+                        23072c724f6dab2ac5d40d452e78879ea8d1bec1        refs/heads/master
+                        bdb9f24c73d4f81a21f4a887d83162c529643d62        refs/tags/vtool1.2
+                        ffeda3f9a446bc576abcaa4c16b107d708e04ed2        refs/tags/vtool1.2^{}
+                    </code>
+                </pre>
+                위 내용 : <br>
+                HEAD가 checkout 하고 있는 커밋, 체크섬 부분과 <br>
+                refs/heads/master 즉, master 브랜치의 커밋, 체크섬 부분이 동일하다. <br>
+                즉 현재 HEAD는 master 브랜치를 checkout 하고 있다. <br>
+                그리고 gh-pages 브랜치가 존재하며, tag로는 vtool1.2 태그와 vtool1.2^{} 태그가 존재한다.
+            </dd>
+            <dt class="d_tit">git remote show (저장소명)</dt>
+            <dd class="d_txt">
+                모든 리모트 Refs(레퍼런스들)을 조회할 수 있는 명령어이다.
+                <pre class="line-numbers">
+                    <code class="language-gitbash">
+                        * remote origin
+                          Fetch URL: https://github.com/hyungju-lee/hyungju-lee.git
+                          Push  URL: https://github.com/hyungju-lee/hyungju-lee.git
+                          HEAD branch: master
+                          Remote branches:
+                            gh-pages tracked
+                            master   tracked
+                          Local branch configured for 'git pull':
+                            master merges with remote master
+                          Local refs configured for 'git push':
+                            gh-pages pushes to gh-pages (up to date)
+                            master   pushes to master   (up to date)
+                    </code>
+                </pre>
+                위 내용 :
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

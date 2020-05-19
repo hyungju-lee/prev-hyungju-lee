@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Creating Tasks</h1>
+        <dl>
+            <dt class="d_tit">Creating Tasks</dt>
+            <dd class="d_txt">
+                각각의 Gulp task는 비동기 자바스크립트 함수입니다. <br>
+                (error-first callback 또는 a stream, promise, event emitter, child process, 또는 observable(나중에 자세히 설명)을 반환하는 함수입니다.
+                <br>
+                일부 플랫폼 제한으로 인해 동기식 작업은 지원되지 않지만 대체적으로 멋진 대안이 있습니다.
+            </dd>
+            <dt class="d_tit">Exporting</dt>
+            <dd class="d_txt">
+                작업은 공개 또는 개인으로 간주 될 수 있습니다. <br><br>
+
+                공용 작업은 gulpfile에서 내 보내져 gulp 명령으로 실행할 수 있습니다.<br>
+                개인 작업은 내부적으로 사용되도록 만들어지며 일반적으로 series () 또는 parallel () 구성의 일부로 사용됩니다.<br>
+                개인 작업은 다른 작업처럼 보이고 작동하지만 최종 사용자는 독립적으로 실행할 수 없습니다. <br>
+                작업을 공개적으로 등록하려면 gulpfile에서 작업을 내보내십시오.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { series } = require('gulp');
+
+                        // The `clean` function is not exported so it can be considered a private task.
+                        // It can still be used within the `series()` composition.
+                        function clean(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        // The `build` function is exported so it is public and can be run with the `gulp` command.
+                        // It can also be used within the `series()` composition.
+                        function build(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        exports.build = build;
+                        exports.default = series(clean, build);
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/gulp01.jpg" alt=""></span>
+                <strong>과거에는 task ()를 사용하여 함수를 작업으로 등록했습니다. <br>
+                해당 API를 계속 사용할 수 있지만 edge cases가 작동하지 않는 경우를 제외하고 exporting은 기본 등록 메커니즘이어야합니다.</strong>
+            </dd>
+            <dt class="d_tit">Compose tasks (작업 작성)</dt>
+            <dd class="d_txt">
+                Gulp는 series () 및 parallel ()의 두 가지 강력한 구성 방법을 제공하여 개별 작업을 더 큰 작업으로 구성 할 수 있습니다. <br>
+                두 방법 모두 여러 작업 기능 또는 구성된 작업을 허용합니다. <br>
+                series () 및 parallel ()은 자체 내에 또는 서로 깊이있게 중첩 될 수 있습니다. <br><br>
+                작업을 순서대로 실행하려면 series () 메서드를 사용하십시오.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { series } = require('gulp');
+
+                        function transpile(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function bundle(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        exports.build = series(transpile, bundle);
+                    </code>
+                </pre>
+                작업을 최대 동시성으로 실행하려면 parallel () 메서드와 함께 사용하십시오.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { parallel } = require('gulp');
+
+                        function javascript(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function css(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        exports.build = parallel(javascript, css);
+                    </code>
+                </pre>
+                작업은 series () 또는 parallel ()이 호출 될 때 즉시 구성됩니다. <br>
+                이를 통해 개별 작업 내에서 조건부 동작 대신 구성을 변경할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { series } = require('gulp');
+
+                        function minify(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+
+                        function transpile(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function livereload(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        if (process.env.NODE_ENV === 'production') {
+                          exports.build = series(transpile, minify);
+                        } else {
+                          exports.build = series(transpile, livereload);
+                        }
+                    </code>
+                </pre>
+                series () 및 parallel ()은 임의의 깊이로 중첩 될 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { series, parallel } = require('gulp');
+
+                        function clean(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function cssTranspile(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function cssMinify(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function jsTranspile(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function jsBundle(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function jsMinify(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function publish(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        exports.build = series(
+                          clean,
+                          parallel(
+                            cssTranspile,
+                            series(jsTranspile, jsBundle)
+                          ),
+                          parallel(cssMinify, jsMinify),
+                          publish
+                        );
+                    </code>
+                </pre>
+                구성된 작업이 실행될 때 각 작업은 참조 될 때마다 실행됩니다. <br>
+                예를 들어, 서로 다른 두 가지 작업 전에 참조 된 clean 작업은 두 번 실행되어 원하지 않는 결과가 발생합니다. <br>
+                대신 최종 작곡에 지정 될 clean 작업을 리팩터링하십시오. <br><br>
+
+                이런 코드가 있다면 :
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // This is INCORRECT
+                        const { series, parallel } = require('gulp');
+
+                        const clean = function(cb) {
+                          // body omitted
+                          cb();
+                        };
+
+                        const css = series(clean, function(cb) {
+                          // body omitted
+                          cb();
+                        });
+
+                        const javascript = series(clean, function(cb) {
+                          // body omitted
+                          cb();
+                        });
+
+                        exports.build = parallel(css, javascript);
+                    </code>
+                </pre>
+                다음으로 마이그레이션하십시오.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const { series, parallel } = require('gulp');
+
+                        function clean(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function css(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        function javascript(cb) {
+                          // body omitted
+                          cb();
+                        }
+
+                        exports.build = series(clean, parallel(css, javascript));
+                    </code>
+                </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

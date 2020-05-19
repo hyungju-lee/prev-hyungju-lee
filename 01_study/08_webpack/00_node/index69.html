@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 반복문(Loops) 사용하기</h1>
+        <dl>
+            <dt class="d_tit">Sass 반복문(Loops) 사용하기</dt>
+            <dd class="d_txt">
+                자바스크립트 반복문과 매우 유사한 sass 반복문을 사용하는 방법을 알아봅니다. <br>
+                반복문을 이해하는데 사용할 예제로 960 그리드 시스템(960 Grid System. 960.gs)을 구현해 보겠습니다. <br>
+                먼저 아래의 코드를 참조하여 960 그리드 시스템의 핵심 패턴을 Sass 코드로 구현합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp141.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                위 코드를 해석하면 다음과 같습니다. <br>
+                <br>
+                <ol class="order_lst">
+                    <li>%col 대체 선택자를 정의하고, 그리드 시스템 컬럼 속성 중 공통적인 부분을 모듈화합니다. <br>
+                    컬럼은 수평으로 나열되도록 왼쪽으로 부유(float)시키고, 컬럼 사이 간격은 20px로 설정합니다.</li>
+                    <li>.col-1 선택자를 정의하고, 그리드 시스템 컬럼 공통 속성인 %col 대체 선택자를 상속합니다.<br>
+                    대체 선택자를 상속한 결과는 위 사진처럼 반영됩니다. <br>
+                        그리고 960 그리드 시스템 대로 가록 폭(width) 속성 값을 설정합니다.</li>
+                    <li>.col-2, .col-3 선택자를 정의하고, 960 그리드 시스템 대로 가로 폭을 설정합니다.<br>
+                    컬럼 한 개의 폭이 60px이므로 두 개의 컬럼(.col-2)일 때는 가로폭이 60px의 2배가 되고,
+                    사이 간격은 20px입니다. <br>
+                        반면, 세 개의 컬럼(.col-3)일 때는 가로폭이 60px의 3배, 간격은 20px의 2배가 됩니다.<br>
+                    즉, 간격은 컬럼의 개수보다 1 작은 배수가 됩니다. <br>
+                        이러한 패턴에 맞춰 .col-1부터 .col-12까지 작성하면 시스템이 완성됩니다.</li>
+                </ol>
+                <br>
+                .col-1 부터 .col-12까지 하나씩 계산하여 만드는 작업은 손이 많이 갑니다. <br>
+                더구나 960 그리드 시스템은 12컬럼뿐만아니라 16컬럼, 24 컬럼으로도 구성할 수 있어야 하는데, <br>
+                그때마다 반복적으로 일을 수행하는 것은 매우 비효율적입니다. <br>
+                이러한 비효율적인 문제는 반복문을 활용하여 개선할 수 있습니다. <br>
+                반복문은 거듭 수행되는 일에서 패턴(Pattern)을 발견하여 정해진 조건에 맞춰 반복 작업을 처리할 수 있습니다. <br>
+                .col-1, .col-2, ..... , col-12도 반복적으로 일을 수행하니, 패턴을 찾아 반복문으로 바꾸면 다음과 같습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp143.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                @while 구문이 처리한 결과인 오른쪽 코드 영역을 보면, 앞서 일일이 입력했던 코드 결과와 동일합니다. <br>
+                이처럼 반복문을 사용하면 코드 구문을 효과적으로 줄일 수 있습니다. <br>
+                <br>
+                <ol class="order_lst">
+                    <li>반복되는 카운트를 참조할 변수 $i를 선언한 후 초기값으로 1을 대입합니다.</li>
+                    <li>@while 구문은 Sass의 반복 구문 중 하나입니다. <br>
+                    @while 뒤에는 조건이 오며, 조건 값이 참(true)일 동안만 일을 반복합니다. <br>
+                    조건으로 변수 $i 값이 3보다 작거나 같을 때까지만 반복하도록 설정합니다. <br>
+                    즉, $i는 1부터 값이 시작되니 총 3회 반복되도록 설정했습니다.</li>
+                    <li>.col-#{$i} 선택자는 변수 $i 값을 1씩 증가할 때마다 .col-1, .col-2, ... 이 되도록 보간법으로 설정했습니다. <br>
+                    @extend 키워드를 사용하여 %col 대체 선택자를 상속받습니다.</li>
+                    <li>width 속성 값으로 960 그리드 시스템의 컬럼 폭 계산식에 변수 $i 값을 대입합니다. <br>
+                    예를 들어, 변수 $i 값이 3일 때 계산 결과는 (60*3) + (20*(3-1))=220이 됩니다.</li>
+                    <li>마지막으로 변수 $i 값을 반복순환할 때마다 1씩 증가하도록 설정합니다. <br>
+                    @while 구문에서 이 코드를 작성하지 않으면 조건이 항상 참이 되어 무한 반복되니 주의합니다.</li>
+                </ol>
+                <br>
+                이처럼 반복문을 사용하면 유지보수 또한 손쉽게 처리할 수 있습니다. <br>
+                예를 들어, 조건 값 3을 12로 변경하여 저장하면, 반복문의 12번 수행되어 12개 컬럼의 가로(width) 폭을 계산하여 CSS로 출력합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp144.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                다음을 참고하여 %col, @while 구문 상수 값이 모두 변수로 치환되도록 설정합니다. <br>
+                각 사용에 알맞게 변수 이름을 작성한 후 설정 값을 대입합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp145.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                다음 단계로 $col-width 설정 값을 960 그리드 시스템 컬럼 폭 계산식으로 변경합니다. <br>
+                그리고 각 설정 값을 변수로 치환합니다. <br>
+                변수로 치환할 컬럼 폭 계산식은 다음을 참고합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp146.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                위 계산식에서 페이지 폭에 해당되는 960px 또한 변수 $page-width로 치환합니다. <br>
+                이것으로 모든 상수 값을 변수로 치환하는 작업이 끝났습니다. <br>
+                이제는 설정 값만 바꾸면 자동으로 960 그리드 시스템 설계 패턴에 따라 반복문을 동작하여 결과를 처리합니다. <br>
+                아래는 페이지의 컬럼 개수 변수인 $column 값을 12에서 16으로 변경, 저장하여 16컬럼 960 그리드 시스템 CSS 결과를 생성한 것입니다. <br>
+                CSS로 수식을 일일이 계산하여 작업할 때와 비교하면 Sass 반복문이 업무 효율을 얼만큼 높여주는지 알수 있겠죠?
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp147.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+*{margin:0;padding:0;border:0;box-sizing:border-box}
+html,body{overflow:hidden;height:100%;font-size:13px;font-family:'맑은 고딕', sans-serif}
+img{max-width:100%;vertical-align:top}
+.blind{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+.wrap{position:relative;height:100%}
+.btn-control{position:absolute;top:50%;left:0;z-index:10;width:100%;height:10px;border:1px solid #222;border-width:1px 0;background-color:#fff;transform:translateY(-50%);cursor:n-resize}
+.html{overflow:auto;height:100%;padding:20px;white-space:pre-wrap}
+.btn-area{display:none;margin-top:10px;font-size:0}
+.btn{display:block;width:100%;padding:10px 20px;border-bottom:1px solid #eee;background-color:transparent;font-size:13px;text-align:left;cursor:pointer}
+.btn:hover{text-decoration:underline}
+.btn:active, .btn:focus{outline:none;}
+.btn.on{font-weight:bold;text-decoration:underline}
+.command{padding:10px;border:1px solid #000;background-color:#eeeeee}
+.title{padding:10px 0;font-size:16px;}
+.tit{padding:10px;border-bottom:1px solid #222;font-size:14px;cursor:pointer}
+.tit:not(:first-of-type){margin-top:20px}
+.tit.is-active + .btn-area{display:block}
+.menu{position:fixed;top:0;right:0;bottom:0;z-index:20;max-width:calc(100% - 80px);box-shadow:0px 0px 5px 0px rgba(0,0,0,0.2);border:1px solid #eee;background-color:#fff;transform:translateX(100%);transition:all 0.2s;word-break:break-all}
+.menu-all{overflow:auto;height:100%;padding:20px}
+.btn-close{outline:none;position:absolute;top:20px;left:0;width:50px;height:50px;border-radius:50%;background-color:rgba(255,255,255,0.3);box-shadow:0px 0px 5px 0px rgba(0,0,0,0.2);transform:rotate(0) translateX(-125%);transition:all 0.2s;transform-origin:-75% center}
+.btn-close.is-active{transform:rotate(765deg) translateX(-125%);}
+.menu.is-active{transform:translateX(0)}

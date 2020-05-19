@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 조건문의 또 다른 유형</h1>
+        <dl>
+            <dt class="d_tit">Sass 조건문의 또 다른 유형</dt>
+            <dd class="d_txt">
+                Sass 조건문의 또 다른 유형은 if() 함수를 사용하는 것입니다. <br>
+                작동 원리는 Jade의 3항 연산과 유사합니다. <br>
+                if() 함수는 세 개의 전달인자를 받는데, 첫 번째는 조건이고, 두 번째는 조건 결과가 참(true)일 때의 값, 세 번째는 조건 결과가 거짓(false)일 때의 값입니다. <br>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/gulp139.jpg">
+                                <img data-src="img/gulp139.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/gulp138.jpg">
+                                <img data-src="img/gulp138.jpg" data-elem="bg"/>
+                            </div>
+
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                위 코드를 해석하면 다음과 같습니다. <br>
+                <ol class="order_lst">
+                    <li>변수 $center-pos를 선언하고 값으로 참(true)을 대입합니다.</li>
+                    <li>변수 $is-center를 선언하고 if() 함수를 사용하여 조건을 확인한 후 값을 대입합니다.
+                        if() 함수의 조건(첫 번째 인자)은 변수 $center-pos로 값이 참(true)이니
+                    두번째 인자인 auto 값이 변수 $is-center 값으로 대입됩니다. 변수 $center-pos 값을
+                    거짓(false)으로 설정하면 변수 $is-center 값에는 null을 대입합니다.</li>
+                    <li>.container 선택자 내부에는 mixin margin 함수 값으로 $is-center가 주어졌습니다.
+                    $is-center는 앞에서 처리된 auto 값을 대입한 상태이므로 mixin margin 함수를 거쳐
+                        margin-right: auto, margin-left:auto로 설정됩니다.</li>
+                </ol>
+                <br>
+                변수 $center-pos 값을 거짓(false)으로 변경하면 $is-center 값이 null로 설정됩니다. <br>
+                그러면 margin mixin의 전달인자로 null이 대입됩니다. <br>
+                null은 값을 비우기 때문에 아래처럼 CSS 처리 결과에 반영되지 않습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp140.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

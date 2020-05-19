@@ -1,0 +1,175 @@
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    box-sizing: border-box;
+    font-family: 'NotoSansKR-Regular', sans-serif;
+    line-height: 1.6;
+    letter-spacing: -0.03em;
+}
+
+html, body {
+    width: 100%;
+}
+
+.img_wrap {
+    display: block;
+    margin: 2em 0;
+}
+
+img {
+    max-width: 100%;
+    vertical-align: top;
+}
+
+button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+}
+
+#wrap {
+    overflow: hidden;
+    width: 100%;
+}
+
+.explain {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1.25em;
+    box-sizing: border-box;
+}
+
+.explain .tit, .fullscreenDivHolder .tit {
+    padding: 10px 0;
+    font-size: 1.2em;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}
+
+.explain .tit2, .fullscreenDivHolder .tit2 {
+    margin-top: 20px;
+    padding: 10px 0;
+    font-size: 1em;
+}
+
+.explain .d_tit, .fullscreenDivHolder .d_tit {
+    padding: 3.125em 0;
+    font-weight: bold;
+    font-size: 1.5em;
+    word-break: break-all;
+}
+
+.explain .d_txt, .fullscreenDivHolder .d_txt {
+    padding: 0 0 0 1.25em;
+    font-size: 1em;
+}
+
+.explain .lst, .fullscreenDivHolder .lst {
+    padding: 0.625em 0;
+}
+
+.explain .item, .fullscreenDivHolder .item {
+    list-style: none;
+    position: relative;
+    padding-left: 1.875em;
+    color: #666666;
+}
+
+.explain .item:before, .fullscreenDivHolder .item:before {
+    position: absolute;
+    top: 0.5625em;
+    left: 1.25em;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: #333;
+    content: '';
+}
+
+.explain .order_lst, .fullscreenDivHolder .order_lst {
+    counter-reset: my-awesome-counter;
+}
+
+.explain .order_lst .item, .fullscreenDivHolder .order_lst .item {
+    counter-increment: my-awesome-counter;
+}
+
+.explain .order_lst .item:before, .fullscreenDivHolder .order_lst .item:before {
+    top: 0;
+    left: .5em;
+    width: auto;
+    height: auto;
+    background-color: transparent;
+    content: counter(my-awesome-counter) ".";
+}
+
+.explain .em, .fullscreenDivHolder .em {
+    font-weight: bold;
+    color: #008299;
+}
+
+.explain .phrase, .fullscreenDivHolder .phrase {
+    margin-top: 1.75em;
+    font-size: 1em;
+}
+
+.explain .d_table, .fullscreenDivHolder .d_table {
+    position: relative;
+    margin: 1.75em 0;
+}
+
+.explain .d_table .d_table_tit, .fullscreenDivHolder .d_table .d_table_tit {
+    padding: 10px;
+    background-color: #25649f;
+    color: #ffffff;
+    font-size: 13px;
+}
+
+.explain .d_table .d_table_tit:after, .fullscreenDivHolder .d_table .d_table_tit:after {
+    display: block;
+    clear: both;
+    content: '';
+}
+
+.explain .d_table_tit .tit_left, .fullscreenDivHolder .d_table_tit .tit_left {
+    float: left;
+}
+
+.explain .d_table_tit .tit_right, .fullscreenDivHolder .d_table_tit .tit_right {
+    float: right;
+}
+
+.explain .d_table .d_table_txt, .fullscreenDivHolder .d_table .d_table_txt {
+    padding: 10px;
+    background-color: #eeeeee;
+}
+
+.explain .d_table .arg_tit, .fullscreenDivHolder .d_table .arg_tit {
+    font-weight: bold;
+}
+
+.explain .d_table .arg_ex, .fullscreenDivHolder .d_table .arg_ex {
+    font-size: 13px;
+}
+
+.explain .pinch {
+    position: relative;
+    max-width: 960px;
+    margin:20px 0;
+    padding-top: 56.25%;
+    border: 1px solid #ddd;
+}
+
+@media screen and (max-width: 420px) {
+    html {
+        font-size: 12px
+    }
+}
+
+@media screen and (max-width: 367px) {
+    html {
+        font-size: 11px
+    }
+}

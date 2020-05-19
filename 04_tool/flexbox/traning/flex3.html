@@ -1,0 +1,253 @@
+<!DOCTYPE HTML>
+<html lang="ko-KR">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>플렉스박스 크로스브라우징</title>
+<link rel="stylesheet" href="reset.css" />
+<link rel="stylesheet" href="prism.css" />
+<link rel="stylesheet" href="guide_common.css" />
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="prism.js"></script>
+</head>
+
+<body>
+<pre class="line-numbers" data-line="1,8,13,18,29-30,43,76,89-90,97,103,108,112,119,148,179,200,225">
+	<code class="language-css">
+<h1 class="pre_tit">/* 플렉스박스 webkit 이슈 */</h1>
+<p class="pre_cont">웹킷 계열 브라우저에서는 폼 콘트롤 요소가 플렉스 아이템이 되지 않기 때문에 플렉스 흐름에 참여하지 않습니다. 
+폼 콘트롤 요소가 플렉스 아이템이 되어 플렉스 흐름에 참여하도록 하려면 
+-webkit-appearance:none; 
+처리해야 합니다. 
+<mark>이 문제는 Android 뿐만 아니라 웹킷 계열 브라우저(Chrome, Safari) 공통의 문제입니다.</mark></p>	
+
+<h1 class="pre_tit">/* 안드로이드 2.1~4.3 이슈 */</h1>
+<p class="pre_cont">안드로이드 2.1~4.3 브라우저는 2009년 플렉스 명세에 <mark>-webkit-</mark> 접두사를 붙여야 지원할 수 있습니다. 
+지원하는 속성 수가 최신 표준에 비해 적고 속성 전체 목록을 확인해 보면 단축 속성은 지원하지 않습니다. 
+안드로이드 4.4 이후 버전부터는 최신 표준 명세를 지원하고 있으며 제조사 접두어는 필요 없습니다.</p>	
+
+<h1 class="pre_tit">/* IE 10 이슈 */</h1>
+<p class="pre_cont">IE 9 이하 버전 브라우저는 플렉스 명세를 지원하지 않습니다. 
+IE 10 브라우저는 2012년의 플렉스 명세를 지원합니다. 
+IE 10 브라우저를 지원하려면 2012년 플렉스 속성에 <mark>-ms-</mark> 제조사 접두어를 붙여야 합니다.</p>	
+
+<h1 class="pre_tit">/* 안드로이드 2.1~4.3 + IE 10 지원하기 */</h1>
+<p class="pre_cont">아래는 안드로이드 2.1~4.3 브라우저와 IE 10 브라우저에 모두 대응하기 위한 코드를 정리해 둔 것입니다. 
+안드로이드 2.1~4.3 브라우저와 IE 10 브라우저를 모두 지원해야 하는 상황을 가정하고 예제 코드를 만들었습니다. 
+
+안드로이드 2.1~4.3 브라우저와 IE 10 브라우저가 공통으로 지원하지 않는 속성은 
+flex-flow, justify-content:space-around, align-self, align-content 
+입니다. 
+
+IE 10 브라우저는 표준 명세의 flex-grow, flex-shrink, flex-basis 속성을 지원하지 않고,
+단축 속성인 -ms-flex: 0 1 auto; 속성과 값을 지원합니다.</p>	
+
+<h1 class="pre_tit">/* 플렉스박스 컨테이너 관련 속성들 */</h1>
+<p class="pre_cont">다음은 크로스 브라우징을 위한 flex 박스 선언 방법입니다.</p>
+	display: -webkit-box;				<span class="no_select">/* OLD - iOS 6-, Safari 3.1-6 */</span>
+	display: -moz-box;				<span class="no_select">/* OLD - Firefox 19- (buggy but mostly works) */</span>
+	display: -webkit-flex;				<span class="no_select">/* NEW - Chrome */</span>
+	display: -ms-flexbox;				<span class="no_select">/* TWEENER - IE 10 */</span>
+	display: flex;
+
+	display: -webkit-inline-box;		<span class="no_select">/* OLD - iOS 6-, Safari 3.1-6 */</span>
+	display: -moz-inline-box;		<span class="no_select">/* OLD - Firefox 19- (buggy but mostly works) */</span>
+	display: -webkit-inline-flex;		<span class="no_select">/* NEW - Chrome */</span>
+	display: -ms-inline-flexbox;		<span class="no_select">/* TWEENER - IE 10 */</span>
+	display: inline-flex;
+
+	<h2 class="pre_tit2">/* 플렉스박스 direction : default 값 = row */</h2>
+	-webkit-box-direction: reverse;
+	-webkit-box-orient: horizontal;
+	-moz-box-direction: reverse;
+	-moz-box-orient: horizontal;
+	-webkit-flex-direction: row-reverse;
+	-ms-flex-direction: row-reverse;
+	flex-direction: row-reverse;
+
+	-webkit-box-direction: normal;
+	-webkit-box-orient: vertical;
+	-moz-box-direction: normal;
+	-moz-box-orient: vertical;
+	-webkit-flex-direction: column ;
+	-ms-flex-direction: column ;
+	flex-direction: column ;
+
+	-webkit-box-direction: reverse;
+	-webkit-box-orient: vertical;
+	-moz-box-direction: reverse;
+	-moz-box-orient: vertical;
+	-webkit-flex-direction: column-reverse;
+	-ms-flex-direction: column-reverse;
+	flex-direction: column-reverse;
+
+	-webkit-box-direction: normal;
+	-webkit-box-orient: horizontal;
+	-moz-box-direction: normal;
+	-moz-box-orient: horizontal;
+	-webkit-flex-direction: row;
+	-ms-flex-direction: row;
+	flex-direction: row;
+
+	<h2 class="pre_tit2">/* 플렉스박스 wrap : default값 = nowrap */</h2>
+	-webkit-flex-wrap: nowrap;
+	-ms-flex-wrap: none;
+	flex-wrap: nowrap;
+	
+	-webkit-flex-wrap: wrap;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	
+	-webkit-flex-wrap: wrap-reverse;
+	-ms-flex-wrap: wrap-reverse;
+	flex-wrap: wrap-reverse;
+	
+<h2 class="pre_tit">/* 플렉스박스 아이템 관련 속성들 */</h1>
+	<h2 class="pre_tit2">/* 플렉스박스 order : default값 = 0 */</h2>
+	-webkit-box-ordinal-group: 1;
+	-moz-box-ordinal-group: 1;
+	-webkit-order: 1;
+	-ms-flex-order: 1;
+	order: 1;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 flex-grow : default값 = 0 */</h2>
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-webkit-flex-grow: 1;
+	flex-grow: 1;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 flex-shrink : default값 = 0 */</h2>
+	-webkit-flex-shrink: 0;
+	-moz-flex-shrink: 0;
+	flex-shrink: 0;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 flex-basis : default값 = auto */</h2>
+	-webkit-flex-basis: auto;
+	flex-basis: auto;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 flex : flex-grow, flex-shrink, flex-basis 합친거 */</h2>
+	-webkit-box: 1;
+	-moz-box: 1;
+	-webkit-flex: 1 1 auto;
+	-ms-flex: 1 1 auto;
+	flex: 1 1 auto;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 justify content : default값 = flex-start */</h2>
+	-webkit-box-pack: start;
+	-moz-box-pack: start;
+	-ms-flex-pack: start;
+	-webkit-justify-content: flex-start;
+	justify-content: flex-start;
+	
+	-webkit-box-pack: end;
+	-moz-box-pack: end;
+	-ms-flex-pack: end;
+	-webkit-justify-content: flex-end;
+	justify-content: flex-end;
+	
+	-webkit-box-pack: justify;
+	-moz-box-pack: justify;
+	-ms-flex-pack: justify;
+	-webkit-justify-content: space-between;
+	justify-content: space-between;
+	
+	-ms-flex-pack: distribute;
+	-webkit-justify-content: space-around;
+	justify-content: space-around;
+	
+	-webkit-box-pack: center;
+	-moz-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 align items : default값 = stretch */</h2>
+	-webkit-box-align: start;
+	-moz-box-align: start;
+	-ms-flex-align: start;
+	-webkit-align-items: flex-start;
+	align-items: flex-start;
+	
+	-webkit-box-align: end;
+	-moz-box-align: end;
+	-ms-flex-align: end;
+	-webkit-align-items: flex-end;
+	align-items: flex-end;
+	
+	-webkit-box-align: stretch;
+	-moz-box-align: stretch;
+	-ms-flex-align: stretch;
+	-webkit-align-items: stretch;
+	align-items: stretch;
+	
+	-webkit-box-align: center;
+	-moz-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+	
+	-webkit-box-align: baseline;
+	-moz-box-align: baseline;
+	-ms-flex-align: baseline;
+	-webkit-align-items: baseline;
+	align-items: baseline;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 align self : default값 = auto */</h2>
+	-webkit-align-self: flex-start;
+	-ms-flex-item-align: start;
+	align-self: flex-start;
+	
+	-webkit-align-self: flex-end;
+	-ms-flex-item-align: end;
+	align-self: flex-end;
+	
+	-webkit-align-self: center;
+	-ms-flex-item-align: center;
+	align-self: center;
+	
+	-webkit-align-self: baseline;
+	-ms-flex-item-align: baseline;
+	align-self: baseline;
+	
+	-webkit-align-self: stretch;
+	-ms-flex-item-align: stretch;
+	align-self: stretch;
+	
+	<h2 class="pre_tit2">/* 플렉스박스 align contentSection : default값 = stretch */</h2>
+	-webkit-align-content: flex-start;
+	-ms-flex-line-pack: start;
+	align-content: flex-start;
+	
+	-webkit-align-content: flex-end;
+	-ms-flex-line-pack: end;
+	align-content: flex-end;
+	
+	-webkit-align-content: center;
+	-ms-flex-line-pack: center;
+	align-content: center;
+	
+	-webkit-align-content: space-between;
+	-ms-flex-line-pack: space-between;
+	align-content: space-between;
+	
+	-webkit-align-content: space-around;
+	-ms-flex-line-pack: space-around;
+	align-content: space-around;
+	
+	-webkit-align-content: stretch;
+	-ms-flex-line-pack: stretch;
+	align-content: stretch;
+	
+<h1 class="pre_tit">이렇게 하면 지원 가능한 범위</h1>
+Chrome any
+Firefox any
+Safari any
+Opera 12.1+
+IE 10+
+iOS any
+Android any
+	</code>
+</pre>
+</body>
+</html>

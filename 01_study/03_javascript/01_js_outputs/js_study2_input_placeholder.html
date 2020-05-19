@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>input text</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+
+        input[type="text"] {
+            -moz-appearance: button; /* Firefox */
+            -webkit-appearance: button; /* Safari and Chrome */
+            appearance: button;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-text {
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ddd;
+        }
+
+        .input-text, .input-hint {
+            font-size: 14px;
+            line-height: 1.43;
+        }
+
+        .placeholder {
+            position: relative;
+        }
+
+        .input-hint {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: #ccc;
+        }
+
+        .error_msg {
+            position: absolute;
+            left: 0;
+            bottom: -30px;
+            z-index: 10;
+            background-color: #fff;
+            display: none;
+            color: #ff0000
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- https://ibrahimovic.tistory.com/30 -->
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">IE8+</dd>
+            <dd class="d_txt">only javascript 활용</dd>
+            <dt class="d_tit">장애</dt>
+            <dd class="d_txt">pointer-events 속성이 IE10 이하에선 적용 안됨</dd>
+            <dd class="d_txt">placeholder 부분 클릭시 해당 input focus되도록 작성</dd>
+        </dl>
+    </div>
+
+    <div class="input-wrapper">
+        <label for="your-id">
+            your id
+        </label>
+        <div class="placeholder">
+            <input id="your-id" class="input-text" type="text"/>
+            <p class="input-hint">your id</p>
+        </div>
+        <p class="error_msg">email 주소</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="input-wrapper">
+        <label for="your-password">
+            your password
+        </label>
+        <div class="placeholder">
+            <input id="your-password" class="input-text" type="text"/>
+            <p class="input-hint">your password</p>
+        </div>
+        <p class="error_msg">한글, 영어, 숫자 10자리 이상</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <div class="input-wrapper">
+        <label for="your-phone">
+            your phone number
+        </label>
+        <div class="placeholder">
+            <input id="your-phone" class="input-text" type="text"/>
+            <p class="input-hint">your phone number</p>
+        </div>
+        <p class="error_msg">다음 형식을 지켜주세요. 010-0000-0000</p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+</div>
+
+<script type="text/javascript">
+    // IE8 클래스명 선택 함수
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+
+    // IE8 indexOf 프로퍼티 생성
+    if (!Array.indexOf) {
+        Array.prototype.indexOf = function (obj, start) {
+            for (var i = (start || 0); i < this.length; i++) {
+                if (this[i] == obj) {
+                    return i;
+                }
+            }
+        }
+    }
+
+    function placeholder(wrapName, inputName, hintName, errorName) {
+        var wrap = getElementsByClassNameCompatible(wrapName),
+            input = [],
+            hint = [],
+            error = [];
+
+        for (var i = 0; i < wrap.length; i++) {
+            input.push(wrap[i].querySelector("." + inputName));
+            hint.push(wrap[i].querySelector("." + hintName));
+            error.push(wrap[i].querySelector("." + errorName));
+        }
+
+        if (window.addEventListener) {
+            for (var l = 0; l < hint.length; l++) {
+                hint[l].addEventListener("click", function () {
+                    input[hint.indexOf(this)].focus();
+                })
+            }
+            for (var j = 0; j < input.length; j++) {
+                input[j].addEventListener("focus", function () {
+                    hint[input.indexOf(this)].style.display = "none";
+                    error[input.indexOf(this)].style.display = "block";
+                })
+            }
+            for (var k = 0; k < input.length; k++) {
+                input[k].addEventListener("blur", function () {
+                    hint[input.indexOf(this)].style.display = "block";
+                    error[input.indexOf(this)].style.display = "none";
+                })
+            }
+        } else if (window.attachEvent) {
+            for (var l = 0; l < hint.length; l++) {
+                hint[l].onclick = function () {
+                    input[hint.indexOf(this)].focus();
+                }
+            }
+            for (var j = 0; j < input.length; j++) {
+                input[j].onfocus = function () {
+                    hint[input.indexOf(this)].style.display = "none";
+                    error[input.indexOf(this)].style.display = "block";
+                }
+            }
+            for (var k = 0; k < input.length; k++) {
+                input[k].onblur = function () {
+                    hint[input.indexOf(this)].style.display = "block";
+                    error[input.indexOf(this)].style.display = "none";
+                }
+            }
+        }
+    }
+
+    placeholder('input-wrapper', 'input-text', 'input-hint', 'error_msg');
+</script>
+</body>
+</html>

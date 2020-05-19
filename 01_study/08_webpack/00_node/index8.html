@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">파일을 읽을 때 코드를 동기적으로 실행할 수도 있나요?</h1>
+        <dl>
+            <dt class="d_tit">파일을 읽을 때 코드를 동기적으로 실행할 수도 있나요?</dt>
+            <dd class="d_txt">
+                File System 모듈의 readFileSync() 를 사용하면 코드를 동기적으로 수행할 수 있습니다. <br>
+                readFileSync.js 파일을 생성한 후 다음과 같이 코드를 입력하여 이를 확인해 보겠습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node12.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                readFile.js 파일과 사용법은 비슷한데, fs.readFile() 대신 fs.readFileSync() 메소드를 사용하여 읽은 파일의 경로를 인자(Argument)로 전달합니다.
+                <br>
+                그리고 변수 data에 이를 참조한 후 console.log() 메소드를 사용하여 변수 data 값을 콘솔에 출력합니다. <br>
+                이제 Git Bash에서 <strong>node readFileSync.js</strong> 명령어를 실행하면 코드가 순차적으로 실행됩니다. <br>
+                즉, fs.readFileSync() 메소드 업무가 종료된 후에야 '프로세스 끝' 메시지를 출력합니다. <br>
+                (프로세스 시작 &gt; fs.readFileSync() &gt; 프로세스 끝 순서로 실행됩니다.)
+            </dd>
+            <dd class="d_txt" style="margin-top:50px">
+                읽은 user.json 파일의 데이터 이름(name)에 접근하여 값(value)을 출력하겠습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node13.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                예상했던 hyungju-lee가 아닌 undefined 결과가 출력됩니다. <br>
+                '정의된 적이 없다'는 이 메시지는 정상적으로 출력할 값을 찾지 못했다는 의미입니다. <br>
+                무엇이 문제일까요?
+            </dd>
+            <dd class="d_txt" style="margin-top:50px">
+                JSON 데이터를 자바스크립트 객체(Object)화하지 않아 정상적으로 키를 이용하여 값에 접근할 수 없었기 때문입니다. <br>
+                JSON 개요(<a href="http://www.json.org/json-ko.html" target="_blank">http://www.json.org/json-ko.html</a>)를 보면,
+                <br>
+                JSON은 '경량 DATA-교환 형식의 텍스트 문서'입니다. 이를 자바스크립트에서 사용하려면 자바스크립트 객체 형태로 변환해야 합니다. <br>
+                <br>
+                Node.js 환경은 JSON 데이터를 해석할 수 있는 JSON 객체를 기본적으로 지원합니다. <br>
+                그러므로 JSON.parse() 메소드를 사용하면 텍스트 형태의 JSON 데이터를 자바스크립트 객체로 손쉽게 변경할 수 있습니다. <br>
+                다음과 같이 코드를 수정합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node14.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <strong>(JSON 객체는 홀따옴표를 사용하지 않습니다. 쌍따옴표를 사용합니다!)</strong> <br>
+                위와 같이 수정하여 <strong>node readFileSync.js</strong> 명령어를 실행하면, 이번에는 오류 없이 hyungju-lee 값이 정상적으로 출력됩니다.
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

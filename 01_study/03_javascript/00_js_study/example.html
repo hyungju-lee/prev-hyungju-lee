@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>return</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">클로져, 즉시실행함수, this 예제소스들</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var b = [
+                            {name:"LHJ", id:0},
+                            {name:"JJJ", id:0},
+                            {name:"AAA", id:0}
+                        ]
+
+                         var i;
+                            var num = 100;
+                            for (i=0; i&lt;b.length; i++) {
+                                b[i].id = ccc();
+                            }
+
+                        function ccc(){
+                            return num+i;
+                        };
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var b = [
+                            {name:"LHJ", id:0},
+                            {name:"JJJ", id:0},
+                            {name:"AAA", id:0}
+                        ]
+
+                        var ccc = function (){
+                            return num+i;
+                        };
+
+                        var i;
+                        var num = 100;
+                        for (i=0; i&lt;b.length; i++) {
+                            b[i].id = ccc();
+                        }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var b = [
+                            {name:"LHJ", id:0},
+                            {name:"JJJ", id:0},
+                            {name:"AAA", id:0}
+                        ]
+
+                        var i;
+                        var num = 100;
+                        for (i=0; i&lt;b.length; i++) {
+                            b[i].id = (function (){
+                                return num+i;
+                            })();
+                        }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var b = [
+                            {name:"LHJ", id:0},
+                            {name:"JJJ", id:0},
+                            {name:"AAA", id:0}
+                        ]
+
+                        var i;
+                        var num = 100;
+                        for (i=0; i&lt;b.length; i++) {
+                            b[i].id = function (){
+                                return num+i;
+                            };
+                        }
+                    </code>
+                </pre>
+
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        (function (win, $) {
+                            var function1 = {
+                                init: function () {
+                                    this.setElements();
+                                    this.bindEvents();
+                                },
+                                setElements: function () {
+                                    this.btn = $('.btn');
+                            this.btn2 = $('.btn2');
+                                },
+                                bindEvents: function () {
+                                    this.btn.on('click', this.func1);
+                                    this.btn2.on('click', $.proxy(this.func2, this));
+                                },
+                                func1: function () {
+
+                                },
+                                func2: function () {
+
+                                },
+                            };
+                            function1.init();
+                        })(window, window.jQuery);
+                    </code>
+                </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

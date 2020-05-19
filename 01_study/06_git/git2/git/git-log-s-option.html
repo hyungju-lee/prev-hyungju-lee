@@ -1,0 +1,49 @@
+<style>
+    .git-sub caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+    .git-sub{table-layout:fixed;border-collapse:collapse}
+    .git-sub th{padding:10px;background-color:#eee;text-align:center}
+    .git-sub td{padding:10px;}
+</style>
+<table class="git-sub">
+    <caption>git log 조회 범위를 제한하는 옵션</caption>
+    <colgroup>
+        <col width="50px">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th scope="col">옵션</th>
+        <th scope="col">설명</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>-(n)</td>
+        <td>최근 n 개의 커밋만 조회한다.</td>
+    </tr>
+    <tr>
+        <td>--since, --after</td>
+        <td>명시한 날짜 이후의 커밋만 검색한다.</td>
+    </tr>
+    <tr>
+        <td>--until, --before</td>
+        <td>명시한 날짜 이전의 커밋만 조회한다.</td>
+    </tr>
+    <tr>
+        <td>--author</td>
+        <td>입력한 저자의 커밋만 보여준다.</td>
+    </tr>
+    <tr>
+        <td>%--committer</td>
+        <td>입력한 커미터의 커밋만 보여준다.</td>
+    </tr>
+    <tr>
+        <td>--grep</td>
+        <td>커밋 메시지 안의 텍스트를 검색한다.</td>
+    </tr>
+    <tr>
+        <td>-S</td>
+        <td>커밋 변경(추가/삭제) 내용 안의 텍스트를 검색한다.</td>
+    </tr>
+    </tbody>
+</table>

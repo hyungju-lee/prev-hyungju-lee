@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>issue</title>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/prism.css">
+    <link rel="stylesheet" href="../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">업무일지 라인 1주차</h1>
+        <dl>
+            <dt class="d_tit">업무일지 라인 1주차</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-scss">
+                    반복문 scss
+
+                    @for $i from 1 through 8 {
+                        @if $i < 10 {
+                            &--bg-env#{$i} {
+                                background-image: url('../img/transfer/ic-envelope-0' + $i + '.png');
+                            }
+                        } @else {
+                            &--bg-env#{$i} {
+                                background-image: url('../img/transfer/ic-envelope' + $i + '.png');
+                            }
+                        }
+                    }
+                    @for $j from 1 through 7 {
+                        @if $j < 10 {
+                            &--bg-msg#{$j} {
+                                background-image: url('../img/transfer/ic-messagecard-0' + $j + '.png');
+                            }
+                        } @else {
+                        &--bg-msg#{$j} {
+                            background-image: url('../img/transfer/ic-messagecard' + $j + '.png');
+                        }
+                    }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                    파일리스트 추출하기
+
+                    const fs = require('fs');
+                    const testFolder = './assets_99_resource_down_2020-02-04';
+                    const cont = fs.readdirSync(testFolder);
+                    const strCont = JSON.stringify(cont);
+                    const cont2 = strCont.replace(/,/gi, "\n").replace(/"/gi, "").replace(/\[/gi, "").replace(/]/gi, "");
+                    const cont3 = cont2.replace(/ \(기존\)/gi, "").replace(/ \(기초\)/gi, "");
+                    const cont4 = cont3.replace(/.*\(대체\).png\n/gi, "");
+
+                    fs.writeFileSync('list.txt', cont4);
+
+                    -------------------------------------------------------------------------
+
+                    swiper free mode issue
+
+                    var mycardSwiper = new Swiper('.mycard__swiper', {
+                        slidesPerView: 'auto',
+                        wrapperClass: 'swiper__inner',
+                        slideClass: 'mycard__img',
+                        observer: true,
+                        freeMode: true
+                    });
+
+
+                    display:none 되어있는 부분
+                    observer로 해결
+
+                    -------------------------------------------------------------------------
+
+                    swiper free mode issue (free mode 아니더라도 이 옵션은 필수일듯)
+
+                    watchOverflow 옵션,
+                    슬라이드가 딱히 필요없는 상황에선 슬라이드를 적용 안하는 옵션(자동으로 알아서 판단할수있게 해주는 옵션)
+
+                    var mycardSwiper = new Swiper('.mycard__swiper--vertical', {
+                        slidesPerView: 'auto',
+                        wrapperClass: 'swiper__inner',
+                        slideClass: 'swiper__img',
+                        watchOverflow: true,
+                        observer: true,
+                        freeMode: true
+                    });
+                    </code>
+                </pre>
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../js/prism.js"></script>
+</body>
+</html>

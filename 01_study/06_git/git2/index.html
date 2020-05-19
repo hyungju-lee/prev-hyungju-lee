@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>tool</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrap">
+    <div id="html" class="html">
+
+    </div>
+</div>
+
+    <div class="menu">
+        <button type="button" class="btn-close">+</button>
+        <div class="menu-all">
+            <div class="menu-area" data-sort="git">
+                <h1 class="title">Git Study</h1>
+                <h2 class="tit">1.3 git basic</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="checksum">24b9da6552252987aa493b52f8696cd6d3b00373</button>
+                    <button type="button" class="btn" data-name="git-data">Git은 데이터를 추가할 뿐</button>
+                    <button type="button" class="btn" data-name="git-file">Committed, Modified, Staged</button>
+                </div>
+                <h2 class="tit">1.4 CLI</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-cli">왜 CLI?</button>
+                </div>
+                <h2 class="tit">1.6 First-Time Git Setup</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-config">git config</button>
+                    <button type="button" class="btn" data-name="git-config2">$ git config --global user.name</button>
+                    <button type="button" class="btn" data-name="git-config3">$ git config --global user.email</button>
+                    <button type="button" class="btn" data-name="git-config-global">--global 옵션</button>
+                    <button type="button" class="btn" data-name="git-config-editor">$ git config --global core.editor emacs</button>
+                    <button type="button" class="btn" data-name="git-config-list">$ git config --list</button>
+                    <button type="button" class="btn" data-name="git-config-list2">$ git config user.name</button>
+                    <button type="button" class="btn" data-name="git-config-note">NOTE</button>
+                </div>
+                <h2 class="tit">1.7 Git Help</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-help">$ git help config</button>
+                    <button type="button" class="btn" data-name="git-help2">$ git add -h</button>
+                </div>
+                <h2 class="tit">2.1 Git 저장소 만들기</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-init">$ git init</button>
+                    <button type="button" class="btn" data-name="git-file-mg">$ git commit -m 'initial project version'</button>
+                    <button type="button" class="btn" data-name="git-clone">$ git clone https://github.com/libgit2/libgit2</button>
+                    <button type="button" class="btn" data-name="git-clone2">$ git clone https://github.com/libgit2/libgit2 mylibgit</button>
+                </div>
+                <h2 class="tit">2.2 수정하고 저장소에 저장하기</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-lifecycle">git lifecycle</button>
+                    <button type="button" class="btn" data-name="git-status">$ git status</button>
+                    <button type="button" class="btn" data-name="git-status2">$ git status : Untracked</button>
+                    <button type="button" class="btn" data-name="git-add">$ git add README</button>
+                    <button type="button" class="btn" data-name="git-add2">$ git add CONTRIBUTING.md</button>
+                    <button type="button" class="btn" data-name="git-status-s">$ git status -s</button>
+                    <button type="button" class="btn" data-name="git-ignore">.gitignore</button>
+                    <button type="button" class="btn" data-name="git-ignore2">.gitignore 예제</button>
+                    <button type="button" class="btn" data-name="git-ignore3">.gitignore NOTE</button>
+                    <button type="button" class="btn" data-name="git-diff">$ git diff</button>
+                    <button type="button" class="btn" data-name="git-diff2">$ git diff --staged</button>
+                    <button type="button" class="btn" data-name="git-diff3">꼭 잊지 말아야 할 것</button>
+                    <button type="button" class="btn" data-name="git-diff4">$ git diff --cached(== --satged)</button>
+                    <button type="button" class="btn" data-name="git-difftool">$ git difftool</button>
+                    <button type="button" class="btn" data-name="git-commit">$ git commit</button>
+                    <button type="button" class="btn" data-name="git-commit-m">$ git commit -m "Story 182: Fix benchmarks for speed"</button>
+                    <button type="button" class="btn" data-name="git-commit-a-m">$ git commit -a -m 'added new benchmarks'</button>
+                    <button type="button" class="btn" data-name="rm">$ rm PROJECTS.md</button>
+                    <button type="button" class="btn" data-name="git-rm">$ git rm PROJECTS.md</button>
+                    <button type="button" class="btn" data-name="git-rm-cached">$ git rm --cached README</button>
+                    <button type="button" class="btn" data-name="git-rms">$ git rm log/\*.log</button>
+                    <button type="button" class="btn" data-name="git-filename">$ git mv file_from file_to</button>
+                </div>
+                <h2 class="tit">2.3 커밋 히스토리 조회하기</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-log">$ git log</button>
+                    <button type="button" class="btn" data-name="git-log-p">$ git log -p -2 / $ git log --patch -2</button>
+                    <button type="button" class="btn" data-name="git-log-stat">$ git log --stat</button>
+                    <button type="button" class="btn" data-name="git-log-pretty">$ git log --pretty=oneline (short, full, fuller)</button>
+                    <button type="button" class="btn" data-name="git-log-pretty-format">$ git log --pretty=format:"%h - %an, %ar : %s"</button>
+                    <button type="button" class="btn" data-name="git-log-pretty-format2">git log --pretty=format 에 쓸 몇가지 유용한 옵션</button>
+                    <button type="button" class="btn" data-name="git-log-since">$ git log --since=2.weeks</button>
+                    <button type="button" class="btn" data-name="git-log-s">$ git log -S function_name</button>
+                    <button type="button" class="btn" data-name="git-log-s-option">git log 조회 범위를 제한하는 옵션</button>
+                    <button type="button" class="btn" data-name="git-merge">$ git log --pretty="%h - %s" --author=gitster --since="2008-10-01" \
+                        --before="2008-11-01" --no-merges -- t/</button>
+                </div>
+                <h2 class="tit">2.4 되돌리기</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-amend">$ git commit --amend</button>
+                    <button type="button" class="btn" data-name="git-unstaged">$ git reset HEAD CONTRIBUTING.md</button>
+                    <button type="button" class="btn" data-name="git-reset2">$ git checkout -- CONTRIBUTING.md</button>
+                </div>
+                <h2 class="tit">2.5 리모트 저장소</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-remote">리로트 저장소</button>
+                    <button type="button" class="btn" data-name="git-remote2">$ git clone https://github.com/schacon/ticgit</button>
+                    <button type="button" class="btn" data-name="git-remote3">$ git remote add pb https://github.com/paulboone/ticgit</button>
+                    <button type="button" class="btn" data-name="git-remote4">$ git fetch &lt;remote&gt;, FETCH_HEAD (가상의 브랜치)</button>
+                    <button type="button" class="btn" data-name="git-remote5">$ git push origin master</button>
+                    <button type="button" class="btn" data-name="git-remote6">$ git remote show origin</button>
+                    <button type="button" class="btn" data-name="git-remote7">$ git remote rename pb paul / $ git remote remove paul</button>
+                </div>
+                <h2 class="tit">2.6 태그</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-tag">태그</button>
+                    <button type="button" class="btn" data-name="git-tag2">$ git tag</button>
+                    <button type="button" class="btn" data-name="git-tag3">$ git tag -l "v1.8.5*"</button>
+                    <button type="button" class="btn" data-name="git-tag4">Annotated / Lightweight</button>
+                    <button type="button" class="btn" data-name="git-tag5">$ git tag -a v1.2 9fceb02</button>
+                    <button type="button" class="btn" data-name="git-tag6">$ git push origin v1.5</button>
+                    <button type="button" class="btn" data-name="git-tag7">$ git checkout 2.0.0</button>
+                </div>
+                <h2 class="tit">2.7 Git Alias</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-alias">Git Alias</button>
+                    <button type="button" class="btn" data-name="git-alias2">$ git config --global alias.co checkout</button>
+                </div>
+                <h2 class="tit">3.1 브랜치란 무엇인가</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-branch">브랜치란 무엇인가</button>
+                    <button type="button" class="btn" data-name="git-branch2">브랜치란 무엇인가2</button>
+                    <button type="button" class="btn" data-name="git-branch3">$ git branch testing, $ git log --oneline --decorate</button>
+                    <button type="button" class="btn" data-name="git-branch4">$ git checkout testing</button>
+                    <button type="button" class="btn" data-name="git-branch5">Note</button>
+                    <button type="button" class="btn" data-name="git-branch6">$ git log --oneline --decorate --graph --all</button>
+                </div>
+                <h2 class="tit">3.2 브랜치와 Merge 의 기초</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-merge">브랜치와 Merge 의 기초</button>
+                    <button type="button" class="btn" data-name="git-merge2">브랜치의 기초</button>
+                    <button type="button" class="btn" data-name="git-merge3">Merge의 기초</button>
+                    <button type="button" class="btn" data-name="git-merge4">충돌의 기초</button>
+                    <button type="button" class="btn" data-name="git-merge5">$ git mergetool, $ git status</button>
+                </div>
+                <h2 class="tit">3.3 브랜치 관리</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-manager">$ git branch</button>
+                    <button type="button" class="btn" data-name="git-manager2">$ git branch -v</button>
+                    <button type="button" class="btn" data-name="git-manager3">$ git branch --merged</button>
+                    <button type="button" class="btn" data-name="git-manager4">$ git branch --no-merged</button>
+                    <button type="button" class="btn" data-name="git-manager5">TIP</button>
+                </div>
+                <h2 class="tit">3.4 브랜치 워크플로</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-workflow">브랜치 워크플로</button>
+                    <button type="button" class="btn" data-name="git-workflow2">Long-Running 브랜치</button>
+                    <button type="button" class="btn" data-name="git-workflow3">토픽 브랜치</button>
+                </div>
+                <h2 class="tit">3.5 remote branch</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="ls-remote">$ git ls-remote origin</button>
+                    <button type="button" class="btn" data-name="remote-show">$ git remote show origin</button>
+                    <button type="button" class="btn" data-name="git-remote">리모트 트래킹 브랜치</button>
+                    <button type="button" class="btn" data-name="git-remote-note">NOTE</button>
+                    <button type="button" class="btn" data-name="remote-push">$ git push origin serverfix</button>
+                    <button type="button" class="btn" data-name="remote-push2">NOTE</button>
+                    <button type="button" class="btn" data-name="remote-merge">$ git merge origin/serverfix</button>
+                    <button type="button" class="btn" data-name="remote-fetch">$ git fetch origin</button>
+                    <button type="button" class="btn" data-name="remote-branch">$ git checkout -b serverfix origin/serverfix</button>
+                    <button type="button" class="btn" data-name="remote-branch2">$ git checkout --track origin/serverfix</button>
+                    <button type="button" class="btn" data-name="remote-branch2-note">NOTE</button>
+                    <button type="button" class="btn" data-name="remote-branch3">$ git checkout serverfix</button>
+                    <button type="button" class="btn" data-name="remote-branch4">$ git checkout -b sf origin/serverfix</button>
+                    <button type="button" class="btn" data-name="remote-branch5">$ git branch -u origin/serverfix</button>
+                    <button type="button" class="btn" data-name="remote-branch6">$ git branch -vv</button>
+                    <button type="button" class="btn" data-name="remote-branch7">$ git fetch --all; git branch -vv</button>
+                    <button type="button" class="btn" data-name="remote-branch8">$ git push origin --delete serverfix</button>
+                    <button type="button" class="btn" data-name="remote-branch9">$ git push origin --delete serverfix</button>
+                </div>
+
+                <h2 class="tit">3.5.xx remote branch 접근 방법</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="remote-branch10">$ remote branch 접근 방법</button>
+
+                </div>
+
+                <h2 class="tit">3.6 rebase</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-rebase">Rebase 하기</button>
+                    <button type="button" class="btn" data-name="git-rebase2">Rebase 의 기초</button>
+                    <button type="button" class="btn" data-name="git-rebase3">Rebase 활용</button>
+                    <button type="button" class="btn" data-name="git-rebase4">Rebase의 위험성</button>
+                    <button type="button" class="btn" data-name="git-rebase5">이미 공개 저장소에 Push 한 커밋을 Rebase 하지 마라</button>
+                    <button type="button" class="btn" data-name="git-rebase6">Rebase 한 것을 다시 Rebase 하기</button>
+                    <button type="button" class="btn" data-name="rebase">$ git checkout experiment; $ git rebase master</button>
+                    <button type="button" class="btn" data-name="rebase-onto">$ git rebase --onto master server client</button>
+                    <button type="button" class="btn" data-name="rebase2">$ git rebase master server</button>
+                    <button type="button" class="btn" data-name="rebase3">$ git rebase teamone/master</button>
+                    <button type="button" class="btn" data-name="rebase4">$ git pull --rebase</button>
+                    <button type="button" class="btn" data-name="rebase5">$ git config --global pull.rebase true</button>
+                    <button type="button" class="btn" data-name="rebase6">$ git pull --rebase</button>
+                    <button type="button" class="btn" data-name="rebase-merge">Rebase vs. Merge</button>
+                </div>
+
+                <h2 class="tit">3.6.XX git commit 기록 바꾸는 방법</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-commit-change00">바로 직전 커밋 바꾸기</button>
+                    <button type="button" class="btn" data-name="git-commit-change01">이전 커밋 바꾸기</button>
+
+                </div>
+
+                <h2 class="tit">7.3 Git 도구 - Stashing과 Cleaning</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name=""></button>
+
+                </div>
+
+                <h2 class="tit">7.6 히스토리 단장하기</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-reset7">히스토리 단장하기</button>
+                    <button type="button" class="btn" data-name="git-reset8">마지막 커밋을 수정하기</button>
+                    <button type="button" class="btn" data-name="git-reset9">커밋 메시지를 여러 개 수정하기</button>
+                    <button type="button" class="btn" data-name="git-reset10">커밋 순서 바꾸기</button>
+                    <button type="button" class="btn" data-name="git-reset11">커밋 합치기</button>
+                    <button type="button" class="btn" data-name="git-reset12">커밋 분리하기</button>
+                    <button type="button" class="btn" data-name="git-reset13">filter-branch는 포크레인</button>
+
+                </div>
+
+
+                <h2 class="tit">7.7 reset 명확히 알고 가기</h2>
+                <div class="btn-area">
+                    <button type="button" class="btn" data-name="git-reset">Reset 명확히 알고 가기</button>
+                    <button type="button" class="btn" data-name="git-reset3">$ git reset HEAD~</button>
+                    <button type="button" class="btn" data-name="git-reset4">경로를 주고 Reset 하기</button>
+                    <button type="button" class="btn" data-name="git-reset5">합치기(Squash)</button>
+                    <button type="button" class="btn" data-name="git-reset6">checkout과 reset의 차이점</button>
+                </div>
+
+                <h2 class="tit">7.7.xx reset, revert 차이점</h2>
+                <div class="btn-area">
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="js/jquery-1.12.4.min.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>eventDefault</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/tab.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <!--[if lt IE 9]>
+    <style>
+        code{overflow: auto}
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">lodash 소개</h1>
+        <p class="phrase">lodash 라이브러리는 자바스크립트로 개발시 가장 많이 사용되는 라이브러리 중에 하나입니다. <br>
+        array를 다룰 때 번거로움을 없애고 쉽게 사용할 수 있도록 해줄뿐만 아니라 object, string 등을 다룰 때도 간편함을 제공해주며 디바운싱 기법 등 여러가지 많은 유틸리티 함수들을 갖고 있습니다. <br><br>
+            자주 사용되는 5가지 카테고리를 살펴보면 다음과 같습니다.
+        </p>
+        <ul class="lst">
+            <li class="item">Array : 배열에만 사용가능한 함수</li>
+            <li class="item">Object : 객체에만 사용 가능한 함수</li>
+            <li class="item">Collection : 배열과 객체 모두에 사용 가능한 함수</li>
+            <li class="item">Util : 유틸리티 관련 함수</li>
+            <li class="item">Seq</li>
+        </ul>
+        <dl>
+            <dt class="d_tit">find</dt>
+            <dd class="d_txt">
+                <a href="https://lodash.com/">https://lodash.com</a> 공식 사이트 document에서 find를 찾으면 Collection 카테고리에 있는 것을 볼 수 있습니다.
+                <span class="img_wrap"><img src="img/lodash1.jpg" alt=""></span>
+                Collection 카테고리에 있다는 뜻은, 배열과 객체 모두에 사용될 수 있는 함수라는 뜻입니다. <br>
+                기본적인 개념은 자바스크립트 find 함수와 다르지 않습니다. <br>
+                다만 좀 더 편리하게 사용할 수 있습니다.
+                <dl>
+                    <dt class="d_tit">Q. 제목이 "Alice in Wonderland"인 것을 찾으시오.</dt>
+                    <dd class="d_txt">
+                        <pre class="line-numbers">
+                            <code class="language-javascript">
+                                // lodash 라이브러리를 연동해줘야된다.
+                                &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                                let books = [
+                                    {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1},
+                                    {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2},
+                                    {title: "Seven Dwarfs", price: 35, author: "Disney", rank: 3},
+                                    {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4},
+                                ];
+
+                                let result;
+
+                                result = _.find(books, item => item.title === 'Alice in Wonderland')
+                                console.log(result)
+                                // {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2} 값 반환
+                            </code>
+                        </pre>
+                        자바스크립트 find 함수와 비슷하게 첫번째 파라미터로 배열을, 두번째 파라미터로 predicate(=test) function을 넣어주면 <strong>첫번째</strong> 찾은 객체를 리턴하거나 아니면 못찾으면 undefined를 리턴합니다.
+                    </dd>
+                    <dt class="d_tit">Q. author가 Unknown인 객체를 찾으시오.</dt>
+                    <dd class="d_txt">
+                        <pre class="line-numbers">
+                            <code class="language-javascript">
+                                // lodash 라이브러리를 연동해줘야된다.
+                                &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                                let books = [
+                                    {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1},
+                                    {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2},
+                                    {title: "Seven Dwarfs", price: 35, author: "Disney", rank: 3},
+                                    {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4},
+                                ];
+
+                                let result;
+
+                                result = _.find(books, _.matches({ author: 'Unknown' }))
+                                // shorthand 표기법
+                                // result = _.find(books, { author: 'Unknown' })
+                                console.log(result)
+                                // {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4} 값 반환
+                            </code>
+                        </pre>
+                        두번째 파라미터로 function 대신 _.matches({author: 'Unknown'})을 사용할 수 있고, shorthand 표기법으로 짧게 줄여쓸 수도 있습니다.
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">filter</dt>
+            <dd class="d_txt">
+                document를 찾아보면 Collection에 속해있습니다. <br>
+                배열과 객체에 모두 사용할 수 있는 메서드라는 뜻입니다.
+                <dl>
+                    <dt class="d_tit">Q. rank < 3인 모든 객체를 구하시오.</dt>
+                    <dd class="d_txt">
+                        <pre class="line-numbers">
+                            <code class="language-javascript">
+                                // lodash 라이브러리를 연동해줘야된다.
+                                &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                                let books = [
+                                    {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1},
+                                    {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2},
+                                    {title: "Seven Dwarfs", price: 35, author: "Disney", rank: 3},
+                                    {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4},
+                                ];
+
+                                let result;
+                                result = _.filter(books, item => item.rank < 3);
+                                console.log(result)
+
+                                // 결과값
+                                result = [
+                                    {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1}
+                                    {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2}
+                                ]
+                            </code>
+                        </pre>
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">sum</dt>
+            <dd class="d_txt">
+                document에서 sum을 찾아보면 Math 카테고리에 sum과 sumBy 두 개의 함수를 찾을 수 있습니다. <br>
+                sumBy는 각 엘리먼트를 루프를 돌면서 계산할 수 있습니다.
+                <dl>
+                    <dt class="d_tit">Q. 모든 책 가격의 합계를 구하시오.</dt>
+                    <dd class="d_txt">
+                        <pre class="line-numbers">
+                            <code class="language-javascript">
+                                // lodash 라이브러리를 연동해줘야된다.
+                                &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                                let books = [
+                                    {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1},
+                                    {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2},
+                                    {title: "Seven Dwarfs", price: 35, author: "Disney", rank: 3},
+                                    {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4},
+                                ];
+
+                                let result;
+                                result = _.sumBy(books, item => item.price);
+                                // 혹은 _.property()를 사용하여
+                                // result = _.sumBy(books, _.property('price'))
+                                // 혹은 _.property를 생략한 shorthand 표기법으로
+                                // result = _.sumBy(books, 'price')
+                                console.log(result);
+                                // 95
+                            </code>
+                        </pre>
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">maxBy</dt>
+            <dd class="d_txt">
+                가장 높은 값을 반환합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // lodash 라이브러리를 연동해줘야된다.
+                        &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                        let books = [
+                            {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1},
+                            {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2},
+                            {title: "Seven Dwarfs", price: 35, author: "Disney", rank: 3},
+                            {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4},
+                        ];
+
+                        let result;
+                        result = _.maxBy(books, 'price')
+                        console.log(result.title)
+                        // Seven Dwarfs
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">chain, sortBy, map</dt>
+            <dd class="d_txt">
+                <strong>Q. 제목으로 먼저 솔팅한 다음 제목 앞에 랭킹을 붙여서 아래와 같이 출력하세요.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        [
+                            '1. Alice in Wonderland',
+                            '2. Seven Dwarfs',
+                            '3. Swallow's gift',
+                            '4. Three Little Pigs'
+                        ]
+                    </code>
+                </pre>
+                <strong>seq</strong> 카테고리의 chain 함수는 lodash wrapper 인스턴스를 만들어 주므로 연속해서 lodash 함수를 사용할 때 유용하게 사용할 수 있습니다.
+                <br>
+                메서드 체인을 사용 후에 최종적으로 값을 얻기 위해서는 value()를 호출해서 값을 얻어낼 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // lodash 라이브러리를 연동해줘야된다.
+                        &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                        let books = [
+                            {title: "Three Little Pigs", price: 20, author: "Jacobs", rank: 1},
+                            {title: "Alice in Wonderland", price: 25, author: "Carroll", rank: 2},
+                            {title: "Seven Dwarfs", price: 35, author: "Disney", rank: 3},
+                            {title: "Swallow's gift", price: 15, author: "Unknown", rank: 4},
+                        ];
+
+                        let result;
+                        result =_.chain(books)
+                        .sortBy('title')
+                        .map((item, index) => `${index + 1}. ${item.title}`)
+                        .value();
+                        console.log(result)
+                        // ["1. Alice in Wonderland", "2. Seven Dwarfs", "3. Swallow's gift", "4. Three Little Pigs"]
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">uniqBy</dt>
+            <dd class="d_txt">
+                <strong>Q. date가 중복인 데이터를 제외한 객체들의 배열을 구하시오.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // lodash 라이브러리를 연동해줘야된다.
+                        &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                        const dataList = [
+                            {date: "09-01 12:02", value: 3},
+                            {date: "09-01 12:01", value: 2},
+                            {date: "09-01 12:00", value: 1},
+                            {date: "09-01 12:00", value: 1},
+                            {date: "09-01 12:00", value: 1},
+                            {date: "09-01 12:00", value: 1},
+                            {date: "09-01 12:01", value: 2}
+                        ];
+
+                        let result;
+                        result = _.uniqBy(dataList, item => item.date)
+                        // _.property() 표현으로 아래와 같이도 사용할 수 있습니다.
+                        // result = _.uniqBy(dataList, 'date')
+                        console.log(result);
+
+                        // 결과값
+                        // result = [
+                        //      {date: "09-01 12:02", value: 3},
+                        //      {date: "09-01 12:01", value: 2},
+                        //      {date: "09-01 12:00", value: 1}
+                        // ]
+                    </code>
+                </pre>
+                uniqBy는 document를 찾아보면 Array에만 사용될 수 있습니다. <br>
+            </dd>
+            <dt class="d_tit">groupBy</dt>
+            <dd class="d_txt">
+                <strong>Q. 아래의 배열을 x를 키값으로 그룹핑한 2차원 배열로 반환하시오.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // lodash 라이브러리를 연동해줘야된다.
+                        &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                        const gridList = [
+                            {x: 1, y: 1},
+                            {x: 1, y: 2},
+                            {x: 2, y: 1},
+                            {x: 2, y: 2}
+                        ]
+                        // [
+                        //   [
+                        //     {x: 1, y: 1},
+                        //     {x: 1, y: 2},
+                        //   ],
+                        //     [
+                        //     {x: 2, y: 1},
+                        //     {x: 2, y: 2},
+                        //   ]
+                        // ]
+
+                        const tempResult = _.groupBy(gridList, 'x')
+                        console.log(tempResult);
+
+                        // tempResult = {
+                        //    [{x: 1, y: 1}, {x: 1, y: 2}],
+                        //    [{x: 2, y: 1}, {x: 2, y: 2}]
+                        // }
+                        let result;
+                        result = _.values(tempResult);
+                        console.log(result)
+
+                        // result = [
+                        //     [{x:1, y:1}, {x:1, y:2}],
+                        //     [{x:2, y:1}, {x:2, y:2}]
+                        // ]
+                    </code>
+                </pre>
+                먼저 groupBy 메서드를 사용해서 x의 키값을 가진 객체 배열을 만듭니다. <br>
+                그 다음에 객체를 배열로 변환하는 values 메서드를 한번 더 사용합니다. <br>
+                <a href="objectAndarrayDiffent.html">객체(object)와 배열(array)의 차이</a>
+            </dd>
+            <dt class="d_tit">flattern, flatternDeep</dt>
+            <dd class="d_txt">
+                <strong>Q. 위의 결과로 생성된 아래 2차원 배열을 1차원 배열로 만드시오.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // lodash 라이브러리를 연동해줘야된다.
+                        &lt;script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"&gt;&lt;/script&gt;
+
+                        const gridList2 = [
+                            [{x:1, y:1}, {x:1, y:2}],
+                            [{x:2, y:1}, {x:2, y:2}]
+                        ]
+
+                        let result;
+                        result = _.flatten(gridList2);
+                        console.log(result)
+
+                        // 결과값
+                        // result = [
+                        //     {x:1, y:1},
+                        //     {x:1, y:2},
+                        //     {x:2, y:1},
+                        //     {x:2, y:2}
+                        // ]
+                    </code>
+                </pre>
+                flattern은 말그대로 평평하게 펴주는 역할을 한다. <br>
+                2차원 배열을 1차원으로 만들려면 flattern을 사용하면되고 <br>
+                만일 다차원 배열일 경우 순환해서 모든 배열을 펼치기 위해서는 flatternDeep를 사용하면 된다. <br>
+                만일 배열의 각 요소를 루프를 돌면서 평평하게 할려면 flatMap을 사용하면 된다.
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+<script src="../../../js/tab.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+</body>
+</html>

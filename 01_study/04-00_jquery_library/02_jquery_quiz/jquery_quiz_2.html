@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery Quiz</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style>
+        progress, .progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 16px
+        }
+
+        .progress_bar {
+            width: 100%;
+            height: 100%;
+            background-color: #ddd
+        }
+
+        .wrap {
+            padding-top: 20px
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <progress value="0" max="10"></progress>
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">IE8까지 지원</dd>
+            <dd class="d_txt">jquery 활용</dd>
+            <dt class="d_tit">기법</dt>
+            <dd class="d_txt">progress tag 지원범위 IE10+
+                <ul class="lst">
+                    <li class="item">IE8, IE9에선 대체 태그 생성 및 입력</li>
+                </ul>
+            </dd>
+            <dt class="d_tit">한계</dt>
+            <dd class="d_txt">IE8과 IE9에서 대체 tag가 들어갈 때 css도 js로 넣고 싶었으나 뜻대로 되지 않음 (CSS에 IE8,9 대비용 CSS 작성)
+                <ul class="lst">
+                    <li class="item">이 부분은 다시 해결해봐야되는 부분</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">아이폰 X에서 테스트시 상하단바가 스크롤시 없어진 상태일 때 프로그래스바가 전부 채워지지 않는 현상 발생
+                <ul class="lst">
+                    <li class="item">다시 스크롤해서 상하단바가 생기면 스크롤바가 100% 채워짐</li>
+                    <li class="item">이는 아이폰X에서만 생기는 현상인듯, notch 영역 때문인거 같음</li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+    <p>Schauer das aus sage was und, hinweggeschwunden fühlt den labyrinthisch welt sich tränen ich ihr, diesmal wird
+        die meinem unbekannten, steigen der nennt ein fühlt und gestalten, bang lauf tage ich mein. Wird ernsten einer
+        lispelnd und ihr, alten nach die nun ein. Ihr ist wenn in ersten getäuscht bringt.</p>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        if (navigator.userAgent.indexOf("MSIE 9.0") === 25 || navigator.userAgent.indexOf("MSIE 8.0") === 25) {
+            $("progress").remove();
+            $("<div class='progress'></div>").prependTo("#wrap");
+            $("<div class='progress_bar'></div>").prependTo(".progress");
+            if (navigator.userAgent.indexOf("MSIE 9.0") === 25) {
+                $('.progress_bar').css({"transform": "translate(-100%, 0)"});
+            } else if (navigator.userAgent.indexOf("MSIE 8.0") === 25) {
+                $('.progress_bar').css({"width": "0"});
+            }
+        }
+        if (navigator.userAgent.indexOf("MSIE 9.0") === 25) {
+            var move = (($(window).scrollTop() / ($("#wrap").prop("scrollHeight") - $(window).outerHeight())) - 1) * 100;
+            $('.progress_bar').css({"transform": "translate(" + move + "%, 0)"});
+        } else if (navigator.userAgent.indexOf("MSIE 8.0") === 25) {
+            var width = ($(window).scrollTop() / ($("#wrap").prop("scrollHeight") - $(window).outerHeight())) * 100;
+            $('.progress_bar').css({"width": width + "%"});
+        } else {
+            $("progress").val($(window).scrollTop() * $("progress").attr("max") / ($("#wrap").prop("scrollHeight") - $(window).outerHeight()));
+        }
+        $(window).on("scroll", function () {
+            if (navigator.userAgent.indexOf("MSIE 9.0") === 25) {
+                var move = (($(window).scrollTop() / ($("#wrap").prop("scrollHeight") - $(window).outerHeight())) - 1) * 100;
+                $('.progress_bar').css({"transform": "translate(" + move + "%, 0)"});
+            } else if (navigator.userAgent.indexOf("MSIE 8.0") === 25) {
+                var width = ($(window).scrollTop() / ($("#wrap").prop("scrollHeight") - $(window).outerHeight())) * 100;
+                $('.progress_bar').css({"width": width + "%"});
+            } else {
+                $("progress").val($(window).scrollTop() * $("progress").attr("max") / ($("#wrap").prop("scrollHeight") - $(window).outerHeight()));
+            }
+        })
+    });
+</script>
+</body>
+</html>

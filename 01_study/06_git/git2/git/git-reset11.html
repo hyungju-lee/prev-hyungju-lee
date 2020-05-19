@@ -1,0 +1,39 @@
+<strong>커밋 합치기</strong>
+대화형 Rebase 명령을 이용하여 여러 개의 커밋을 꾹꾹 눌러서 커밋 하나로 만들어 버릴 수 있다.
+Rebase 스크립트에 자동으로 포함된 도움말에 설명이 있다.
+
+    #
+    # Commands:
+    #  p, pick = use commit
+    #  r, reword = use commit, but edit the commit message
+    #  e, edit = use commit, but stop for amending
+    #  s, squash = use commit, but meld into previous commit
+    #  f, fixup = like "squash", but discard this commit's log message
+    #  x, exec = run command (the rest of the line) using shell
+    #
+    # These lines can be re-ordered; they are executed from top to bottom.
+    #
+    # If you remove a line here THAT COMMIT WILL BE LOST.
+    #
+    # However, if you remove everything, the rebase will be aborted.
+    #
+    # Note that empty commits are commented out
+
+“pick” 이나 “edit” 말고 “squash” 를 입력하면 Git은 해당 커밋과 바로 이전 커밋을 합칠 것이고 커밋 메시지도 Merge 한다.
+그래서 3개의 커밋을 모두 합치려면 스크립트를 아래와 같이 수정한다.
+
+저장하고 나서 편집기를 종료하면 Git은 3개의 커밋 메시지를 Merge 할 수 있도록 에디터를 바로 실행해준다.
+
+    # This is a combination of 3 commits.
+    # The first commit's message is:
+    changed my name a bit
+
+    # This is the 2nd commit message:
+
+    updated README formatting and added blame
+
+    # This is the 3rd commit message:
+
+    added cat-file
+
+이 메시지를 저장하면 3개의 커밋이 모두 합쳐진 커밋 한 개만 남는다.

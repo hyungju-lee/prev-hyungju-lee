@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>study</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/child_style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">3주차 이론</h1>
+        <dl>
+            <dt class="d_tit">자바스크립트 ES6 - const, let</dt>
+            <dd class="d_txt">
+                보통 자바스크립트를 배울 때 var로 변수를 선언하는 방법부터 배웁니다. <br>
+                하지만 var은 이제 const와 let이 대체합니다. <br>
+                먼저 const와 let이 공통으로 가지는 특징인 블록 스코프에 대해 알아봅시다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        if (true) {
+                            var x = 3;
+                        }
+                        console.log(x); // 3
+
+                        if (true) {
+                            const y = 3;
+                        }
+                        console.log(y); // Uncaught ReferenceError: y is not defined
+                    </code>
+                </pre>
+                코드는 크롬 개발자 도구(F12)의 Console 탭에 적으면 됩니다. <br>
+                <br>
+                x는 정상적으로 출력되는데 y는 에러가 발생합니다. <br>
+                var을 const으로 바꿨을 뿐인데 차이가 발생하는 것입니다. <br>
+                var은 함수 스코프(function scope)를 가지므로 if문의 블록과 관계없이 접근할 수 있습니다. <br>
+                하지만 const와 let은 블록 스코프(block scope)를 가지므로 블록 밖에서는 변수에 접근할 수 없습니다. <br>
+                블록의 범위는 <strong>if, while, for, function 등의 중괄호</strong>입니다. <br>
+                <span class="em">함수 스코프 대신 블록 스코프를 사용함으로써 호이스팅 같은 문제도 해결되고 코드 관리도 수월해졌습니다.</span>
+                <br>
+                <br>
+                const와 let이 var와 다른 점은 어떤 스코프를 취하는지입니다. <br>
+                그렇다면 const와 let의 차이는 무엇일까요? <br>
+                const는 한 번 대입하면 다른 값을 대입할 수 없습니다. <br>
+                const에 다른 값을 대입하려고 하면 에러가 발생합니다. <br>
+                또한, 초기화 시 값을 대입하지 않으면 에러가 발생합니다. <br>
+                아래 예제를 따라해보세요.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        const a = 0;
+                        a = 1; // Uncaught TypeError: Assignment to constant variable.
+                        let b = 0;
+                        b = 1; // 1
+
+                        const c; // Uncaught SyntaxError: Missing initializer in const declaration
+                    </code>
+                </pre>
+                <strong>자바스크립트를 사용할 때 한 번 초기화했던 변수에 다른 값을 대입하는 경우는 의외로 적습니다.</strong> <br>
+                따라서 기본적으로는 변수 선언 시에는 const를 사용하고, 다른 값을 대입해야 하는 상황이 생겼을 때 let을 사용하면 됩니다.
+            </dd>
+            <dt class="d_tit">자바스크립트 ES6 - 템플릿 문자열</dt>
+            <dd class="d_txt">
+                ES2015 문법에 새로운 문자열이 생겼습니다. <br>
+                큰따옴표나 작은따옴표로 감싸는 기존 문자열과는 다르게 백틱( <span class="em">`</span> )으로 감쌉니다.(<strong>Tab</strong> 위에 있습니다.) <br>
+                특이한 점은 문자열 안에 변수를 넣을 수 있다는 것입니다. <br>
+                <br>
+                다음은 기존 ES5 문법을 사용한 문자열입니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var num1 = 1;
+                        var num2 = 2;
+                        var result = 3;
+                        var string1 = num1 + ' 더하기 ' + num2 + '는 \'' + result + '\'';
+                        console.log(string1); // 1 더하기 2는 '3'
+                    </code>
+                </pre>
+                문자열 string1은 띄어쓰기와 변수, 더하기 기호 때문에 가독성이 좋지 않습니다. <br>
+                또한, 작은따옴표를 이스케이프하느라 코드가 지저분합니다. <br>
+                ES2015부터는 다음과 같이 사용할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        const num3 = 1;
+                        const num4 = 2;
+                        const result2 = 3;
+                        const string2 = `${num3} 더하기 ${num4}는 '${result2}'`;
+                        console.log(string2); // 1 더하기 2는 '3'
+                    </code>
+                </pre>
+                훨씬 깔끔해졌습니다. <br>
+                <strong>${변수}</strong> 형식으로 변수를 더하기 기호 없이 문자열에 넣을 수 있습니다. <br>
+                기존 따옴표 대신 백틱을 사용하기 때문에 큰따옴표나 작은따옴표와 함께 사용할 수도 있습니다.
+            </dd>
+            <dt class="d_tit">자바스크립트 ES6 - 객체 리터럴</dt>
+            <dd class="d_txt">
+                객체 리터럴에는 편리한 기능들이 추가되었습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var sayNode = function() {
+                            console.log('Node');
+                        };
+                        var es = 'ES';
+                        var oldObject = {
+                            sayJS: function() {
+                                console.log('JS');
+                            },
+                            sayNode: sayNode,
+                        };
+                        oldObject[es + 6] = 'Fantastic';
+
+                        oldObject.sayNode(); // Node
+                        oldObject.sayJS(); // JS
+                        console.log(oldObject.ES6); // Fantastic
+                    </code>
+                </pre>
+                oldObject 객체에 동적으로 속성을 추가하고 있습니다. <br>
+                앞의 코드를 다음과 같이 다시 쓸 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var sayNode = function() {
+                            console.log('Node');
+                        };
+                        var es = 'ES';
+
+                        const newObject = {
+                            sayJS() {
+                                console.log('JS');
+                            },
+                            sayNode,
+                            [es + 6]: 'Fantastic',
+                        };
+                        newObject.sayNode(); // Node
+                        newObject.sayJS(); // JS
+                        console.log(newObject.ES6); // Fantastic
+                    </code>
+                </pre>
+                oldObject 와 newObject를 비교해서 보면 됩니다. <br>
+                sayJS 같은 객체의 메서드에 함수를 연결할 때 더는 콜론(:)과 function을 붙이지 않아도 됩니다. <br>
+                <br>
+                <strong>sayNode: sayNode 처럼 속성명과 변수명이 겹치는 경우에는 한 번만 쓸 수 있게 되었습니다.</strong> <br>
+                자바스크립트에서 다음과 같은 경우가 많이 나오는데, 이때 코드의 중복을 피할 수 있어 편리합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        { name: name, age: age } // ES5
+                        { name, age } // ES2015
+                    </code>
+                </pre>
+                객체의 속성명을 동적으로 생성할 수 있습니다. <br>
+                예쩐 문법에서는 ES6라는 속성명을 만들려면 객체 리터럴(oldObject) 바깥에서 [es + 6]을 해야 했습니다. <br>
+                하지만 ES2015 문법에서는 객체 리터럴 안에 선언해도 됩니다. <br>
+                newObject 안에서 [es + 6]가 속성명으로 바로 사용되고 있습니다. <br>
+                <br>
+                객체 리터럴에 추가된 문법은 코딩시 편의를 위해 만들어진 것이라는 느낌이 강합니다. <br>
+                익숙해지면 코드의 양을 많이 줄일 수 있습니다.
+            </dd>
+            <dt class="d_tit">자바스크립트 ES6 - 화살표 함수(Arrow Function)</dt>
+            <dd class="d_txt">
+                화살표 함수(arrow function)라는 새로운 함수가 추가되었으며, 기존의 function() {}도 그대로 사용할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        function add1(x, y) {
+                            return x + y;
+                        }
+
+                        const add2 = (x, y) =&gt; {
+                            return x + y;
+                        };
+
+                        const add3 = (x, y) =&gt; x + y;
+
+                        const add4 = (x, y) =&gt; (x + y);
+
+                        function not1(x) {
+                            return !x;
+                        }
+
+                        const not2 = x =&gt; !x
+                    </code>
+                </pre>
+                add1, add2, add3, add4는 같은 기능을 하는 함수입니다. <br>
+                마찬가지로 no1, not2도 같은 기능을 합니다. <br>
+                화살표 함수에서는 function 선언 대신 =&gt; 기호로 함수를 선언합니다. <br>
+                또한, 변수에 대입하면 나중에 재사용할 수 있습니다. <br>
+                <br>
+                화살표 함수에서는 return문을 줄일 수 있습니다. <br>
+                중괄호 대신 add3과 add4처럼 return할 식을 바로 적어주면 됩니다. <br>
+                add4처럼 보기 좋게 소괄호로 감쌀 수도 있습니다. <br>
+                not2 처럼 매개변수가 한 개면 매개변수를 소괄호로 묶어주지 않아도 됩니다. <br>
+                <br>
+                <strong>기존의 function과 다른 점은 this 바인드 방식입니다.</strong> <br>
+                다음 예제를 봅시다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var relationship1 = {
+                            name: 'zero',
+                            friends: ['nero', 'hero', 'xero'],
+                            logFriends: function() {
+                                var that = this; // relationship1을 가리키는 this를 that에 저장
+                                this.friends.forEach(function(friend) {
+                                    console.log(that.name, friend);
+                                })
+                            }
+                        }
+                        relationship1.logFriends();
+
+                        const relationship2 = {
+                            name: 'zero',
+                            friends: ['nero', 'hero', 'xero'],
+                            logFriends() {
+                                this.friends.forEach(friend =&gt; {
+                                    console.log(this.name, friend);
+                                })
+                            }
+                        }
+                        relationship2.logFriends();
+                    </code>
+                </pre>
+                relationship1.logFriends() 안의 forEach 문에서는 function 선언문을 사용했습니다. <br>
+                <span class="em">(function 을 실행시킨 객체 = this, 여기선 window)</span> <br>
+                각자 다른 함수 스코프의 this를 가지므로 that이라는 변수를 사용해서 relationship1에 간접적으로 접근하고 있습니다. <br>
+                <br>
+                하지만 relationship2.logFriends() 안의 forEach 문에서는 화살표 함수를 사용했습니다. <br>
+                <span class="em">(arrow function은 arrow function을 실행시킨 객체를 전달시키는 것이 아닌, 진짜 해당 객체를 전달)</span> <br>
+                따라서 바깥 스코프인 logFriends()의 this를 그대로 사용할 수 있습니다. <br>
+                상위 스코프의 this를 그대로 물려받는 것입니다. <br>
+                <br>
+                따라서 기본적으로 화살표 함수를 쓰되, this를 사용해야 하는 경우에는 화살표 함수와 함수 선언문(function) 둘 중에 하나를 고르면 됩니다. <br>
+                <strong>(또는, this를 bind해서 전달)</strong>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+
+
+<script src="../../js/prism.js"></script>
+</body>
+</html>

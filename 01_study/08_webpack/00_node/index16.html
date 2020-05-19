@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">다른 사용자가 작성하여 공유한 외부 모듈을 호출하여 사용할 수는 없나요?</h1>
+        <dl>
+            <dt class="d_tit">다른 사용자가 작성하여 공유한 외부 모듈을 호출하여 사용할 수는 없나요?</dt>
+            <dd class="d_txt">
+                사용자가 직접 정의하는 모듈을 배우고 있지만, 내장 모듈 File System을 호출했던 것처럼 <br>
+                다른 사용자가 작성하여 공유한 외부 모듈도 호출할 수 있습니다. <br><br>
+                앞서 만든 자바스크립트 병합 모듈에 압축(compress)하는 기능을 추가해 보겠습니다. <br>
+                기능을 직접 추가할 수도 있지만, 이미 공개된 외부 모듈인 minify(<a href="http://www.npmjs.com/package/minify" target="_blank">http://www.npmjs.com/package/minify</a>)를 호출하여 활용해 보겠습니다.
+                <br>
+                먼저 Git Bash에서 NPM 명령어인 <strong>npm install minify --save</strong>를 입력하여 minify 모듈을 설치합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node37.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                minify 모듈이 설치되면, combineJS.js 파일을 엽니다. <br>
+                다음을 참고하여 minify 모듈을 호출하는 코드와 minify() 모듈을 사용하는 코드를 입력합니다. <br>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // combineJS.js 파일 소스 내용
+                        /* ! combineJS module @ hyungju-lee, 2020 */
+                        // File System 내장 모듈 호출
+                        var fs = require('fs')
+                            minify = require('minify');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function(jsSrc, exportJs){
+                            // var mergeCode = '';
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function(file, index){
+                                minify(file, function(err, data){
+                                    console.log(data);
+                                });
+                                // fs.readFileSync() 사용하여 파일 내용 읽기
+                                // mergeCode += fs.readFileSync(file);
+                            });
+                            // 병합된 코드 mergeCode를 내용을 파일 생성
+                            // fs.writeFileSync(exportJs, mergeCode);
+                        }
+                    </code>
+                </pre>
+                minify() 모듈 함수의 첫 번째 전달인자로는 압축할 파일을, 두 번째 전달인자로는 압축 과정을 처리한 후 콜백되는 함수를 입력했습니다. <br>
+                콜백 함수는 두 개의 전달인자를 받는데, 하나는 오류(Error)를 처리하는 객체이고, <br>
+                다른 하나는 압축된 코드(data)입니다. <br>
+                콜백 함수 내부에는 압축된 내용을 콘솔에 출력하도록 입력했습니다. <br>
+                minify 모듈을 사용하는 방법은 <a href="https://github.com/coderaser/minify">https://github.com/coderaser/minify</a>를 참고합니다.
+                <br><br>
+                입력한 내용을 저장한 후 Git Bash에서 <strong>node mergeScript.js</strong> 명령어를 입력하여 실행합니다. <br>
+                화면에 각 자바스크립트 파일이 압축된 결과가 연속해서 출력됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node38.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <strong>또 책 소스처럼 입력하면 안되네... 위에 사진처럼 입력해야됨..아무래도 버전이 바뀌어서 그런듯, 홈페이지에도 err, data관련한 내용은 안나옴</strong> <br>
+                combineJS.js에 전달한 각 자바스크립트 파일을 minify 모듈로 압축한 결과를 확인했습니다. <br>
+                이어서 압축된 코드를 병합하는 코드와 병합이 끝나면 새 문서를 생성하는 코드를 입력합니다. <br>
+                다음을 참고하여 코드를 입력하여 저장한 후 Git Bash에서 동일한 명령어를 실행합니다. <br>
+                jsCombine.js 파일을 확인하려면, 이전과 달리 압축되어 병합된 코드를 확인할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // combineJS.js 파일 소스 내용
+                        /* ! combineJS module @ hyungju-lee, 2020 */
+                        // File System 내장 모듈 호출
+                        var fs = require('fs'),
+                            minify = require('minify');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function (jsSrc, exportJs) {
+                            var mergeCode = '';
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function (file, index) {
+                                minify(file).then(function (data) {
+                                    mergeCode += data;
+                                    if (index == jsSrc.length - 1) {
+                                        writeFile();
+                                    }
+                                });
+
+                                // fs.readFileSync() 사용하여 파일 내용 읽기
+                                // mergeCode += fs.readFileSync(file);
+                            });
+
+                            // 병합된 코드 mergeCode를 내용을 파일 생성
+                            function writeFile() {
+                                fs.writeFileSync(exportJs, mergeCode);
+                            }
+                        };
+                    </code>
+                </pre>
+                <strong>책 소스가 작동을 안해서 현재 npm minify에 올라온 식으로 바꿈..버전이 달라져서 기존 식이 안먹히는건가..</strong> <br>
+                여튼 아래와 같이 한줄로 minify 된 것을 볼 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node39.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dd class="d_txt" style="margin-top:50px">
+                이제 마무리 단계입니다. combineJS 모듈을 사용할 때 압축 유무를 사용자가 결정할 수 있도록 전달인자 min을 하나 더 추가해 보겠습니다. <br>
+                초기값은 거짓(false)으로 설정합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // combineJS.js 파일 소스 내용
+                        /* ! combineJS module @ hyungju-lee, 2020 */
+                        // File System 내장 모듈 호출
+                        var fs = require('fs'),
+                            minify = require('minify');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         * 압축 유무를 설정하는 min 옵션 추가 (기본 값 : false)
+                         */
+                        module.exports = function (jsSrc, exportJs, min) {
+                            var mergeCode = '',
+                                len = jsSrc.length - 1; // 조건 확인을 위한 len 변수
+                            // min 초기 값 설정
+                            min = min || false;
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function (file, index) {
+                                if(min){
+                                    minify(file).then(function (data) {
+                                        mergeCode += data;
+                                        if (index == len) {
+                                            writeFile();
+                                        }
+                                    });
+                                }else{
+                                    mergeCode += fs.readFileSync(file);
+                                    if(index == len){
+                                        writeFile();
+                                    }
+                                }
+                            });
+
+                            // 병합된 코드 mergeCode를 내용을 파일 생성
+                            function writeFile() {
+                                fs.writeFileSync(exportJs, mergeCode);
+                            }
+                        };
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/node40.jpg">
+                                <img data-src="img/node40.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/node41.jpg">
+                                <img data-src="img/node41.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                세번째 인자로 거짓(false) 값을 전달했을 땐 압축 파일이 생성 안된다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/node42.jpg">
+                                <img data-src="img/node42.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/node43.jpg">
+                                <img data-src="img/node43.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                반면 세번째 인자로 참(true) 값을 전달하면 압축 파일이 생성된다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Gulp 프로젝트에 Jade 모듈 설치하기</h1>
+        <dl>
+            <dt class="d_tit">Gulp 프로젝트에 Jade 모듈 설치하기</dt>
+            <dd class="d_txt">
+                프로젝트 디렉터리에서 NPM 설치 명령어로 gulp-jade(<a href="https://www.npmjs.com/package/gulp-jade" target="_blank">https://www.npmjs.com/package/gulp-jade</a>)를 설치합니다.
+                <br>
+                설치가 끝나면 프로젝트의 [node_modules] 디렉터리에 [gulp-jade] 모듈 디렉터리가 생성됩니다.
+                <span class="img_wrap"><img src="img/gulp38.jpg" alt=""></span>
+                gulpfile.js 파일을 열고, 위쪽에 gulp-jade 모듈을 호출하는 코드를 입력합니다. <br>
+                그리고 jade 업무를 입력합니다. <br>
+                작성한 jade 업무는 환경 설정(config.path.html.src) 디렉터리인 [src/html/jade]의 하위 디렉터리를 포함한 모든 Jade 파일을 <br>
+                jade() 함수를 사용하여 HTML 파일로 변환(Compile)합니다. <br>
+                그런 다음 환경 설정 output 설정 디렉터리인 [dist] 디렉터리로 내보냅니다. <br>
+                작성한 내용에 따라 [src/html] 디렉터리 안에 [jade] 디렉터리를 생성하여 test.jade 파일을 추가합니다.
+                <span class="img_wrap"><img src="img/gulp40.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/gulp39.jpg" alt=""></span>
+                <p class="phrase">
+                    <span class="em">깨알 tip</span> <br>
+                    jade() 함수는 기본적으로 HTML 코드를 압축하여 한 줄로 출력합니다. <br>
+                    읽기 쉽게 HTML 코드를 출력하려면 다음과 같이 jade() 함수 안에 {pretty: true} 옵션을 추가합니다. <br>
+                    <strong class="em">.pipe(jade({pretty: true}))</strong>
+                </p>
+                test.jade 파일에는 아래 내용을 입력한 후 저장합니다. <br>
+                Git Bash에서 <strong>gulp jade</strong> 명령어를 실행하면 [dist] 디렉터리에 test.html 파일이 생성됩니다. <br>
+                내용을 보면, HTML 태그를 사용하지 않고 입력한 Jade 문법의 텍스트가 HTML 코드로 변환되어 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp41.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                매번 Jade 파일을 수정할 때마다 gulp jade 명령어를 실행하는 것은 조금 번거로우니 다음처럼 watch(관찰) 업무에 jade 업무를 추가로 등록합니다. <br>
+                이후부터는 gulp 명령어만 실행해도 jade 문서 변경을 감지하여 자동으로 HTML 컴파일 과정을 거쳐 문서를 만듭니다. <br>
+                그리고 Live Reload 기능이 동작하여 변경 내용이 웹브라우저에도 실시간으로 반영됩니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const {src, dest, watch, series, parallel} = require('gulp'),
+                            csslint = require('gulp-csslint'),
+                            concatcss = require('gulp-concat-css'),
+                            uglifycss = require('gulp-uglifycss'),
+                            stylish = require('jshint-stylish'),
+                            jshint = require('gulp-jshint'),
+                            uglify = require('gulp-uglify'),
+                            concat = require('gulp-concat'),
+                            rename = require('gulp-rename'),
+                            gulpif = require('gulp-if'),
+                            jade = require('gulp-jade'),
+                            del = require('del'),
+                            connect = require('gulp-connect'),
+                            open = require('gulp-open'),
+                            config = require('./config.json');
+
+                        // 파일 삭제
+                        function clean() {
+                            return del([config.path.js.dest + '*']);
+                        }
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        function styles() {
+                            return src(config.path.css.src)
+                                .pipe(gulpif(config.lint, csslint({
+                                    'import': false
+                                })))
+                                .pipe(gulpif(config.lint, csslint.formatter()))
+                                .pipe(gulpif(config.concat, concatcss(config.path.css.filename)))
+                                .pipe(gulpif(config.rename, dest(config.path.css.dest)))
+                                .pipe(gulpif(config.uglify, uglifycss()))
+                                .pipe(gulpif(config.rename, rename({
+                                    suffix: '.min'
+                                })))
+                                .pipe(dest(config.path.css.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // JS 문법 검사
+                        function jsHint() {
+                            return src(config.path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        }
+
+                        // JS 병합
+                        function jsConcat() {
+                            return src(config.path.js.src)
+                                .pipe(concat(config.path.js.filename))
+                                .pipe(dest(config.path.js.dest));
+                        }
+
+                        // JS 압축
+                        function jsUglify() {
+                            return src(config.path.js.dest + config.path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(dest(config.path.js.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // Jade 컴파일
+                        function jadeCompile() {
+                            return src(config.path.html.src + 'jade/**/*.jade')
+                                .pipe(jade({
+                                    pretty: true
+                                }))
+                                .pipe(dest(config.path.html.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // html
+                        function html() {
+                            return src(config.path.html.src + '*.html')
+                                .pipe(dest(config.path.html.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // 웹 서버 업무 (LiveReload 사용)
+                        function server() {
+                            return connect.server({
+                                root: config.path.html.dest,
+                                port: config.port,
+                                livereload: config.livereload
+                            })
+                        }
+
+                        // 브라우저 오픈 업무
+                        function browserOpen() {
+                            const options = {
+                                uri: 'http://localhost:' + config.port,
+                                app: config.browser //chrome, firefox, iexplore, opera, safari
+                            };
+                            return src(config.path.html.dest + '/index.html')
+                                .pipe(open(options)); // local 서버가 아닌 파일 경로로 열려면 '<%file.path%>' 를 넣어주면된다.
+                        }
+
+                        // 지속적 관찰(Watch) 업무 정의
+                        function fileWatch() {
+                            watch(config.path.html.src+'*.html', series(clean, html));
+                            watch(config.path.html.src+'jade/**/*.jade', series(clean, jadeCompile));
+                            watch(config.path.css.src, series(clean, styles));
+                            watch(config.path.js.src, series(clean, series(jsHint, jsConcat, jsUglify)));
+                        }
+
+                        // Gulp 기본(Default) 테스크 정의
+                        exports.default = series(clean, parallel(styles, html, jadeCompile, series(jsHint, jsConcat, jsUglify, parallel(server, browserOpen, fileWatch))));
+                    </code>
+                </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

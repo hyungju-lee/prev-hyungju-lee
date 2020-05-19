@@ -1,0 +1,11 @@
+리모트 브랜치
+리모트 Refs는 리모트 저장소에 있는 포인터인 레퍼런스다.
+리모트 저장소에 있는 브랜치, 태그, 등등을 의미한다.
+git ls-remote [remote] 명령으로 모든 리모트 Refs를 조회할 수 있다.
+
+    <strong>$ git ls-remote origin</strong>
+    0f44207d28e957cb28f472273087dba74df4349c        HEAD
+    917a72c3b98ea6a3137f60c55c034ae58dfe5643        refs/heads/gh-pages
+    0f44207d28e957cb28f472273087dba74df4349c        refs/heads/master
+    bdb9f24c73d4f81a21f4a887d83162c529643d62        refs/tags/vtool1.2
+    ffeda3f9a446bc576abcaa4c16b107d708e04ed2        refs/tags/vtool1.2^{}

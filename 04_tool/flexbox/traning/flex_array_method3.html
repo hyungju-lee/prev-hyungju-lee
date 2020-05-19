@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>Title</title>
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            border:0;
+            box-sizing:border-box;
+        }
+
+        .flex_inner {
+            display: -webkit-box;
+            display: -moz-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-flex-wrap: wrap;
+            -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+            background-color: #ccc;
+            font-size: 0;
+        }
+
+        .inner {
+            display: inline-block;
+            min-width: 160px;
+            padding:5px;
+            -webkit-box: 1;
+            -moz-box: 1;
+            -webkit-flex: 1 1 0px;
+            -ms-flex: 1 1 0px;
+            flex: 1 1 0px;
+            background-color: #0d96c9;
+            font-size: 14px;
+        }
+
+        .inner_in {
+            width: 100%;
+            padding: 10px;
+            background-color: #ddd
+        }
+
+        @media screen and (max-width:1439px) {
+            .flex_inner:after {
+                display: inline-block;
+                min-width: 1050px;
+                padding: 5px 35px;
+                -webkit-box: 7;
+                -moz-box: 7;
+                -webkit-flex: 7 1 0px;
+                -ms-flex: 7 1 0px;
+                flex: 7 1 0px;
+                content: '';
+            }
+        }
+
+        @media screen and (max-width:1279px) {
+            .flex_inner:after {
+                min-width: 750px;
+                padding: 5px 25px;
+                -webkit-box: 5;
+                -moz-box: 5;
+                -webkit-flex: 5 1 0px;
+                -ms-flex: 5 1 0px;
+                flex: 5 1 0px;
+            }
+        }
+
+        @media screen and (max-width:1119px) {
+            .flex_inner:after {
+                min-width: 450px;
+                padding: 5px 15px;
+                -webkit-box: 3;
+                -moz-box: 3;
+                -webkit-flex: 3 1 0px;
+                -ms-flex: 3 1 0px;
+                flex: 3 1 0px;
+            }
+        }
+
+        @media screen and (max-width:959px) {
+            .flex_inner:after {
+                min-width: 150px;
+                padding: 5px;
+                -webkit-box: 1;
+                -moz-box: 1;
+                -webkit-flex: 1 1 0px;
+                -ms-flex: 1 1 0px;
+                flex: 1 1 0px;
+            }
+        }
+
+        @media screen and (max-width:799px) {
+            .flex_inner:after {
+                min-width: 450px;
+                padding: 5px 15px;
+                -webkit-box: 3;
+                -moz-box: 3;
+                -webkit-flex: 3 1 0px;
+                -ms-flex: 3 1 0px;
+                flex: 3 1 0px;
+            }
+        }
+
+        @media screen and (max-width:639px) {
+            .flex_inner:after {
+                min-width: 0;
+                padding: 0;
+                -webkit-box: 0;
+                -moz-box: 0;
+                -webkit-flex: 0 1 0px;
+                -ms-flex: 0 1 0px;
+                flex: 0 1 0px;
+            }
+        }
+
+        @media screen and (max-width:479px) {
+            .flex_inner:after {
+                min-width: 150px;
+                padding: 5px;
+                -webkit-box: 1;
+                -moz-box: 1;
+                -webkit-flex: 1 1 0px;
+                -ms-flex: 1 1 0px;
+                flex: 1 1 0px;
+            }
+        }
+
+        @media screen and (max-width:319px) {
+            .flex_inner:after {
+                min-width: 0;
+                padding: 0;
+                -webkit-box: 0;
+                -moz-box: 0;
+                -webkit-flex: 0 1 0px;
+                -ms-flex: 0 1 0px;
+                flex: 0 1 0px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="flex_inner">
+    <div class="inner">
+        <div class="inner_in">내용1</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용2</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용3</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용4</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용5</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용6</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용7</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용8</div>
+    </div>
+    <div class="inner">
+        <div class="inner_in">내용9</div>
+    </div>
+</div>
+</body>
+</html>

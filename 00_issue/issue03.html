@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>issue</title>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/prism.css">
+    <link rel="stylesheet" href="../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">업무일지 라인 3주차</h1>
+        <dl>
+            <dt class="d_tit">이슈1</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/img00.jpg" alt=""></span>
+                위와 같이 placeholder 속성에 @@iptPlaceholder라는 이상한 속성값이 들어가는 것을 확인.
+            </dd>
+            <dt class="d_tit">원인</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/img01.jpg" alt=""></span>
+                해당 부분인데, gulp-file-include 모듈을 사용한 부분입니다. <br>
+                보면 JSON 객체 전달 부분에 "iptPlaceholder" 전달값은 없습니다. <br>
+                <span class="img_wrap"><img src="img/img01-2.jpg" alt=""></span>
+                그렇기 때문에 해당 전달값이 없을 경우엔 @@inpPlaceholder 값이 그대로 들어가버리는 것입니다.
+            </dd>
+            <dt class="d_tit">해결 방법</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/img01-3.jpg" alt=""></span>
+                이를 해결하기 위해 위와 같이 빈 문자열을 추가해줍니다.
+            </dd>
+            <dt class="d_tit">이슈2</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/img02-0.jpg" alt=""></span>
+                위와 비슷한 이슈입니다. <br>
+                특정 페이지의 레이어 팝업을 수정하여야 했는데, 해당 ly-leave 레이어 팝업은 여러 페이지에서 사용되고 있기 때문에
+                ly-leave의 스타일을 수정하면 다른 페이지에도 영향을 줄 수밖에 없는 상태였습니다. <br>
+                <span class="img_wrap"><img src="img/img02-1.jpg" alt=""></span>
+                그래서 위와 같이 JSON 객체로 className 속성을 전달하고,
+                <span class="img_wrap"><img src="img/img02-2.jpg" alt=""></span>
+                layer.html에서 위처럼 작성해서 className 속성을 받도록 하였습니다. <br>
+                하지만 이렇게하니, className 속성을 전달받지 않은 페이지에서는 모두 @@className 클래스명이 추가되었습니다.
+                <span class="img_wrap"><img src="img/img02-3.jpg" alt=""></span>
+                이를 해결하고자 위에처럼 @@if문을 사용했습니다. <br>
+                하지만 이번엔 <span class="em">gulp-file-include 에러</span>가 떴습니다. <br>
+                <span class="em">className is not defined</span> 라는 메시지와 함께 말입니다. (캡쳐못함) <br>
+                이는 모든 파일이 JSON 객체로 className 속성을 전달하지 않기 때문에 className이 정의되어 있지 않기 때문입니다. <br>
+            </dd>
+            <dt class="d_tit">해결 방법</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/img02.jpg" alt=""></span>
+                이러한 문제를 해결하기 위해 gulpfile.js에서 위와 같이 className 속성을 모든 페이지에서 인식할 수 있도록 적어줬습니다.
+            </dd>
+            <dt class="d_tit">이슈3 - 커밋메시지 수정하기</dt>
+            <dd class="d_txt">
+                이 이슈의 전제조건 - remote 브랜치에 push가 안되어있는 상황일 때, 가급적이면 이럴때만 아래 명령어 사용. <br>
+                안 그러면 충돌날 확률이 매우 큼
+                <dl class="d_table">
+                    <dt class="d_table_tit">직전 커밋을 수정하고 싶을 때</dt>
+                    <dd class="d_table_txt">
+                        git commit --amend
+                    </dd>
+                    <dt class="d_table_tit">과거 커밋의 내용을 수정하고 싶을 때</dt>
+                    <dd class="d_table_txt">
+                        git rebase -i &lt;commit&gt; <br>
+                        git commit --amend <br>
+                        git rebase --continue
+                    </dd>
+                    <dt class="d_table_tit">rebase 취소 방법</dt>
+                    <dd class="d_table_txt">
+                        git reflog &lt;branch 명&gt; // 이 명령어로 어떤 커밋으로 되돌릴지 확인 <br>
+                        git reset --hard &lt;commit 번호&gt; // 되돌리고 싶은 커밋 시점 <br>
+                        git log // 확인
+                    </dd>
+                </dl>
+                <span class="img_wrap"><img src="img/img3.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img4.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img5.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img6.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">font-size: 0, 행간 이슈</dt>
+            <dd class="d_txt">
+                <a href="fontsize0.html" target="_blank">line-height:20px</a> <br>
+                <a href="fontsize1.html" target="_blank">line-height:normal</a> <br>
+                줄 간격에는 단위를 사용할 수 있지만 일반적으로 단위를 사용하지 않는 것이 좋습니다. <br>
+                그 이유는 1.2em dlsk 120% 와 같이 단위 있는 값을 사용하게 되면 계산 결과를 자손 요소까지 상속하게 되기 때문입니다. <br>
+                이러한 차이점에 대해 알아보도록 하겠습니다.
+                <span class="img_wrap"><img src="img/font00.png" alt=""></span>
+            </dd>
+            <dt class="d_tit">단위 없는 줄 간격(line-height)을 사용하자</dt>
+            <dd class="d_txt">
+                위에서 언급했듯이 단위를 가진 줄 간격은 자식요소까지 상속된다고 했습니다. <br>
+                아래의 마크업과 CSS를 살펴보도록 합시다.
+                <pre class="line-numbers">
+                    <code class="language-html">
+                        &lt;ul&gt;
+                            &lt;li&gt;Lorem ipsum dolor sit amet.&lt;/li&gt; 
+                            &lt;li&gt;consectetur adipisicing elit. &lt;span&gt;Odit, porro!&lt;/span&gt;&lt;/li&gt; 
+                        &lt;/ul&gt;
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-css">
+                        ul { font-size: 15px; line-height: 1em; }
+                        li { font-size: 10px; }
+                        span { font-size: 80%; }
+                    </code>
+                </pre>
+                ul 요소의 줄 간격은 15px로 계산되어집니다. <br>
+                줄간격을 계산할 때는 <span class="em">em</span> 단위, <span class="em">%</span> 단위와 마찬가지로 요소 자신의 font-size를 기준으로 계산하게 됩니다.
+                <br>
+                ul 요소에서 폰트사이즈 15px을 선언했으므로 <span class="em">15 * 1em = 15px</span>로 계산됩니다. <br>
+                <br>
+                여기서 중요한 점은 계산된 값인 15px이 자손요소로 상속된다는 점입니다. <br>
+                즉, li 요소와 span 요소가 15px이라는 줄 간격을 상속받습니다. <br>
+                li 요소와 span 요소는 자신의 글씨 크기를 기준으로 줄 간격을 다시 계산하지 않습니다. <br>
+                부모의 값 15px으ㅏㅣ 값을 상속받고 그것을 그대로 사용하게 됩니다. <br>
+                다음과 같이 선언된 것처럼 상속될 것입니다.
+                <pre class="line-numbers">
+                    <code class="language-css">
+                        ul { font-size: 15px; line-height: 1em; }
+                        li { font-size: 10px;; line-height: 15px; }
+                        span { font-size: 80%; line-height: 15px; }
+                    </code>
+                </pre>
+                물론 li 요소에 명시적으로 line-height 다른 값을 부여하면 재선언되겠지만 사용자 의도에 따라 불필요할 수 있습니다.
+                <p class="e_comment">
+                    참고로 위 CSS에서 line-height 의 다른 값을 적용하게 하려면 span 요소를 인라인블록 요소로 바꾸어 주어야 합니다.
+                </p>
+                이제 줄 간격 값에서 em 단위를 제거하고 단위없는 정수로만 사용한다고 가정해 봅니다. <br>
+                <pre class="line-numbers">
+                    <code class="language-css">
+                        ul { font-size: 15px; line-height: 1; }
+                        li { font-size: 10px; }
+                        span { font-size: 80%; }
+                    </code>
+                </pre>
+                위와 같이 단위없는 줄 간격을 선언하게 되면 이제 li 요소와 span 요소로 그 숫자가 전달되게 됩니다. <br>
+                그럼 자손 요소에서 전달받은 숫자를 곱해서 줄 간격을 계산하게 되며, UL 요소에서 계산한 줄 간격은 상속받지 않습니다. <br>
+                다시 말해, 1이란 숫자를 전달받은 모든 요소에서 자신의 font-size 에 1을 곱해서 줄 간격으로 사용하게 됩니다. <br>
+                <br>
+                li 요소의 font-size 는 10px 이므로 줄 간격도 10px이 되고, span 요소도 font-size 8px 에 1을 곱해서 8px 의 줄 간격이 사용되게 될 것입니다.
+                <p class="e_comment">
+                    li 요소의 font-size 가 10px 이므로 자식 요소인 font-size 가 80%이르로 10px 의 80% 로 font-size 는 8px 입니다.
+                </p>
+                위에서 선언한 line-height: 1; 로 인해 CSS 는 다음과 같은 값을 지니게 될 것입니다.
+                <pre class="line-numbers">
+                    <code class="language-css">
+                        ul { font-size: 15px; line-height: 1; }
+                        li { font-size: 10px; line-height: 10px; }
+                        span { font-size: 80%; line-height: 8px; }
+                    </code>
+                </pre>
+                이러한 이유 때문에 html 요소나 body 요소, 혹은 자손 요소가 있는 모든 요소에 줄 간격을 단위 없이 숫자만 사용하는 것이 많은 이점을 가져올 수 있습니다.
+                <span class="img_wrap"><img src="img/img7.jpg" alt=""></span>
+
+                <span class="img_wrap"><img src="img/img8.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img9.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img10.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img11.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/img12.gif" alt=""></span>
+                <span class="img_wrap"><img src="img/img13.gif" alt=""></span>
+                추론 <br>
+                해당 폰트 사이즈에 비례해서 baseline이나 xline 등등이 설정되어야하는데, <br>
+                line-height는 고정되어있고 font-size만 0이니깐, <br>
+                그리고 vertical-align: baseline이다 보니, 빈노드들이 baseline에 정렬되는데, font-size:0이면
+                <span class="em">실제 레이아웃을 차지하는 line-box는 높이가 0이되지만 글자들이 차지하는 영역(content area)은 font-size가 0이라도, baseline topline xline, bottomline 등등 해서
+                0이아니게 됩니다.</span> <br>
+                그런데 영역은 line-box로 결정되기 때문에 공간을 차지하지 않아서 밑으로 떨어진다. 하지만 아이러니하게도 content area는 있기 때문에 그만큼 영역이 벌어진 것 <br>
+                보통 line-box는 content-area보다 크다. <strong>즉, 이래서 line-height:1, 그리고 단위를 주지말라는 이유가 여기에 있다.</strong> <br>
+                여튼 line-height는 고정값이다보니, (px) font-size는 0이라도 다른 라인들 때문에, 밑에 공간이 생기는듯. <br>
+                즉, line-height를 단위없이 비율로 상속받게하면 font-size에 맞는 line-height를 상속받게되므로 이런 문제가없는 거 같다.
+                <span class="img_wrap"><img src="img/img14.gif" alt=""></span>
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../js/prism.js"></script>
+</body>
+</html>

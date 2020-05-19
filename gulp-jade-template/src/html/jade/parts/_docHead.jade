@@ -1,0 +1,22 @@
+head
+    meta(http-equiv="X-UA-Compatible", content="IE=Edge")
+    block metatags
+        meta(name="author", content="hyungju")
+        meta(name="viewport", content="width=device-width, initial-scale=1")
+    title
+        block pageTitle
+    block stylesheets
+        link(rel="stylesheet", href="css/style.css")
+    style
+        include ../../../../dist/css/style.css
+    style.
+        .main {
+            padding: 20px;
+            margin: 20px;
+            background-color: #ddd;
+            color: #222;
+            font-size: 13px;
+            font-weight: bold;
+        }
+    block scripts
+        script(src="http://code.jquery.com/jquery.min.js")

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 믹스인(Mixin) 사용하기</h1>
+        <dl>
+            <dt class="d_tit">Sass 믹스인(Mixin) 사용하기</dt>
+            <dd class="d_txt">
+                믹스인은 Jade에서도 다뤘습니다. <br>
+                Jade에서는 믹스인으로 내비게이션 메뉴를 만들고 활용하는 방법을 배웠습니다. <br>
+                Sass 믹스인 또한 동일한 역할을 합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp120.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                믹스인을 좀 더 고급스럽게 사용하려면 전달인자(Arguments)를 사용하여 믹스인을 확장합니다. <br>
+                앞서 다룬 믹스인은 확장 없이 호출만으로 사용하는 정적 믹스인이고, 지금부터 다루는 믹스인은 확장이 가능한 동적 믹스인입니다. <br>
+                <br>
+                먼저 modules/_mixins.scss 파일에 다음처럼 position 속성과 위치 값을 설정하는 믹스인과 width, height 속성 값을 빠르게 설정할 수 있는
+                믹스인을 정의합니다. <br>
+                믹스인을 확장하려면 믹스인 이름 뒤에 () 기호를 붙이고, 사용자에게서 전달받을 인자를 변수로 설정합니다. <br>
+                그리고 믹스인 내부에서는 각 속성에 전달받은 인자 값을 설정합니다. <br>
+                <br>
+                믹스인을 호출할 때 믹스인 이름 뒤에 () 기호를 붙이고, 설정한 전달인자를 순서대로 입력하면 확장된
+                믹스인을 활용할 수 있습니다. <br>
+                확장된 믹스인은 설정 값을 다르게 입력할 수 있기 때문에 여러번 다시 사용하면서 다른 결과를 도출할 수 있어 유용합니다. <br>
+                믹스인을 활용하면 불필요한 CSS 코드 작업을 줄일 수 있다는 것을 결과물인 style.css 파일 내용을 보면 확인할 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp121.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                믹스인을 확장하는 방법을 배웠습니다. <br>
+                하지만 믹스인에 설정한 전달인자 값을 반드시 입력해야 확장할 수 있습니다. <br>
+                값을 생략하면 아래처럼 오류가 발생합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp122.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                그러므로 일부 속성값을 생략하려면, 아래처럼 null 값을 설정하여 전달인자 값을 비웁니다. <br>
+                그래야 제대로된 CSS 코드가 출력됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp123.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <span class="em">매번 믹스인을 사용할 때마다 null 값을 입력하는 것은 불편하므로,</span> 이 문제를 개선해 보겠습니다. <br>
+                전달인자를 사용자가 설정하지 않았을 때 기본적으로 사용할 값을 설정하면 됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp124.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                위 처럼 믹스인 전달인자 기본 값을 설정하면, 믹스인을 사용할 때 설정된 값을 모두 채우지 않고
+                생략해도 오류 없이 CSS로 변경됩니다. <br>
+                그런데 position 믹스인은 top, left 속성만 사용하지않고, bottom, right 속성도 확장하여 사용합니다. <br>
+                이런 상황에서 믹스인을 사용하여 right 속성만 설정한다면 right 전달인자가 아닌 값에 null을 입력해야합니다. <br>
+                전달인자 순서가 지정되어 있어 발생하는 불편함입니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp125.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                이 문제는 전달인자 값을 사용자가 직접 입력(Keyword Arguments)함으로써 해결할 수 있습니다. <br>
+                아래처럼 믹스인의 전달인자 중 설정하려는 인자를 입력하고 값을 작성하면 원하는 속성만 실행할 수 있습니다. <br>
+                <strong>자바스크립트에도 이러한 기능은 없습니다.</strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp126.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                또 Sass 믹스인은 전달인자를 개별적으로 정의하지 않고 한데 묶어서 처리하는 변수 전달인자(Variable Arguments)도
+                지원합니다. <br>
+                이해를 돕기위해 예제를 보면서 설명하겠습니다. <br>
+                먼저 modules/_mixins.scss 파일에 CSS3 트랜지션(transition) 속성을 믹스인으로 만든 후 각 속성을 전달인자로 설정합니다. <br>
+                style.scss 파일에서 믹스인을 호출하는 코드를 입력하고, easing, delay 속성 키워드를 직접 입력하여 값을 설정합니다. <br>
+                그러면 문제없이 style.css에 결과가 반영됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp127.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                하지만 이러한 상태에서는 CSS3 트랜지션 속성을 사용하는 방법을 모두 커버하지 못합니다. <br>
+                MDN(Mozilla Develop Network: 모질라 개발자 네트워크)에서 제공하는 CSS3 트랜지션 사용 방법
+                (<a href="https://developer.mozilla.org/ko/docs/Web/Guide/CSS/Using_CSS_transitions" target="_blank">https://developer.mozilla.org/ko/docs/Web/Guide/CSS/Using_CSS_transitions</a>)을
+                참고하면 CSS 각 속성마다 트랜지션 설정을 달리 할 수 있는데, <br>
+                현재 정의한 믹스인으로는 하나의 속성은 커버할 수 있으나 다수의 속성은 처리할 수 없습니다.
+                <pre class="line-numbers">
+                    <code class="language-css">
+                        .box {
+                            border-style: solid;
+                            border-width: 1px;
+                            display: block;
+                            width: 100px;
+                            height: 100px;
+                            background-color: #0000FF;
+                            -webkit-transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+                            transition: width 2s, height 2s, background-color 2s, -webkit-transform 2s;
+                        }
+                    </code>
+                </pre>
+                다수의 속성마다 트랜지션을 개별적으로 설정하는 일은 의외로 간단히 처리할 수 있습니다. <br>
+                <span class="em">Sass 언어는 믹스인을 정의할 때 전달인자를 개별적으로 정의하지 않고, 한대 묶어 처리할 수 있는 변수 전달인자 형태도 지원하기 때문입니다.</span>
+                <br>
+                다음처럼 코드를 수정하여 저장합니다. <br>
+                <span class="em">args는 전달인자(Arguments)를 줄인 것입니다.</span>
+                <pre class="line-numbers">
+                    <code class="language-scss">
+                        @mixin transition($args...) {
+                          -webkit-transition: $args;
+                          transition: $args;
+                        }
+                    </code>
+                </pre>
+                복수의 전달인자 믹스인 형태보다 단순한 변수 전달인자 믹스인 형태임에도 CSS3 트랜지션 문법을 완벽하게 지원할 수 있게 되었습니다. <br>
+                다음처럼 속성별(width, height)로 CSS3 트랜지션 코드를 작성한 후 전달인자 변수로 설정하여 저장합니다. <br>
+                transition 믹스인이 제대로 작동하는지 확인할 수 있습니다. <br>
+                변경된 CSS 결과에서 트랜지션 코드가 완벽하게 속성별로 설정되어 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp128.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

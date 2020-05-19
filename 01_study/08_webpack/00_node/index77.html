@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">EJS scripts 문법</h1>
+        <dl>
+            <dt class="d_tit">EJS scripts 문법 - 조건문</dt>
+            <dd class="d_txt">
+                조건문도 &lt;% %&gt; 안에 씁니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        &lt;% if (isLoggedIn) { %&gt;
+                            &lt;div&gt;로그인 되었습니다.&lt;/div&gt;
+                        &lt;% } else { %&gt;
+                            &lt;div&gt;로그인이 필요합니다.&lt;/div&gt;
+                        &lt;% } %&gt;
+                    </code>
+                </pre>
+                case 문도 사용 가능합니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        &lt;% switch(fruit) { %&gt;
+                            &lt;% case 'apple' : %&gt;
+                                &lt;p&gt;사과입니다.&lt;/p&gt;
+                            &lt;% case 'banana' : %&gt;
+                                &lt;p&gt;바나나입니다.&lt;/p&gt;
+                            &lt;% case 'orange' : %&gt;
+                                &lt;p&gt;오랜지입니다.&lt;/p&gt;
+                            &lt;% default : %&gt;
+                                &lt;p&gt;사과도 바나나도 오랜지도 아닙니다.&lt;/p&gt;
+                        &lt;% } %&gt;
+                    </code>
+                </pre>
+
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

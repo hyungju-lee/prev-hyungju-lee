@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">JavaScript and Gulpfiles</h1>
+        <dl>
+            <dt class="d_tit">JavaScript and Gulpfiles</dt>
+            <dd class="d_txt">
+                Gulp를 사용하면 기존 JavaScript 지식을 사용하여 gulpfile을 작성하거나 gulpfile에 대한 경험을 사용하여 일반 JavaScript를 작성할 수 있습니다. <br>
+                파일 시스템 및 명령 줄 작업을 단순화하기 위해 몇 가지 유틸리티가 제공되지만 작성하는 모든 것은 순수한 JavaScript입니다.
+            </dd>
+            <dt class="d_tit">Gulpfile 설명</dt>
+            <dd class="d_txt">
+                gulpfile은 gulpfile.js (또는 Makefile과 같이 Gulpfile.js로 대문자로 표시됨)라는 프로젝트 디렉토리에있는 파일로 gulp 명령을 실행할 때 자동으로로드됩니다.
+                <br>
+                이 파일에는 종종 src (), dest (), series () 또는 parallel ()과 같은 gulp API가 있지만 모든 바닐라 JavaScript 또는 노드 모듈을 사용할 수 있습니다.
+                <br>
+                내 보낸 기능은 gulp의 작업 시스템에 등록됩니다.
+            </dd>
+            <dt class="d_tit">Transpilation(번역)</dt>
+            <dd class="d_txt">
+                언어를 표시하고 일치하는 트랜스 파일러 모듈을 설치하도록 gulpfile.js의 확장자를 변경하여 <br>
+                TypeScript 또는 Babel과 같은 트랜스 필 레이션이 필요한 언어를 사용하여 gulpfile을 작성할 수 있습니다. <br>
+                <br>
+                TypeScript의 경우 gulpfile.ts로 이름을 바꾸고 ts-node 모듈을 설치하십시오. <br>
+                Babel의 경우 gulpfile.babel.js로 이름을 바꾸고 @ babel / register 모듈을 설치하십시오. <br>
+                대부분의 새 버전의 노드는 import / export 구문을 제외하고 TypeScript 또는 Babel에서 제공하는 대부분의 기능을 지원합니다. <br>
+                해당 구문 만 필요한 경우 gulpfile.esm.js로 이름을 바꾸고 esm 모듈을 설치하십시오. <br>
+                <br>
+                이 주제와 지원되는 확장 프로그램의 전체 목록에 대한 고급 정보는 gulpfile 변환 문서를 참조하십시오.
+            </dd>
+            <dt class="d_tit">Splitting a gulpfile</dt>
+            <dd class="d_txt">
+                많은 사용자가 모든 논리를 gulpfile에 추가하여 시작합니다. <br>
+                너무 커지면 별도의 파일로 <span class="em">리팩토링</span> 할 수 있습니다. <br>
+                <br>
+                각 작업은 자체 파일로 분할 한 다음 컴포지션을 위해 gulpfile로 가져올 수 있습니다. <br>
+                이를 통해 작업을 체계적으로 관리 할 수있을뿐만 아니라 각 작업을 독립적으로 테스트하거나 조건에 따라 구성을 변경할 수 있습니다. <br>
+                <br>
+                노드의 모듈 분석을 통해 gulpfile.js 파일을 gulpfile.js로 취급되는 index.js 파일이 포함 된 gulpfile.js 디렉토리로 바꿀 수 있습니다. <br>
+                이 디렉토리는 작업을위한 개별 모듈을 포함 할 수 있습니다. 변환기를 사용하는 경우 폴더와 파일 이름을 적절히 지정하십시오.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

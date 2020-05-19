@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Node.js에서 ES6 활용할 수 있는 환경 꾸미기</h1>
+        <dl>
+            <dt class="d_tit">Node.js에서 ES6 활용할 수 있는 환경 꾸미기</dt>
+            <dd class="d_txt">
+                1. gulpfile.babel.js 생성 (기존엔 gulpfile.js로 생성했다면 .babel을 붙여줍니다.)
+                <pre class="line-numbers">
+                    <code class="language-git">
+                        touch gulpfile.babel.js
+                    </code>
+                </pre>
+                2. Babel 설치 (ES2015 + 기능 및 호환성 문제를 피하기 위해 설치합니다.)
+                <pre class="line-numbers">
+                    <code class="language-git">
+                        npm i -D @babel/register @babel/core @babel/preset-env
+                    </code>
+                </pre>
+                3. .babelrc 파일 생성 (babel 환경설정을 하는 json 파일입니다.)
+                <pre class="line-numbers">
+                    <code class="language-git">
+                        touch .babelrc
+                    </code>
+                </pre>
+                4. .babelrc 파일을 열고 아래 내요을 입력합니다. <br>
+                (babel-preset-env는 babel-preset-latest (또는 babel-preset-es2015, babel-preset-es2016 및 babel-preset-es2017과 동일)와 정확히 동일하게 작동합니다.)
+                <pre class="line-numbers">
+                    <code class="language-git">
+                        {
+                            "presets": [ "@babel/preset-env" ]
+                        }
+                    </code>
+                </pre>
+                이렇게만 하시면 Node.js에서 Es6를 사용할 준비는 끝납니다.
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

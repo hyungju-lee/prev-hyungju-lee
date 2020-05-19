@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Node.js 환경을 이해하는 심화 실습</h1>
+        <dl>
+            <dt class="d_tit">Node.js 환경을 이해하는 심화 실습</dt>
+            <dd class="d_txt">
+                앞서 클라이언트 자바스크립트와 다른 서버 사이드 자바스크립트의 이해를 돕기 위한 실습을 했습니다. <br>
+                이어서 서버사이드에 기반을 둔 자바스크립트 환경인 Node.js를 배울 수 있는 실습을 하겠습니다. <br>
+                Node.js 환경에서 기본으로 제공되는 File System 모듈을 사용하여 로컬 컴퓨터 환경의 파일 내용을 읽거나 쓰고, <br>
+                지속적으로 변화를 관찰하는 방법을 배웁니다.
+            </dd>
+            <dt class="d_tit">File System 모듈을 사용하여 파일 일기(Read File)</dt>
+            <dd class="d_txt">
+                File System(<a href="http://nodejs.org/api/fs.html" target="_blank">http://nodejs.org/api/fs.html</a>)은 Node.js 모듈 중에서 파일을 읽고 쓸 수 있는 모듈입니다.
+                <br>
+                먼저 [nodejs] 디렉터리 안에 [files] 디렉터리를 생성한 후 읽을 문서(about-nodejs.txt, user.json)를 만듭니다. <br>
+                다시 [nodejs] 디렉터리로 이동하여 File System 모듈 코드를 작성할 readFile.js 문서를 만듭니다. <br>
+                편집기에서 readFile.js 파일을 열고, 다음과 같이 File System 모듈을 호출하는 코드를 입력합니다. <br>
+                변수 fs에 File System 모듈을 출력하여 참조합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                    </code>
+                </pre>
+                계속하여 레퍼런스(<a href="http://nodejs.org/api/fs.html#fs_fs_readfile_filename_options_callback">http://nodejs.org/api/fs.html#fs_fs_readfile_filename_options_callback</a>)를 참고하여
+                <br>
+                readFile.js 파일에 코드를 추가하여 저장합니다. <br>
+                입력한 코드는 [files] 디렉터리에 있는 about-nodejs.txt 파일을 읽은 후 파일 읽기가 끝나면 내용(data)을 콘솔(console) 화면에 출력하라는 의미입니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        // File System -readFile() 사용
+                        fs.readFile('files/about-nodejs.txt', function(err, data){
+                            console.log('data: ' + data);
+                        });
+                    </code>
+                </pre>
+                Git Bash에서 <strong>node readFile.js</strong> 명령어를 입력하고 엔터를 눌러 실행합니다. <br>
+                File System 모듈을 사용하여 읽은 files/about-node.txt 내용이 콘솔 화면에 출력됩니다. <br>
+                (출력되는 내용은 읽을 문서인 about-nodejs.txt 파일에 작성한 것으로 필자가 임의로 작성했습니다.)
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node9.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                일반 텍스트 파일(*.txt)은 잘 읽는 것을 확인했습니다. <br>
+                이번에는 JSON 파일을 읽어보겠습니다. <br>
+                fs.readFile() 메소드 코드에서 첫번째 전달인자 값을 file/tsconfig.json으로 변경하고 저장합니다. <br>
+                [files] 디렉터리에 있는 tsconfig.json 파일을 읽도록 코드를 변경했습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        // File System -readFile() 사용
+                        fs.readFile('files/tsconfig.json', function(err, data){
+                            console.log('data: ' + data);
+                        });
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node10.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                Git Bash에서 동일하게 <strong>node readFile.js</strong> 명령어를 입력하여 실행합니다. <br>
+                JSON 파일 내용이 콘솔 창에 출력됩니다.
+            </dd>
+            <dd class="d_txt" style="margin-top:50px">
+                File System 모듈에서 readFile() 코드를 실행하는 흐름을 살펴보면, 코드 처리가 끝날 때까지 기다리지 않고 바로 다음 프로세스를 실행합니다. <br>
+                즉, 작성한 코드가 순서대로 실행되지 않습니다. <br>
+                이를 확인할 수 있는 간단한 코드를 추가해 보겠습니다. <br>
+                fs.readFile() 메소드 코드 앞 뒤에 console.log() 메소드 코드를 추가한 후 저장하여 콘솔 화면에 프로세스의 시작과 끝을 출력합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+                        console.log('파일 읽기 프로세스 시작...');
+                        // File System -readFile() 사용
+                        fs.readFile('files/tsconfig.json', function(err, data){
+                            console.log('data: ' + data);
+                        });
+                        console.log('파일 읽기 프로세스 끝');
+                    </code>
+                </pre>
+                Git Bash에서 <strong>node readFile.js</strong> 명령어를 입력하여 실행합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node11.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                결과 화면에서 눈여겨볼 것은 console.log() 메소드로 출력된 프로세스 시작과 끝 로그 메시지가 fs.readFile() 메소드보다 먼저 실행되었다는 점입니다. <br>
+                코드 순서와 상관없이 실행 순서가 결정된다는 것을 보여줍니다. <br>
+                이는 File System 모듈에서 readFile() 코드의 실행 흐름이 비동기이기 때문입니다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

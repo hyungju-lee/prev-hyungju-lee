@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>eventDefault</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/tab.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <!--[if lt IE 9]>
+    <style>
+        code{overflow: auto}
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">함수 선언문과 함수 표현식의 차이</h1>
+        <dl>
+            <dt class="d_tit">함수 선언문과 함수 표현식의 차이</dt>
+            <dd class="d_txt">
+                아래는 함수 선언문(function definition)이다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function add(x,y){
+                            return x+y;
+                        }
+                    </code>
+                </pre>
+                함수 선언문을 함수 표현식(function expression)으로 바꾸면 다음과 같다. <br>
+                <a href="study2.html">참고 : const와 let, var의 차이점</a>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let add = function (x, y) {
+                            return x+y;
+                        }
+                    </code>
+                </pre>
+                함수 선언문은 함수 표현식으로 바꿀 수 있다. <br>
+                add라는 변수를 선언하고 함수를 이 변수에 대입하면 된다. <br>
+                그리고 우측은 더 이상 이름을 가지는 것이 의미가 없기 때문에 우측은 이름이 없는 익명함수(anonymous function)이 오게 된다. <br><br>
+                두 가지의 차이점은 함수 표현식은 hoisting이 안된다는 것이다. <br>
+                let add 부분만 호이스팅이 일어나고 우측 할당 부분은 실제 코드가 실행될 때 대입된다.
+            </dd>
+            <dt class="d_tit">익명 함수와 arrow 함수</dt>
+            <dd class="d_txt">
+                함수 표현식일 경우 우측은 익명함수가 오게 되고 이 <strong>익명함수를 애로우 펑션으로 바꿀 수 있다.</strong><br>
+                바꾸는 규칙은 function을 생략하고 입력과 출력 사이에 => 기호를 삽입한다. <br>
+                몇 가지 규칙을 설명하면 다음과 같다.
+                <ul class="lst">
+                    <li class="item">익명함수는 arrow 함수로 변경 가능</li>
+                    <li class="item">function을 없애고 입력과 출력 사이에 => 삽입</li>
+                    <li class="item">return 밖에 없을 경우는 함수의 {}와 return문을 모두 생략 가능하다.</li>
+                    <li class="item">하지만 만일, 리턴하는 타입이 json 객체일 경우는 {}가 함수의 중괄호를 먼저 의미하게 되므로 ()로 감싸주어야 한다. ({}) 이런 형태가 된다.</li>
+                </ul>
+                위의 함수 표현식을 arrow 함수로 바꾸면 다음과 같다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let add = (x, y) =&gt; x+y;
+                    </code>
+                </pre>
+                함수 선언문, 함수 표현식 예제
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // 함수 선언문
+                        function myName(first, last) {
+                            console.log(first + last);
+                        }
+
+                        // 함수 표현식 (우측은 anonymous function)
+                        var myName = function(first, last) {
+                            console.log(first + last);
+                        }
+
+                        // 애로우 펑션
+                        var myName = (first, last) => console.log(first + last);
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // 함수 표현식
+                        let circleArea = function(pi, r){
+                            let area = pi * r * r;
+                            return area;
+                        }
+
+                        // 애로우 펑션
+                        let circleArea = (pi, r) => pi * r * r;
+
+                        // 함수 실행
+                        let result = circleArea(3.14, 3);
+                        console.log(result); // 실행 결과 "28.26"
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">lexical this</dt>
+            <dd class="d_txt">
+                arrow 함수에서는 this를 바인딩하지 않는다. <br>
+                생성자 함수에서 사용되는 this는 자기 자신을 바인딩하고,<br>
+                json 객체에서 사용될 경우 상위 부모를 <br>
+                그 외에 사용될 경우는 글로벌 this(window)를 바인딩 하는게 es5의 this의 용도 세가지이다. <br><br>
+                그러나 arrow 함수에서 this가 사용되면 this는 바인딩되지 않으므로 펑션이 없는 것처럼 생각하면 된다. <br>
+                아래의 this는 enclosing context가 function이고 이벤트가 일어난 button의 this를 가르키므로 정상적으로 실행된다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        $('.btn').click(function () {
+                          $(this).text('new');
+                        });
+                    </code>
+                </pre>
+                그러나 아래의 경우는 다르다. <br>
+                <strong>setTimeout</strong> 같이 즉시 실행되는 함수가 아니라 비동기로 실행되는 경우는 이벤트 큐에 펑션이 들어간 후에 실행되므로<br>
+                this의 enclosing context는 바로 밖의 function을 가르키게 되는데 <br>
+                여기서의 this는 global this가 되어서 정상적인 실행이 되지 않는다.
+                <div class="tab_area">
+                    <div class="tab_tit">
+                        <button type="button" class="btn_tit btn_result">Result</button>
+                        <button type="button" class="btn_tit btn_js">jQuery</button>
+                    </div>
+                    <div class="tab_txt">
+                        <div class="txt_area result on" style="overflow:auto;max-height:400px;padding: 20px;background-color: #70c4ff">
+                            <button type="button" id="btn2">버튼</button> <br>
+                            // Uncaught TypeError: Cannot read property 'createDocumentFragment' of undefined
+                        </div>
+                        <div class="txt_area js">
+                            <pre class="line-numbers">
+                                <code class="language-javascript">
+                                    $('#btn2').click(function () {
+                                        setTimeout(function () {
+                                            // This will cause an error since function() defines this as the global object.
+                                            $(this).text('new');
+                                        }, 1000);
+                                    });
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                이 부분을 arrow 함수로 수정하게 되면 arrow 에서는 this를 바인딩하지 않고 enclosing context는 바깥쪽 this를 가르키게 되어서 button 자식을 가르키게 된다.
+
+                <div class="tab_area">
+                    <div class="tab_tit">
+                        <button type="button" class="btn_tit btn_result">Result</button>
+                        <button type="button" class="btn_tit btn_js">jQuery</button>
+                    </div>
+                    <div class="tab_txt">
+                        <div class="txt_area result on" style="overflow:auto;max-height:400px;padding: 20px;background-color: #70c4ff">
+                            <button type="button" id="btn1">버튼</button>
+                        </div>
+                        <div class="txt_area js">
+                            <pre class="line-numbers">
+                                <code class="language-javascript">
+                                    $('#btn1').click(function () {
+                                        setTimeout(() => {
+                                            $(this).text('new');
+                                        }, 1000);
+                                    });
+                                </code>
+                            </pre>
+                        </div>
+                    </div>
+                </div>
+                this 예제
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function person() {
+                            this.arms = 2;
+                            this.legs = 2;
+                        }
+
+                        console.log(arms); // Uncaught ReferenceError: arms is not defined
+                        console.log(Person()); // undefined, 이렇게 실행하면 this는 글로벌 this(window), 이 글로벌 this에 arms, legs 프로퍼티 저장
+                        console.log(arms); // 2
+                    </code>
+                </pre>
+                <strong>생성자 함수 규칙</strong>
+                <ul class="lst">
+                    <li class="item">내부적으로 자기 자신을 가르키는 this가 생성 this = {}</li>
+                    <li class="item">return 문이 없으면this가 리턴이됨</li>
+                    <li class="item">return 문이 있으면 return되는 type이 객체일 경우만 유효 (아래 return 두 가지 경우 참고)</li>
+                </ul>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // Person 이렇게 맨 앞에 한글자만 대문자라는 뜻은
+                        // 이 함수는 생성자함수로 쓰겠다. 호출함수 말고! 그냥 개발자간 암묵적 네이밍 룰임
+                        // 자바스크립트 객체 만드는 방법 : 1. 생성자 함수 2. json 리터럴?
+                        function Person() {
+                            this.arms = 2;
+                            this.legs = 2;
+                            //return {a : 1};
+                            //return 3;
+                        }
+                    </code>
+                </pre>
+                자바스크립트에서 객체를 생성하는 2가지 방법은 무엇인가?<br>
+                아래는 어떤 방법인가?
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var person = new Person(); // 왼쪽이 생성자 함수로 만든 방식
+                        var person = {arms : 2, legs: 2} // 왼쪽이 json객체 만드는 방식
+
+                        // 실행 결과는 무엇인가? 실행결과에 대해서 설명하시오.
+                        console.log(person);
+                        // literal 객체로  person 객체를 생성하시오.
+
+                        // 실행 결과는 무엇인가? 여기서 사용된 this는 무엇인가?
+                        console.log(person.arms);
+                        // 만일 this.arms, this.legs가 없다면 new Person()의 결과는 무엇인가?
+
+                        //1. 글로벌 this
+                        // 2. json this
+                        // 3. 생성자함수 자기자신 this
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">커링 (currying) 펑션</dt>
+            <dd class="d_txt">
+                커링 펑션은 파라미터를 한꺼번에 입력하는게 아니라 하나씩 차례대로 입력하는 것을 말한다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        let add = (a, b, c) =&gt; a + b + c;
+                        // currying function
+                        let currying_add = a =&gt; b =&gt; c =&gt; a + b + c;
+                    </code>
+                </pre>
+                파라미터를 차례대로 대입하기 위해서는 첫번째 파라미터를 입력하고 난 뒤에 펑션이 리턴이 되어야 한다. <br>
+                그러면 다시 그 펑션에 두번째 파라미터를 대입하고 다시 펑션이 대입되는 방식이다. <br>
+                그러면 언제 커링 펑션이 사용될까? <br>
+                커링 펑션은 미들웨어의 기능을 수행할 수 있다. <br>
+                펑션이 리턴되므로 그 사이에 여러가지 로직을 중간에 삽입할 수 있다. <br>
+                로깅이라던가, 인증 등 최종 로직이 수행되기 전 여러가지 로직을 일괄적으로 수행하기 위해서 커링 펑션을 사용할 수 있다. <br><br>
+                자세한 것은 아래 소스를 참고하자.<br>
+                <a href="study7.html">참조 : 커링펑션</a>
+            </dd>
+
+        </dl>
+
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+<script src="../../../js/tab.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $('#btn1').click(function () {
+        setTimeout(() => {
+            $(this).text('new');
+        }, 1000);
+    });
+    $('#btn2').click(function () {
+        setTimeout(function () {
+            $(this).text('new');
+        }, 1000);
+    });
+</script>
+</body>
+</html>

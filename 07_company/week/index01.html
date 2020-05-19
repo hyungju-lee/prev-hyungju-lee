@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>study</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/child_style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">2주차 - 1주차 이론 복습</h1>
+        <dl>
+            <dt class="d_tit">NodeJS란?</dt>
+            <dd class="d_txt">
+                Node.js는 크롬 V8 자바스크립트 엔진으로 빌드된 자바스크립트 런타임입니다. <br>
+                Node.js는 이벤트 기반, 논블로킹 I/O 모델을 사용해 가볍고 효율적입니다. <br>
+                Node.js의 패키지 생태계인 npm은 세계에서 가장 큰 오픈 소스 라이브러리 생태계이기도 합니다.
+            </dd>
+            <dt class="d_tit">노드js 특징</dt>
+            <dd class="d_txt">
+                자바스크립트 어플리케이션 실행 가능 (자바스크립트 런타임)<br>
+                <a href="https://hyungju-lee.github.io/nodejs/index01.html" target="_blank">서버</a> 어플리케이션 실행 가능 <br>
+                <a href="https://hyungju-lee.github.io/nodejs/index03.html" target="_blank">이벤트 기반</a> <br>
+                <a href="https://hyungju-lee.github.io/nodejs/index04.html" target="_blank">논블로킹 I/O</a> <br>
+                <a href="https://hyungju-lee.github.io/nodejs/index05.html" target="_blank">싱글 스레드</a>
+            </dd>
+            <dt class="d_tit">프로세스</dt>
+            <dd class="d_txt">
+                Ctrl+Alt+Del 작업관리자<br>
+                동시성 : 프로세서의 Context Switching <br>
+                병렬성 : 멀티코어
+            </dd>
+            <dt class="d_tit">스레드</dt>
+            <dd class="d_txt">
+                웹브라우저 실행 (하나의 프로세스) <br>
+                브라우저를 실행하면서 검색도 해야되고 게임 프로그램도 다운받아야되고... <br>
+                하나의 프로세스 안에 스레드는 여러개 (물론 하나일 수도 있음)
+            </dd>
+            <dt class="d_tit">스레드 단점</dt>
+            <dd class="d_txt">
+                프로세스 안에서 공유되는 변수에 동시에 손을 대면 Error 발생 <br>
+                누를 때마다 숫자가 1씩 증가하는 버튼이 2개가 있습니다. <br>
+                스레드 둘이 이 버튼을 10번씩 누르면 결과물은 20이 나와야합니다. <br>
+                하지만 그보다 적게 나옵니다. <br>
+                둘이 동시에 누르는 경우는 숫자가 1만큼 올라가기 때문입니다. <br>
+                스레드는 스레드를 생각한 코드 짜기도, 디버깅해서 오류를 찾아내는 것도 어렵습니다. <br>
+                이러한 어려움을 더 쉽고 안전하게 하도록 도구나 프로그래밍 방식들이 많이 지원되고 있습니다. <br>
+                (Closure, Lambda, Actor, Functional Programming ... )
+            </dd>
+            <dt class="d_tit">예전 자바스크립트 한계 (모듈기능 지원 안함)</dt>
+            <dd class="d_txt">
+                ES6 : Client Side 모듈기능 추가 (import, export) <br>
+                하지만, 대부분의 브라우저 ES6 모듈기능 지원 안함 <br>
+                노드js의 범용적 활용을 위해선 꼭 해결되어야했던 모듈기능 <br>
+                CommonJS 와 AMD(Asynchronous Module Definition) 중 CommonJS 채택 <br>
+                CommonJS는 독립적인 실행 영억(Scope)을 가진다.
+            </dd>
+            <dt class="d_tit">예전 자바스크립트 한계 (function scope)</dt>
+            <dd class="d_txt">
+                <strong>script tag - 동일한 scope</strong>
+                <pre class="line-numbers">
+                    <code class="language-html">
+                    &lt;script src="js/script.js"&gt;&lt;/script&gt;
+                    &lt;script src="js/script1.js"&gt;&lt;/script&gt;
+                    &lt;script src="js/script2.js"&gt;&lt;/script&gt;
+                    </code>
+                </pre>
+                <strong>function scope</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        function scopeTest(){
+                            var is = true;
+                            if(is){
+                                var is = false;
+                            }
+                            for(var i=0; i<=5; i++){
+                                var inFor = i;
+                            }
+                            console.log(inFor); // 출력되는 값은?
+                            console.log(is);
+                        }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var es = [];
+                        for(var i=0; i<10; i++){
+                            es[i] = function(){
+                                console.log("ECMAScript is ES" + i);
+                            };
+                        }
+                        es[6](); // 출력되는 값은?
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var es = [];
+                        for(var i=0; i<10; i++){
+                            (function(i){
+                                es[i] = function(){
+                                    console.log("ECMAScript is ES" + i);
+                                };
+                            })(i);
+                        }
+                        es[6]();
+                    </code>
+                </pre>
+                <strong>block scope</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var es = [];
+                        for(let i=0; i<10; i++){
+                            es[i] = function(){
+                                console.log("ECMAScript is ES" + i);
+                            };
+                        }
+                        es[6]();
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">노드js 서버로서의 특징</dt>
+            <dd class="d_txt">
+                <dl class="d_table">
+                    <dt class="d_table_tit">장점</dt>
+                    <dd class="d_table_txt">
+                        멀티 스레드 방식에 비해 컴퓨터 자원 적게 사용 <br>
+                        I/O가 많은 작업에 적합 (libuv 라이브러리 - 스레드 하나여도 많은 수의 I/O 감당) <br>
+                        멀티 스레드보다 코딩이 쉬움. 진입장벽이 낮음 <br>
+                        개발 언어로 자바스크립트 사용 (하나의 언어로 웹사이트 개발 가능) - 생산성 증가 <br>
+                        자바스크립트를 사용하기 때문에 XML 대신 JSON 데이터 사용 가능
+                    </dd>
+                    <dt class="d_table_tit">단점</dt>
+                    <dd class="d_table_txt">
+                        CPU 코어 하나밖에 사용 못함 <br>
+                        CPU 부하가 큰 작업에는 부적합 <br>
+                        싱글 스레드이다보니 하나뿐인 스레드가 Error로 멈추지 않도록 관리 필수 <br>
+                        어중간한 성능
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">노드js 서버로 사용</dt>
+            <dd class="d_txt">
+                개수는 많지만 크기는 작은 데이터를 실시간으로 주고받는데 적합함 <br>
+                (네트워크나 데이터베이스, 디스크 작업 같은 I/O에 특화) <br>
+                실시간 채팅 어플리케이션, 주식차트, JSON 데이터를 제공하는 API 서버 등에 활용
+            </dd>
+            <dt class="d_tit">노드js와는 안 어울리는 서버</dt>
+            <dd class="d_txt">
+                대규모 데이터를 처리하는 CPU를 많이 사용하는 서버 <br>
+                (이를 보완하기 위해 AWS Lambda, Google Cloud Functions 같은 서비스에서 노드js로 CPU를 많이
+                사용하는 작업 처리를 지원함)
+            </dd>
+            <dt class="d_tit">노드js 서버외의 사용</dt>
+            <dd class="d_txt">
+                노드js 웹프레임워크 React, Vue, Angular <br>
+                노드js 데스크탑 개발도구 Electron.js
+                <dl class="d_table">
+                    <dt class="d_table_tit">Electron.js로 개발된 프로그램</dt>
+                    <dd class="d_table_txt">
+                        Atom, Slack, Discord, Vs Code, ...
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">MVC 패턴</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/mvc.png" alt=""></span>
+            </dd>
+            <dt class="d_tit">MVC 프레임워크</dt>
+            <dd class="d_txt">
+                PHP - 라라벨 <br>
+                자바 - 스프링 <br>
+                Ruby - Ruby on Rails <br>
+                C# - .Net Core <br>
+                Scala(함수형 언어) - Play
+            </dd>
+            <dt class="d_tit">프레임워크와 라이브러리의 차이점?</dt>
+            <dd class="d_txt">
+                재료만 주느냐, 그 재료로 만들어진 골격을 주느냐의 차이입니다. <br>
+                EX) jQuery library, bootstrap framework
+            </dd>
+            <dt class="d_tit">Angular, React, Vue - SPA(싱글 페이지 어플리케이션) 프레임워크</dt>
+            <dd class="d_txt">
+                <dl class="d_table">
+                    <dt class="d_table_tit">기존 MVC 패턴의 아쉬운점 1</dt>
+                    <dd class="d_table_txt">
+                        한 부분 데이터가 바뀌었는데 페이지 전체가 리붓됨 <br>
+                        다행히 <span class="em">ajax</span>란 기술이 나온 후로는
+                        http 통신으로 데이터를 전송하고 결과를 받아와서
+                        이런 단점을 보완할 수 있었음 <br>
+                        하지만 이걸 일일이 프로그래밍해야된다는 불편함이 있음
+                    </dd>
+                    <dt class="d_table_tit">기존 MVC 패턴의 아쉬운점 2</dt>
+                    <dd class="d_table_txt">
+                        스마트폰 - 모바일용 웹사이트 개발 필요성 <br>
+                        반응형이 아닐 경우 PC용 웹사이트, 모바일용 웹사이트 따로 개발 <br>
+                        <strong>iOS 또는 안드로이드 앱은 자체적인 소프트웨어와 시스템이 있어서 서버로부터 데이터만 전송받으면 화면이 보여질 수 있음 </strong><br>
+                    </dd>
+                    <dt class="d_table_tit">자바스크립트 프레임워크 등장</dt>
+                    <dd class="d_table_txt">
+                        웹에서도 iOS/안드로이드 앱과 같은 기능이 가능하다면, 즉 서버에서 데이터만 보내줘도 그걸 브라우저에서 HTML, CSS, JS로 랜더링해낼 수 있다면, <br>
+                        이제 서버는 어디서 정보를 요청하든 동일한 작업을 수행해서 데이터를 전송하면 될겁니다. <br>
+                        서버 개발자가 그런 일에만 집중할 수 있게 되는 겁니다. <br>
+                        <strong>이런 필요성에 의해 등장한 것이 SPA 프레임워크</strong>
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">SPA 프레임워크 배포방식</dt>
+            <dd class="d_txt">
+                배포할 땐 빌드를 통해 브라우저가 읽을 수 있는 JS 변환
+            </dd>
+            <dt class="d_tit">SPA 프레임워크 특징</dt>
+            <dd class="d_txt">
+                <dl class="d_table">
+                    <dt class="d_table_tit">Angular</dt>
+                    <dd class="d_table_txt">
+                        Google 프레임워크 - 안정적이고 탄탄함. 단, 무겁고 배우기 어려움
+                    </dd>
+                    <dt class="d_table_tit">Vue</dt>
+                    <dd class="d_table_txt">
+                        Evan You 라는 개인이 개발 (프레임워크와 라이브러리 중간) <br>
+                        배우기 쉬움, 코드가 깔끔해 나머지 둘에 비해 후발 주자임에도 불구, 빠른 속도로 성장
+                    </dd>
+                    <dt class="d_table_tit">React</dt>
+                    <dd class="d_table_txt">
+                        FaceBook 라이브러리 (유연함이 강점, 막강한 커뮤니티와 자료 구축)
+                    </dd>
+                </dl>
+            </dd>
+
+
+
+        </dl>
+    </div>
+</div>
+
+
+
+<script src="../../js/prism.js"></script>
+</body>
+</html>

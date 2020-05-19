@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">EJS scripts 문법</h1>
+        <dl>
+            <dt class="d_tit">EJS scripts 문법 - 변수 &amp; 이스케이프</dt>
+            <dd class="d_txt">
+                EJS에서 변수는 <strong>&lt;%= %&gt;</strong>로 감쌉니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        &lt;html lang="ko"&gt;
+                        &lt;head&gt;
+                            &lt;meta http-equiv="content-type" content="text/html; charset=UTF-8"&gt;
+                            &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+                            &lt;style&gt; body {
+                                font-size: 12pt;
+                                color: #006666;
+                            }
+
+                            h1 {
+                                font-size: 18pt;
+                                background-color: #AAFFFF;
+                            }
+
+                            pre {
+                                background-color: #EEEEEE;
+                            }
+                            &lt;/style&gt;
+                        &lt;/head&gt;
+                        &lt;body&gt;
+                        &lt;%
+                            var title = 'ejs'
+                         %&gt;
+                        &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+                        &lt;p&gt;Welcome to &lt;%= title %&gt;, 오잉 되네? 아싸 문법정리만 하자, 사용법만 확실하게 익히고 lastRun도 추가하고&lt;/p&gt;
+                        &lt;button class="&lt;%= title %&gt;" type="submit"&gt;전송&lt;/button&gt;
+                        &lt;input type="text" placeholder="&lt;%= title + '연습' %&gt;"&gt;
+
+                        EJS에서 변수는 &lt;%= %&gt;로 감쌉니다. &lt;br&gt;
+                        내부에 변수를 사용할 수도 있습니다. &lt;br&gt;
+                        자바스크립트 코드는 &lt;% %&gt; 안에 적어줍니다.
+                        &lt;/body&gt;
+                        &lt;/html&gt;
+                    </code>
+                </pre>
+                내부에 변수를 사용할 수도 있습니다. <br>
+                자바스크립트 코드는 &lt;% %&gt; 안에 적어줍니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        &lt;%
+                            var title = 'ejs'
+                         %&gt;
+                    </code>
+                </pre>
+                HTML을 이스케이프 하고 싶지 않다면 &lt;%- %&gt;로 감싸줍니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        &lt;p&gt;&lt;%= '&lt;strong&gt;이스케이프&lt;/strong&gt;' %&gt;&lt;/p&gt;
+                        &lt;p&gt;&lt;%- '&lt;strong&gt;이스케이프&lt;/strong&gt;' %&gt;&lt;/p&gt;
+                    </code>
+                </pre>
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 사용을 위한 모듈 설치 및 준비</h1>
+        <dl>
+            <dt class="d_tit">Sass 사용을 위한 모듈 설치 및 준비</dt>
+            <dd class="d_txt">
+                Sass(<a href="http://sass-lang.com" target="_blank">http://sass-lang.com</a>)는 책에서 다루는 Node.js 기반 프론트-엔드 환경에서 사용하는
+                강력한 CSS 확장 언어입니다. <br>
+                본디 Ruby 기반 환경에서 사용했지만, Node.js 기반 환경에서도 사용할 수 있습니다. <br>
+                여전히 보수적인 국내 환경의 특성상 아직까지는 실무에서 많이 사용하지 않지만, Jade와 함께 활용한다면 업무 생산성을 높일 수 있습니다. <br>
+                <strong>유사한 CSS 확장 언어로는 Less, Stylus 등이 있지만, 필자는 Sass를 더 선호합니다.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        "use strict";
+
+                        // 모듈 호출
+                        // gulp             : gulp 모듈
+                        // gulp-jshint      : javascript 문구 문법 검사
+                        // jshint-stylish   : javascript 문법검사 결과 이쁘게 출력되게 해주는 모듈
+                        // gulp-concat      : javascript 파일을 한 파일로 합쳐주는 모듈
+                        // gulp-uglify      : javascript 파일을 min 파일처럼 압축해주는 모듈
+                        // gulp-babel       : es6를 es5로 컴파일 해주는 모듈
+                        // gulp-csslint     : css 문법 검사
+                        // csslint-stylis   : csslint 문법검사 결과 이쁘게 출력되게 해주는 모듈
+                        // gulp-concat-css  : css 파일을 한 파일로 합쳐주는 모듈
+                        // gulp-uglifycss   : css 파일을 min 파일처럼 압축해주는 모듈
+                        // gulp-rename      : 파일의 이름을 바꿔주는 모듈
+                        // gulp-if          : 조건문을 쓸 수 있게 해주는 모듈
+                        // gulp-jade        : HTML 템플릿 중 하나인 jade 템플릿을 사용할 수 있게 하는 모듈
+                        // del              : 폴더(디렉터리)/파일 제거
+                        // gulp-connect     : local 서버와 연결하게 해주는 모듈
+                        // gulp-open        : 브라우저를 열게하는 모듈
+                        // gulp-watch       : 수정된 파일만 감시하도록 하는 모듈
+
+                        const {src, dest, watch, series, parallel} = require('gulp'),
+                            jsHint = require('gulp-jshint'),
+                            jsStylish = require('jshint-stylish'),
+                            jsConcat = require('gulp-concat'),
+                            jsUglify = require('gulp-uglify'),
+                            babel = require('gulp-babel'),
+                            cssLint = require('gulp-csslint'),
+                            cssStylish = require('csslint-stylish'),
+                            cssConcat = require('gulp-concat-css'),
+                            cssUglify = require('gulp-uglifycss'),
+                            rename = require('gulp-rename'),
+                            gulpif = require('gulp-if'),
+                            jade = require('gulp-jade'),
+                            del = require('del'),
+                            connect = require('gulp-connect'),
+                            open = require('gulp-open'),
+                            gulpWatch = require('gulp-watch'),
+                            config = require('./config.json');
+
+                        // filelist = require('gulp-filelist'),
+                        // jslist = require('./jsfilelist'),
+                        // csslist = require('./cssfilelist')
+
+                        // CSS 파일 이름 목록
+                        // function CssFileNameList() {
+                        //     return src('src/css/*.css')
+                        //         .pipe(filelist('cssfilelist.json', { flatten: true }))
+                        //         .pipe(dest('./'))
+                        // }
+
+                        // JS 파일 이름 목록
+                        // function JsFileNameList() {
+                        //     return src('src/js/*.js')
+                        //         .pipe(filelist('jsfilelist.json', { flatten: true }))
+                        //         .pipe(dest('./'))
+                        // }
+                        //
+                        // function result() {
+                        //     for (let item in jslist) {
+                        //         console.log(jslist[item])
+                        //     }
+                        //     for (let item2 in csslist) {
+                        //         console.log(csslist[item2])
+                        //     }
+                        // }
+
+                        // 파일리스트 연구
+                        // exports.fname = series(parallel(CssFileNameList, JsFileNameList), result);
+
+
+                        // 파일 삭제
+                        function Clean() {
+                            return del(
+                                [config.path.del.dest],
+                                {
+                                    dryRun: true
+                                }
+                            );
+                        }
+
+                        // CSS 문법 검사
+                        function LintCss(){
+                            return src(config.path.css.src)
+                                .pipe(cssLint({
+                                    'import': false
+                                }))
+                                .pipe(cssLint.formatter(cssStylish))
+                        }
+
+                        // CSS 병합
+                        function ConcatCss() {
+                            return src(config.path.css.src)
+                                .pipe(cssConcat(config.path.css.filename))
+                                .pipe(dest(config.path.css.dest))
+                        }
+
+                        // CSS 압축
+                        function UglifyCss() {
+                            return src(config.path.css.dest + config.path.css.filename)
+                                .pipe(cssUglify())
+                                .pipe(rename({
+                                    suffix: '.min'
+                                }))
+                                .pipe(dest(config.path.css.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // JS ES5 문법 검사
+                        function HintJsEs5() {
+                            return src(config.path.js.src)
+                                .pipe(babel({
+                                    presets: ['@babel/env']
+                                }))
+                                .pipe(jsHint())
+                                .pipe(jsHint.reporter(jsStylish));
+                        }
+
+                        // JS 병합
+                        function ConcatJs() {
+                            return src(config.path.js.src)
+                                .pipe(jsConcat(config.path.js.filename))
+                                .pipe(babel({
+                                    presets: ['@babel/env']
+                                }))
+                                .pipe(dest(config.path.js.dest));
+                        }
+
+                        // JS 압축
+                        function UglifyJs() {
+                            return src(config.path.js.dest + config.path.js.filename)
+                                .pipe(jsUglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(dest(config.path.js.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // JS libs 내보내기
+                        function Libs() {
+                            return src(config.path.js.libs)
+                                .pipe(dest(config.path.js.libsDest))
+                                .pipe(connect.reload())
+                        }
+
+                        // Jade 컴파일
+                        function JadeCompile() {
+                            return src(config.path.jade.src)
+                                .pipe(jade({
+                                    pretty: true
+                                }))
+                                .pipe(dest(config.path.jade.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // 웹 서버 업무 (LiveReload 사용)
+                        function Server() {
+                            return connect.server({
+                                root: config.path.jade.dest,
+                                port: config.port,
+                                livereload: config.livereload
+                            })
+                        }
+
+                        // 브라우저 오픈 업무
+                        function BrowserOpen() {
+                            const options = {
+                                uri: 'http://localhost:' + config.port,
+                                app: config.browser //chrome, firefox, iexplore, opera, safari
+                            };
+                            return src(config.path.jade.dest)
+                                .pipe(open(options)); // local 서버가 아닌 파일 경로로 열려면 '<%file.path%>' 를 넣어주면된다.
+                        }
+
+                        // 지속적 관찰(Watch) 업무 정의
+                        function FileWatch() {
+                            gulpWatch(config.path.jade.src, series(Clean, JadeCompile));
+                            gulpWatch(config.path.css.src, series(Clean, series(LintCss, ConcatCss, UglifyCss)));
+                            gulpWatch(config.path.js.src, series(Clean, series(HintJsEs5, ConcatJs, UglifyJs)));
+                        }
+
+                        // Gulp 기본(Default) 테스크 정의
+                        exports.default = series(Clean, Libs, series(parallel(series(LintCss, ConcatCss, UglifyCss), series(HintJsEs5, ConcatJs, UglifyJs), JadeCompile), parallel(Server, BrowserOpen, FileWatch)));
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        {
+                          "port": 90,
+                          "livereload": true,
+                          "browser": "chrome",
+                          "path": {
+                            "del": {
+                              "dest": "dist/"
+                            },
+                            "jade": {
+                              "src": "src/jade/**/*.jade",
+                              "dest": "dist/"
+                            },
+                            "css": {
+                              "src": [
+                                "src/css/**/*.css",
+                                "src/css/style.css"
+                              ],
+                              "dest": "dist/css/",
+                              "filename": "style.css"
+                            },
+                            "js": {
+                              "libs": "src/js/libs/**/*.js",
+                              "libsDest": "dist/js/libs/",
+                              "src": "src/js/*.js",
+                              "dest": "dist/js/",
+                              "filename": "DOMlibrary.js"
+                            }
+                          }
+                        }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        {
+                          "name": "sass-training",
+                          "version": "1.0.0",
+                          "description": "",
+                          "main": "gulpfile.js",
+                          "scripts": {
+                            "test": "echo \"Error: no test specified\" && exit 1"
+                          },
+                          "author": "",
+                          "license": "ISC",
+                          "devDependencies": {
+                            "@babel/core": "^7.8.3",
+                            "@babel/preset-env": "^7.8.3",
+                            "csslint-stylish": "0.0.6",
+                            "del": "^5.1.0",
+                            "gulp": "^4.0.2",
+                            "gulp-babel": "^8.0.0",
+                            "gulp-concat": "^2.6.1",
+                            "gulp-concat-css": "^3.1.0",
+                            "gulp-connect": "^5.7.0",
+                            "gulp-csslint": "^1.0.1",
+                            "gulp-filelist": "^2.0.3",
+                            "gulp-if": "^3.0.0",
+                            "gulp-jade": "^1.1.0",
+                            "gulp-jshint": "^2.1.0",
+                            "gulp-open": "^3.0.1",
+                            "gulp-rename": "^2.0.0",
+                            "gulp-uglify": "^3.0.2",
+                            "gulp-uglifycss": "^1.1.0",
+                            "gulp-watch": "^5.0.1",
+                            "jshint": "^2.11.0",
+                            "jshint-stylish": "^2.2.1"
+                          }
+                        }
+                    </code>
+                </pre>
+
+
+                위는 이번 SASS 공부 때 활용할 gulpfile.js, config.json, package.json 입니다. <br>
+                <strong>(뭐좀 실험하느라 불필요한 소스들이 살짝 들어가있긴 합니다.)</strong><br>
+                Gulp 기본 업무(default task)는 다음 순서대로 실행됩니다. <br>
+                <ol class="order_lst">
+                    <li>세부 업무는 Jade를 HTML로 변경하는 template, 그리고 ES6 문법을 ES5로 변환해주는 babel</li>
+                    <li>로컬 웹서버 환경을 웹브라우저에서 구동시켜주고 실시간으로 반영하는 connect</li>
+                    <li>변경 파일을 지속적으로 관찰하여 변경 사항을 바로 반영하는 gulp-watch</li>
+                    <li>위 업무가 순차적으로 실행되면 프로젝트 실습을 위한 웹페이지가 Chrome 웹브라우저에서 열립니다.</li>
+                </ol>
+                <span class="em">업무 흐름을 분석, 파악하려면 위 gulpfile.js 소스코드를 읽어보세요</span>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

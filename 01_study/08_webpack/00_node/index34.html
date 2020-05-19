@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">지속적 관찰 업무 등록</h1>
+        <dl>
+            <dt class="d_tit">지속적 관찰 업무 등록</dt>
+            <dd class="d_txt">
+                지금까지 정의한 styles나 scripts 업무는 CSS, 자바스크립트 파일을 모듈별로 나눠 관리할 수 있도록 도와줍니다. <br>
+                하지만 수정할 때마다 Git Bash에서 명령어를 실행해야 해서 불편합니다. <br>
+                이 문제는 Gulp의 watch()를 사용하면 해결할 수 있습니다. <br>
+                지속적으로 파일 내용을 관찰(Watch)하여 변경이 감지되면 등록된 업무를 수행합니다. <br>
+                즉, 사용자가 파일만 변경하여 저장하면 자동으로 업무가 실행됩니다. <br>
+                관찰 업무를 정의하면 자동으로 번거로운 일들을 처리할 수 있습니다. <br>
+                이를 자동화(Automation)라고 합니다. <br>
+                이 때문에 Gulp를 프로젝트에 사용합니다. <br><br>
+
+                관찰 업무를 정의하는 방법도 앞서 배운 내용과 크게 다르지 않습니다. <br>
+                다음을 참고하여 관찰 업무를 정의합니다. <br>
+                입력한 코드를 살펴보면, gulp.tast() 메소드 부분에서 업무 이름과 처리할 함수 사이에 ['clean'] 전달인자가 위치하고 있습니다. <br>
+                생략 가능한 옵션이지만, 추가하면 처리할 함수를 실행하기 전에 clean 업무를 먼저 수행합니다. <br>
+                즉, clean 업무를 수행한 후에 watch 업무를 수행합니다.
+                <br><br>
+                function(){} 내부 코드에서 watch() 메소드가 관찰 업무의 핵심입니다. <br>
+                gulp.watch() 메소드는 첫 번째 인자로 전달된 파일 경로 객체 path의 속성 값을 읽어 지속적으로 관찰합니다. <br>
+                그리고 파일 내용이 변경된 것을 감지하여 두 번째 전달인자로 등록된 업무를 수행합니다. <br>
+                다시 말해, path.css.src 설정 값의 파일 내용이 변경되면 styles 업무를 자동으로 실행합니다. <br>
+                <strong class="em">다음은 gulp 3점대 버전에서 잘 통하지 않아 제가 임의로 gulp 4점대 버전으로 수정한 소스입니다.
+                    <br>책은 gulp 3점대 버전(2015년 기준)이라 현재 gulp 4에서 안돌아가는 기능이 많습니다. 다음 소스를 참고 부탁드립니다.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const {src, dest, watch, series, parallel} = require('gulp'),
+                            csslint = require('gulp-csslint'),
+                            concatcss = require('gulp-concat-css'),
+                            uglifycss = require('gulp-uglifycss'),
+                            stylish = require('jshint-stylish'),
+                            jshint = require('gulp-jshint'),
+                            uglify = require('gulp-uglify'),
+                            concat = require('gulp-concat'),
+                            rename = require('gulp-rename'),
+                            gulpif = require('gulp-if'),
+                            del = require('del');
+
+                        // 환경 설정
+                        const config = {
+                            lint: true,
+                            concat: true,
+                            uglify: true,
+                            rename: true
+                        };
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        function clean() {
+                            return del([path.js.dest + '*']);
+                        }
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        function styles() {
+                            return src(path.css.src)
+                                .pipe(gulpif(config.lint, csslint({
+                                    'import': false
+                                })))
+                                .pipe(gulpif(config.lint, csslint.formatter()))
+                                .pipe(gulpif(config.concat, concatcss(path.css.filename)))
+                                .pipe(gulpif(config.rename, dest(path.css.dest)))
+                                .pipe(gulpif(config.uglify, uglifycss()))
+                                .pipe(gulpif(config.rename, rename({
+                                    suffix: '.min'
+                                })))
+                                .pipe(dest(path.css.dest))
+                        }
+
+                        // JS 문법 검사
+                        function jsHint() {
+                            return src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        }
+
+                        // JS 병합
+                        function jsConcat() {
+                            return src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(dest(path.js.dest));
+                        }
+
+                        // JS 압축
+                        function jsUglify() {
+                            return src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(dest(path.js.dest));
+                        }
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        exports.default = series(clean, parallel(styles, series(jsHint, jsConcat, jsUglify)));
+
+                        // 지속적 관찰(Watch) 업무 정의
+                        exports.watch = function () {
+                            watch(path.css.src, series(clean, styles));
+                            watch(path.js.src, series(clean, series(jsHint, jsConcat, jsUglify)));
+                        };
+                    </code>
+                </pre>
+                자, 이제 Git Bash에서 관찰 업무를 실행하여 관찰 업무를 지속적으로 수행하는지 확인해 볼까요? <br>
+                <strong>gulp watch</strong> 명령어를 실행하여 관찰 업무를 수행합니다.
+                <span class="img_wrap"><img src="img/gulp31.jpg" alt=""></span>
+                [src/css] 디렉터리에서 style.css 파일을 열어 내용 중 일부를 수정하여 저장합니다. <br>
+                그러면 Git Bash에서 styles 업무가 자동으로 실행되고, <br>
+                [dist/css] 디렉터리의 style.css 파일 또한 내용이 자동 갱신됩니다. <br>
+                마찬가지로 자바스크립트 파일을 수정하면 scripts 업무가 수행되었다는 내용이 Git Bash에 출력됩니다.
+                <p class="phrase">
+                    <span class="em">깨알 Tip</span> <br>
+                    관찰 업무를 중지(Cancel)하려면 ctrl+c를 누릅니다.
+                </p>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

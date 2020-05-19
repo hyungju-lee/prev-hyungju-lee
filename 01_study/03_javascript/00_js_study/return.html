@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>return</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">return 의 역할</dt>
+            <dd class="d_txt">
+                <ol class="lst">
+                    <li class="item">값을 반환하는데 사용 : 이런 특성을 활용해 지역변수의 값을 전달할 수 있다.</li>
+                    <li class="item">현재 진행중인 함수를 중지(탈출)할 수 있다.</li>
+                </ol>
+            </dd>
+            <dt class="d_tit">값을 반환하는데 사용하는 return 예제보기</dt>
+            <dd class="d_txt">
+                아래 예제에서의 함수 test는 x라는 지역변수를 가지고 있습니다. <br>
+                이 값을 함수를 실행했을 때 반환하여 다른 스크립트에서 사용가능하도록 해보겠습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                    var test = function(){
+                        var x = 1;
+                    }
+
+                    test();
+                </code>
+            </pre>
+                이 함수를 실행할 경우 어떤 결과가 나타날까? <br>
+                아무런 일도 일어나지 않습니다.<br>
+                return이 사용되지 않았기 때문입니다. <br>
+                즉 내부 구문들을 실행하였으나 반환할 값이 선언되지 않았고 return 역시 선언되지 않았습니다. <br>
+                만약 x를 얻기 위해서는 어떻게 해야될까요? <br>
+                아래처럼 return 문을 사용해야 합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                    var test = function(){
+                        var x = 1;
+                        return x;
+                    }
+
+                    var test2 = test(); // 1을 반환하여 test2에 1이 저장됨
+                </code>
+            </pre>
+                test() 함수를 실행할 경우 해당함수는 1을 반환합니다. <br>
+                반환값을 사용하기 위해서는 변수가 필요합니다. <br>
+                그래서 test2 변수를 선언하고 여기에 저장하였습니다. <br><br>
+                만약 <strong>return 없이 x의 값을 불러올 수 있을까요?</strong> <br>
+                불가능합니다. <br>
+                그 이유는 앞에서도 말한 것처럼 x가 함수내에서 실행된 지역변수이기 때문입니다. <br>
+                그러므로 지역변수가 필요한 경우 return을 사용해 외부로 반환하여 사용해야합니다.
+            </dd>
+            <dt class="d_tit">중간에 중지시키는데 사용하는 return문 예제</dt>
+            <dd class="d_txt">
+                앞에 언급한 것처럼 return은 현재 구문을 중지하고 빠져나오는(escape) 방법으로 사용이 가능합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                    test = function(){
+                        var x = 1;
+                        if(x == 1){
+                            return x;
+                        }
+                        x = x + 1;
+                        ...
+                        ...
+                        ...
+                    }
+                </code>
+            </pre>
+                위 코드는 많은 코드가 담겨 있으나 필요한 구문만 실행했다면 모두 실행할 필요가 없을 것입니다. <br>
+                그래서 return을 사용하여 필요한 부분만 사용 후 함수에서 빠져나오기 위하여 return을 사용하였습니다. <br>
+                이처럼 변수가 필요한 경우에 return 해당변수명으로 사용하기도 하지만 반환할 경우가 없다면 아래처럼 사용하기도 합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                    return false;
+                    return;
+                </code>
+            </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

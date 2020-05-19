@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">gulp 4점대 버전 특징</h1>
+        <dl>
+            <dt class="d_tit">Gulp란 무엇입니까?</dt>
+            <dd class="d_txt">
+                <ol class="order_lst">
+                    <li>Automation(자동화) - gulp는 개발 work flow에서 고통스럽거나 시간이 많이 걸리는 작업을 자동화하는데
+                        도움이 되는 툴킷입니다.</li>
+                    <li>Platform-agnostic(플랫폼에 구애받지 않는다) - Integrations(통합)은 모든 주요 IDE에 내장되어 있으며
+                        사람들은 PHP, .NET, Node.js, Java 및 기타 플랫폼에서 Gulp를 사용하고 있습니다.</li>
+                    <li>Strong Ecosystem(강력한 생태계) - npm 모듈을 사용하여 스트리밍 파일 변환을 위해 2000개 이상의
+                    선별된 플러그인 + 원하는 작업 수행할 수 있습니다.</li>
+                    <li>Simple(단순성) - gulp는 최소한의 API 표면만 제공하므로 배우기 쉽고 사용하기 쉽습니다.</li>
+                </ol>
+            </dd>
+            <dt class="d_tit">4점대 버전에선 무엇이 달라졌습니까?</dt>
+            <dd class="d_txt">
+                <ul class="lst">
+                    <li>작업 시스템은 기초부터 다시 작성되어 series() 및 parallel() 메서드를 사용하여 작업 구성이 가능합니다.</li>
+                    <li>감시자(watcher)는 작업 시스템에 기능 패리티가있는 chokidar (더 이상 gulp-watch 필요 없음)를 사용하여 업데이트되었습니다.</li>
+                    <li>lastRun()을 사용하여 증분 빌드에 대한 일류 지원이 추가되었습니다.</li>
+                    <li>파일을 복사하는 대신 symlink() 메소드가 symlink를 작성하기 위해 노출되었습니다.</li>
+                    <li>소스 맵(sourcemap)에 대한 내장 지원이 추가되었습니다. gulp-sourcemaps 플러그인은 더 이상 필요하지 않습니다!</li>
+                    <li>Node 또는 ES 내보내기(exports)를 사용하여 내 보낸 기능의 작업(task) 등록(registry)이 권장됩니다.</li>
+                    <li>사용자 정의 레지스트리(Custom registries)가 설계되어 공유 작업 또는 함수적으로 보완되었습니다.
+                    </li>
+                    <li>스트림 구현이 개선되어 조건부 및 단계별 빌드가 향상되었습니다.
+                    </li>
+                </ul>
+            </dd>
+            <dt class="d_tit">gulpfile에서 최신 JavaScript 버전을 사용하십시오.
+            </dt>
+            <dd class="d_txt">
+                <ul class="lst">
+                    <li>대부분의 새 버전의 노드는 import / export 구문을 제외하고 Babel에서 제공하는 대부분의 기능을 지원합니다.
+                    </li>
+                    <li>해당 구문 만 필요한 경우 gulpfile.esm.js로 이름을 바꾸고 [esm] [esm-module] 모듈을 설치 한 다음 아래 Babel 부분을 건너 뛰십시오.</li>
+                    <li>Node는 이미 많은 ES2015 + 기능을 지원하지만 호환성 문제를 피하기 위해 Babel을 설치하고 gulpfile.js의 이름을 gulpfile.babel.js로 바꾸는 것이 좋습니다.</li>
+                </ul>
+                <pre class="line-numbers">
+                    <code class="language-node">
+                        npm install --save-dev @babel/register @babel/core @babel/preset-env
+                        npm i -D @babel/register @babel/core @babel/preset-env
+                    </code>
+                </pre>
+                그런 다음 사전 설정 구성으로 .babelrc 파일을 만듭니다.
+                <pre class="line-numbers">
+                    <code class="language-node">
+                        touch .babelrc
+                    </code>
+                </pre>
+                그런 다음 사전 환경설정 내용을 .babelrc 파일에 입력합니다.
+                <pre class="line-numbers">
+                    <code class="language-json">
+                        {
+                            "presets": [ "@babel/preset-env" ]
+                        }
+                    </code>
+                </pre>
+                이렇게 하면 ES2015+ 문법을 사용할 수 있습니다.
+            </dd>
+            <dt class="d_tit">증분 빌드(Incremental Builds)</dt>
+            <dd class="d_txt">
+                gulp.src 함수의 since 옵션과 gulp.lastRun을 사용하여 작업 실행간에 변경되지 않은 파일을 필터링 할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        const paths = {
+                          ...
+                          images: {
+                            src: 'src/images/**/*.{jpg,jpeg,png}',
+                            dest: 'build/img/'
+                          }
+                        }
+                         
+                        function images() {
+                          return gulp.src(paths.images.src, {since: gulp.lastRun(images)})
+                            .pipe(imagemin({optimizationLevel: 5}))
+                            .pipe(gulp.dest(paths.images.dest));
+                        }
+                         
+                        function watch() {
+                          gulp.watch(paths.images.src, images);
+                        }
+                    </code>
+                </pre>
+                Task run time은 메모리에 저장되며 걸프가 종료되면 삭제됩니다. <br>
+                감시(watch) 작업 중 이미지 작업을 두 번째로 실행할 때의 만 절약됩니다.
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>className selector for IE8</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+
+<body>
+<h1>콘솔창을 확인하세요</h1>
+<h2>IE8+</h2>
+<div class="class-name1">class-name1</div>
+<div class="class-name1">class-name1</div>
+<div class="class-name1">class-name1</div>
+<div class="class-name1">class-name1</div>
+
+<script>
+    // IE8에서 class명으로 태그를 선택하기 위한 식입니다
+    // getElementsByClassName은 IE9부터 작동됩니다.
+    // getElementsById는 IE8 이하에서도 작동됩니다.
+    // 하지만 특정 ID는 하나밖에 사용 못하는 특성상 여러개의 태그를 한번에 선택하고 싶은 요구는 충족시키지 못합니다.
+    // IE8에서 class명으로 선택할 수 있는 querySelector라는 메소드가 있지만, 이는 DOM구조에서 제일 처음에 오는 DOM밖에 선택하지 못합니다.
+    // 때문에 모든 class명을 선택해서 저장할 수 있는 querySelectorAll 메소드가 있지만, 이 또한 IE9+에서밖에 작동 안합니다.
+    // 때문에 아래와 같은 IE8에서도 class명으로 선택할 수 있는 새로운 함수를 선언한 것입니다.
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+    var className1 = getElementsByClassNameCompatible("class-name1");
+    console.log(className1);
+</script>
+</body>
+</html>

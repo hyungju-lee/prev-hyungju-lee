@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>study</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/child_style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">2주차 실습</h1>
+        <dl>
+            <dt class="d_tit">NPM 사이트</dt>
+            <dd class="d_txt">
+                <a href="https://www.npmjs.com/" target="_blank">npm 사이트</a>
+            </dd>
+            <dt class="d_tit">NPM 명령어로 외부 패키지 모듈 중 http-server 모듈 설치하기</dt>
+            <dd class="d_txt">
+                <a href="https://www.npmjs.com/package/http-server" target="_blank">http-server 모듈</a> <br>
+                <br>
+                <br>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/img45.jpg">
+                                <img data-src="img/img45.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/img46.jpg">
+                                <img data-src="img/img46.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/img47.jpg">
+                                <img data-src="img/img47.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/img48.jpg">
+                                <img data-src="img/img48.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/img49.jpg">
+                                <img data-src="img/img49.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/img50.jpg">
+                                <img data-src="img/img50.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">파일 export, import하기 (commonJS)</dt>
+            <dd class="d_txt">
+                자바스크립트를 병합하는 모듈을 만들 겁니다. <br>
+                mergeScripts.js 파일을 생성하고 다음과 같은 소스 내용을 작성합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // mergeScripts.js 파일 내용
+
+                        // 사용자 정의 모듈 'modules/combineJS.js' 호출
+                        var combineJS = require('./modules/combineJS.js');
+
+                        // combineJS 모듈 사용
+                        combineJS();
+                    </code>
+                </pre>
+                <p class="e_comment">
+                    ## Note <br>
+                    Node.js는 ES6를 '부분적'으로 지원합니다. <br>
+                    그래서 ES6에서 제공하는 모듈기능은 사용하지 못합니다. (import, export) <br>
+                    그래서 여전히 commonJS에서 제공하는 모듈 기능인 require 함수를 사용해야합니다. <br>
+                    Node.js에서 ES6의 모듈(import, export)을 읽게하려면 babel이라는 추가 환경세팅을 해야됩니다. <br>
+                    이 부분은 다음에 해보도록 하겠습니다.
+                </p>
+
+                그리고 modules 폴더를 만든 후에 modules 폴더 안에 combineJS.js 파일을 만들고 다음과 같은 소스 내용을 작성합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // combineJS 모듈 정의
+                        function combineJS(){
+                            console.log('combineJS 모듈');
+                        }
+                    </code>
+                </pre>
+                그리고 mergeScripts.js 파일이 있는 곳에서 <br>
+                <strong>node mergeScripts.js</strong> 명령어로 mergeScripts 파일을 실행합니다.
+                <span class="img_wrap"><img src="img/img51.jpg" alt=""></span>
+                위와 같이 TypeError가 나는 이유는 mergeScripts.js 파일에서 combineJS를 호출해오지 못하기 때문입니다. <br>
+                그 이유는 export 안했기 때문입니다. <br>
+                다음과 같이 combineJS 파일에서 combineJS() 함수를 외부로 출력합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // combineJS 모듈 정의
+                        function combineJS(){
+                            console.log('combineJS 모듈');
+                        }
+
+                        // combineJS 모듈 외부로 출력 (Exports)
+                        module.exports = combineJS;
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img52.jpg" alt=""></span>
+                위의 소스를 아래처럼도 쓸 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // combineJS 모듈 외부로 출력 (Exports)
+                        module.exports = function (){
+                            console.log('combineJS 모듈');
+                        };
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">파일 인자값 전달하기</dt>
+            <dd class="d_txt">
+                자바스크립트를 병합하는 모듈의 특성상 자바스크립트 파일을 읽고 쓸 수 있어야 합니다. <br>
+                combineJS.js 파일 위쪽에 Node.js 내장 모듈인 File System을 호출합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function(jsSrc, exportJs){
+                            console.log(jsSrc, exportJs);
+                        }
+                    </code>
+                </pre>
+                그리고 mergeScripts.js 파일도 다음과 같이 수정합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // mergeScripts.js 파일 내용
+
+                        // 사용자 정의 모듈 'modules/combineJS.js' 호출
+                        var combineJS = require('./modules/combineJS.js');
+
+                        /*
+                        *  combineJS 모듈 사용
+                        *  전달인자 1 : 병합하고자 하는 JS 파일 리스트(배열)
+                        *  전달인자 2 : 병합되어 생성된 파일 경로(문자열)
+                        * */
+                        combineJS(['./script1.js', './script2.js'], './jsCombine.js');
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img53.jpg" alt=""></span>
+                첫번째 인자로 전달받은 배열 아이템(병합할 개별 자바스크립트 파일)마다 코드를 적용할 수 있도록 배열 객체를 제어할 수 있는
+                forEach() 함수를 사용했습니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function(jsSrc, exportJs){
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function(file, index){
+                                console.log(file, index);
+                            });
+                        }
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img54.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">인자값으로 전달한 파일 내용 읽기</dt>
+            <dd class="d_txt">
+                아래 소스처럼 file의 경로로 문서 내용을 읽어오는 코드를 추가로 입력합니다. <br>
+                combineJS.js 파일에서 내장모듈 File system의 readFileSync()에 file을 전달하여 동기적으로 읽어 들이고, <br>
+                변수 content가 참조한 내용을 콘솔에 출력하도록 코드를 입력하고 저장합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function(jsSrc, exportJs){
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function(file, index){
+                                var content = fs.readFileSync(file);
+                                console.log('콘텐츠: \n' + content);
+                            });
+                        }
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img55.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">파일 병합하기</dt>
+            <dd class="d_txt">
+                아래 소스처럼 문자열을 참조한 변수 mergeCode를 생성하여 각 파일의 내용을 병합합니다. <br>
+                readFileSync() 메소드를 활용하여 동기적으로 실행되도록 합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function(jsSrc, exportJs){
+                            var mergeCode = '';
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function(file, index){
+                                // fs.readFileSync() 사용하여 파일 내용 읽기
+                                mergeCode += fs.readFileSync(file);
+                            });
+                            console.log(mergeCode);
+                        }
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img56.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">병합한 내용을 작성하여 파일로 내보내기</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs');
+
+                        /*
+                         * combineJS 모듈 정의 및 외부로 출력
+                         * 모듈 내부에 전달받을 인자(배열, 문자열) 설정
+                         */
+                        module.exports = function(jsSrc, exportJs){
+                            var mergeCode = '';
+                            // 배열 jsSrc를 개별적으로 접근 조작하기 위해
+                            // forEach 배열 메소드 사용
+                            jsSrc.forEach(function(file, index){
+                                // fs.readFileSync() 사용하여 파일 내용 읽기
+                                mergeCode += fs.readFileSync(file);
+                            });
+                            fs.writeFileSync(exportJs, mergeCode);
+                        }
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img57.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">npm 외부 모듈을 사용하여 compress 기능 추가하기</dt>
+            <dd class="d_txt">
+                먼저 <strong>npm init</strong> 명령어로 package.json 파일을 생성합니다.
+                <span class="img_wrap"><img src="img/img58.jpg" alt=""></span>
+                그리고 다음 명령어로 minify 모듈을 설치합니다. <br>
+                minify 모듈은 파일을 min 파일처럼 만들어주는 역할을 하는 모듈입니다.
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        npm install --save minify
+                        npm i -S minify
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img59.jpg" alt=""></span>
+                minify 모듈이 설치되면, 다음을 참고하여 minify 모듈을 호출하는 코드와 minify() 모듈을 사용하는 코드를 입력합니다.
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        const fs = require('fs'),
+                            minify = require('minify'),
+                            options = {
+                                html: {
+                                    removeAttributeQuotes: false,
+                                    removeOptionalTags: false
+                                },
+                            };
+
+                        module.exports = function(jsSrc, exportJs){
+                            jsSrc.forEach(function(file, index){
+                                minify(file, options)
+                                    .then(console.log)
+                                    .catch(console.error);
+                            });
+                        }
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img60.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">압축 코드 파일로 내보내기</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs'),
+                            minify = require('minify');
+
+                        module.exports = function (jsSrc, exportJs) {
+                            var mergeCode = '';
+                            jsSrc.forEach(function (file, index) {
+                                minify(file).then(function (data) {
+                                    mergeCode += data;
+                                    if (index == jsSrc.length - 1) {
+                                        writeFile();
+                                    }
+                                });
+                            });
+
+                            function writeFile() {
+                                fs.writeFileSync(exportJs, mergeCode);
+                            }
+                        };
+                    </code>
+                </pre>
+                <span class="img_wrap"><img src="img/img61.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">combineJS 모듈 사용할 때, compress할건지 말건지 사용자가 설정할 수 있도록 min 인자값 추가</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // mergeScripts.js 파일 내용
+
+                        // 사용자 정의 모듈 'modules/combineJS.js' 호출
+                        var combineJS = require('./modules/combineJS.js');
+
+                        /*
+                        *  combineJS 모듈 사용
+                        *  전달인자 1 : 병합하고자 하는 JS 파일 리스트(배열)
+                        *  전달인자 2 : 병합되어 생성된 파일 경로(문자열)
+                        * */
+                        combineJS(['./script1.js', './script2.js'], './jsCombine.js', true);
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        // modules/combineJS.js 파일 내용
+
+                        // File System 내장 모듈 호출
+                        var fs = require('fs'),
+                            minify = require('minify');
+
+                        module.exports = function (jsSrc, exportJs, min) {
+                            var mergeCode = '',
+                                len = jsSrc.length - 1,
+                                compress = min;
+                            jsSrc.forEach(function (file, index) {
+                                if (compress) {
+                                    minify(file).then(function (data) {
+                                        mergeCode += data;
+                                        if (index == len) {
+                                            writeFile();
+                                        }
+                                    });
+                                } else {
+                                    mergeCode += fs.readFileSync(file);
+                                    if (index == len) {
+                                        writeFile();
+                                    }
+                                }
+                            });
+
+                            function writeFile() {
+                                fs.writeFileSync(exportJs, mergeCode);
+                            }
+                        };
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">NPM에 배포하기</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/img62.jpg" alt=""></span>
+                combineJS.js 파일이름을 index.js로 바꾸고 combineJS 폴더를 생성하여 그 안으로 넣습니다. <br>
+                파일 이름을 index.js로 변경한 이유는 다음처럼 모듈을 호출할 때 파일 확장자를 생략하고 디렉터리 이름만으로 불러올 수 있게 하려는 것입니다.
+                <span class="img_wrap"><img src="img/img63.jpg" alt=""></span>
+                배포하기전 package.json을 통해 정보를 담을 수 있습니다. <br>
+                keywords 는 어떤 검색어로 검색했을 때 내가올린 모듈이 나올지를 정하는 부분입니다. <br>
+                gir repository 정보도 담을 수 있습니다.
+                <span class="img_wrap"><img src="img/img64.jpg" alt=""></span>
+                npm adduser 명령어로 본인 npm 계정과 비밀번호, 이메일을 입력합니다.
+                <span class="img_wrap"><img src="img/img65.jpg" alt=""></span>
+                npm publish 명령어로 모듈을 배포합니다. <br>
+                아래와 같은 오류가 생기는 이유는 모듈 name이 이미 있거나, 또는 version이 똑같아서입니다. <br>
+                즉, 이미 내가 올린 모듈에 또 올리려면 version을 달리하거나 아니면 아예 다른 모듈로 올릴경우는 name을 달리해야합니다.
+                <span class="img_wrap"><img src="img/img66.jpg" alt=""></span>
+                아래와 같이 모듈이 배포된것을 확인할 수 있습니다.
+                <span class="img_wrap"><img src="img/img67.jpg" alt=""></span>
+            </dd>
+            <dt class="d_tit">배포한 모듈 설치 및 테스트하기</dt>
+            <dd class="d_txt">
+                npm i (배포한모듈이름) 명령어를 통해 모듈을 설치합니다.
+                <span class="img_wrap"><img src="img/img68.jpg" alt=""></span>
+                require 부분을 다시 확인하면서 mergeScripts 파일을 위에서 작성한대로 작성한 후 <br>
+                node mergeScripts 명령어로 실행합니다.
+                <span class="img_wrap"><img src="img/img69.jpg" alt=""></span>
+
+            </dd>
+
+        </dl>
+    </div>
+</div>
+
+
+
+<script src="../../js/prism.js"></script>
+</body>
+</html>

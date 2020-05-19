@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>study</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">.on method</h1>
+        <dl>
+            <dt class="d_tit">이벤트 연결(event binding)</dt>
+            <dd class="d_txt">
+                <ul class="lst">
+                    <li class="item">.on() 메소드</li>
+                    <li class="item">.one() 메소드</li>
+                </ul>
+            </dd>
+            <dt class="d_tit">.on() 메소드 특징</dt>
+            <dd class="d_txt">
+                <ul class="lst">
+                    <li class="item">현재 또는 미래에 존재하는 요소에 이벤트 적용(동적으로 생성되는 엘리먼트에 이벤트를 처리할 수 있다.)</li>
+                    <li class="item">jquery library 1.7버전 이후 .live 사용 중지, .bind, .delegate -&gt; bind를 on으로, <br>새로 생성한 문서 객체에 이벤트 적용을 원할 경우 delegate 사용</li>
+                    <li class="item">선택한 요소에 어떤 타입의 이벤트라도 연결할 수 있다.</li>
+                    <li class="item">하나의 이벤트 핸들러에 여러 개의 이벤트를 동시에 연결할 수 있다.</li>
+                    <li class="item">선택한 요소에 여러 개의 이벤트 핸들러와 여러 개의 이벤트를 같이 연결할 수 있다.</li>
+                </ul>
+            </dd>
+            <dt class="d_tit">예제</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        $('.className ul li').on("click", function(){
+                            alert('얼럿창');
+                        })
+                    </code>
+                </pre>
+                <p class="phrase">
+                    위 식은 기존 li 태그에는 click 이벤트가 적용되지만, 추가되는 li element에는 click 이벤트가 동작하지 않는다. <br>
+                    원하는대로 동작하게 하려면, event delegated를 이용해 다음과 같이 코딩해야된다.
+                </p>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        $(".className ul").on("click","li", function(){
+                            alert("aaa");
+                        });
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">.on() 메소드 형식</dt>
+            <dd class="d_txt">
+                <p class="phrase">
+                    선택된 element에 이벤트 핸들러를 묶어준다. <br><br>
+                    특정 요소에서 발생하는 이벤트를 처리하기 위해서는 이벤트 핸들러(event handler) 함수를 작성해야만 한다. <br>
+                    이렇게 작성된 이벤트 핸들러를 특정 요소에 연결하는 것을 이벤트의 연결(event binding)이라고 한다.
+                </p>
+                <dl class="d_table">
+                    <dt class="d_table_tit">
+                        <span class="tit_left">.on( events [, selector ] [, data ], handler )</span>
+                        <span class="tit_right">version added : 1.7</span>
+                    </dt>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">events</em>
+                        <p class="arg_ex">Type : <a href="###">String</a></p>
+                        <p class="arg_ex">하나 이상의 공백으로 구분 된 이벤트 유형 및 "click"또는 "keydown.myPlugin"과 같은 선택적 네임 스페이스</p>
+                    </dd>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">selector</em>
+                        <p class="arg_ex">Type : <a href="###">String</a></p>
+                        <p class="arg_ex">이벤트를 트리거하는 선택된 요소의 하위 항목을 필터링하는 선택기 문자열입니다. 선택기가 null이거나 생략되면 선택한 요소에 도달 할 때 이벤트가 항상 트리거됩니다.</p>
+                    </dd>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">data</em>
+                        <p class="arg_ex">Type : <a href="###">Anything</a></p>
+                        <p class="arg_ex">이벤트가 트리거 될 때 event.data에서 핸들러로 전달 될 데이터입니다.</p>
+                    </dd>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">handler</em>
+                        <p class="arg_ex">Type : <a href="###">Function</a>( Event eventObject [, Anything extraParameter ] [, ... ] )</p>
+                        <p class="arg_ex">이벤트가 트리거 될 때 실행할 함수입니다. false 값은 단순히 false를 리턴하는 함수의 축약으로도 허용됩니다.</p>
+                    </dd>
+                    <dt class="d_table_tit">
+                        <span class="tit_left">.on( events [, selector ] [, data ] )</span>
+                        <span class="tit_right">version added : 1.7</span>
+                    </dt>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">events</em>
+                        <p class="arg_ex">Type : <a href="###">PlainObject</a></p>
+                        <p class="arg_ex">문자열 키가 하나 이상의 공백으로 구분 된 이벤트 유형 및 선택적 네임 스페이스를 나타내는 오브젝트이며 값은 이벤트에 대해 호출 될 핸들러 함수를 나타냅니다.</p>
+                    </dd>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">selector</em>
+                        <p class="arg_ex">Type : <a href="###">String</a></p>
+                        <p class="arg_ex">핸들러를 호출 할 선택된 요소의 하위 항목을 필터링하는 선택기 문자열입니다. 선택기가 널이거나 생략 된 경우 핸들러는 선택된 요소에 도달 할 때 항상 호출됩니다.</p>
+                    </dd>
+                    <dd class="d_table_txt">
+                        <em class="arg_tit">data</em>
+                        <p class="arg_ex">Type : <a href="###">Anything</a></p>
+                        <p class="arg_ex">이이벤트가 발생할 때 event.data에서 핸들러로 전달 될 데이터입니다.</p>
+                    </dd>
+                </dl>
+            </dd>
+            <dd class="d_txt">
+                .on () 메소드는 이벤트 핸들러를 jQuery 객체에서 현재 선택된 요소 세트에 연결합니다. <br>
+                jQuery 1.7부터 .on () 메소드는 이벤트 핸들러를 첨부하는 데 필요한 모든 기능을 제공합니다. <br>
+                이전 jQuery 이벤트 메소드에서 변환하는 데 도움이 필요하면 .bind (), .delegate () 및 .live ()를 참조하십시오. <br>
+                .on ()으로 바인드 된 이벤트를 제거하려면 .off ()를 참조하십시오. <br>
+                한 번만 실행 된 다음 자체 이벤트를 제거하려면 .one ()을 참조하십시오.
+            </dd>
+            <dt class="d_tit">Event names and namespaces</dt>
+            <dd class="d_txt">
+                모든 이벤트 이름은 events 인수에 사용할 수 있습니다. <br>jQuery는 브라우저의 표준 JavaScript 이벤트 유형을 통과하여 브라우저가 click과 같은 사용자 작업으로 인해 이벤트를 생성 할 때 핸들러 함수를 호출합니다. <br>또한 .trigger () 메소드는 표준 브라우저 이벤트 이름과 사용자 정의 이벤트 이름을 모두 트리거하여 첨부 된 핸들러를 호출 할 수 있습니다. <br>이벤트 이름은 영숫자, 밑줄 및 콜론 문자 만 포함해야합니다.<br><br>
+
+                이벤트 이름은 이벤트 제거 또는 트리거를 단순화하는 이벤트 네임 스페이스로 규정 될 수 있습니다. <br>예를 들어 "click.myPlugin.simple"은 이 특정 click 이벤트에 대한 myPlugin 및 simple 네임 스페이스를 모두 정의합니다. <br>해당 문자열을 통해 연결된 클릭 이벤트 핸들러는 요소에 연결된 다른 클릭 핸들러를 방해하지 않고 .off ( "click.myPlugin") 또는 .off ( "click.simple")로 제거 할 수 있습니다. <br>네임 스페이스는 계층 적이 지 않다는 점에서 CSS 클래스와 유사합니다. <br>하나의 이름 만 일치하면됩니다. <br>네임 스페이스는 대문자 / 소문자와 숫자 만 포함해야합니다.<br><br>
+
+                .on ()의 두 번째 형식에서 events 인수는 일반 객체입니다.<br> 키는 공백으로 구분 된 이벤트 유형 이름 및 선택적 네임 스페이스가있는 events 인수와 동일한 형식의 문자열입니다. <br>각 키의 값은 메소드의 최종 인수 대신 핸들러로 사용되는 함수 (또는 거짓 값)입니다. <br>다른 측면에서, 두 형태는 아래에 기술 된 바와 같이 그들의 행동에서 동일하다.
+            </dd>
+        </dl>
+
+<!--https://api.jquery.com/on/-->
+
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

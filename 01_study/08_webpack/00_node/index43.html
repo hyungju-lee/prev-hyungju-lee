@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Jade 템플레이팅(Templating)</h1>
+        <dl>
+            <dt class="d_tit">Jade 템플레이팅(Templating)</dt>
+            <dd class="d_txt">
+                지금까지 다룬 Jade의 속기 마크업이나 스크립팅 능력만으로도 HTML 마크업 업무 능률이 향상되지만, <br>
+                웹사이트를 구성하는 웹페이지를 일일이 작성하는 데는 큰 부담이 따릅니다. <br>
+                더군다나 제작할 웹페이지의 양이 많다면 더욱 암담합니다. <br>
+                그렇기에 실무에서는 모든 웹페이지를 일일이 작성해야 하는 정적인 HTML 방식보다는 웹페이지를 구성하는 부품을 조립한 템플릿(Template)을 <br>
+                밑그림 삼아 동적으로 HTML을 생성하는 PHP, ASP, JSP 등 서버(Server) 기반의 템플릿 엔진(Template Enging)을 많이 사용합니다. <br>
+                <strong>템플릿 엔진을 함께 사용하면 효율적으로 웹페이지를 만들 수 있기 때문이죠.</strong><br>
+                마찬가지로 Jade 또한 자바스크립트 서버 환경인 Node.js에서 사용되는 템플릿 엔진입니다. <br>
+                즉, PHP와 같은 템플릿 능력을 사용하여 HTML을 동적으로 만들 수 있습니다.
+            </dd>
+            <dt class="d_tit">포함(include) 사용하기</dt>
+            <dd class="d_txt">
+                [src/jade] 디렉터리에서 index2.jade 파일을 열고, 다음처럼 빨강 테두리 부분을 선택한 후 ctrl+X로 잘라냅니다. <br>
+                [src/jade/parts] 디렉터리에 docHead.jade 파일을 생성합니다. <br>
+                docHead.jade 파일을 열고, ctrl+v를 눌러 잘라 낸 코드를 붙여 넣어 저장합니다. <br>
+                다시 index2.jade 파일을 열고, 잘라 낸 위치에 docHead.jade 파일을 포함하도록 include 구문을 작성합니다. <br>
+                include 구문을 작성하는 방법은 'include 포함할 파일 경로'입니다. <br>
+                <strong>jade 확장자는 생략합니다.</strong>
+                <span class="img_wrap"><img src="img/gulp68.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/gulp69.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/gulp70.jpg" alt=""></span>
+                이처럼 index.jade 파일의 일부분을 분리한 후 parts/docHead.jade 파일에 저장하고 include 명령어를 실행하면 분리된 내용까지 포함된 결과물이 생성됩니다.
+                <br>
+                분리된 parts/docHead.jade 문서의 내용 일부분을 수정한 후 저장합니다. <br>
+                그러면 index2.jade 문서와 연동해서 자동으로 jade 업무가 처리되어 수정된 내용이 dist/index2.html 파일에 바로 반영됩니다.
+                <span class="img_wrap"><img src="img/gulp71.jpg" alt=""></span>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        "use strict";
+
+                        // 모듈 호출
+                        // gulp-if 조건 처리
+                        // gulp-rename 파일 이름 변경
+                        // gulp-connect 웹 서버
+                        // gulp-watch 변경된 파일만 처리
+                        // gulp-plumber 오류 발생해도 watch 업무 지속
+                        // gulp-open 브라우저 오픈
+                        // gulp-jade jade 컴파일
+                        // gulp-html-prettify HTML 구조 읽기 쉽게 변경
+                        // del 폴더(디렉터리)/파일 제거
+
+                        const {src, dest, watch, series, parallel} = require('gulp'),
+                            csslint = require('gulp-csslint'),
+                            concatcss = require('gulp-concat-css'),
+                            uglifycss = require('gulp-uglifycss'),
+                            stylish = require('jshint-stylish'),
+                            jshint = require('gulp-jshint'),
+                            uglify = require('gulp-uglify'),
+                            concat = require('gulp-concat'),
+                            rename = require('gulp-rename'),
+                            gulpif = require('gulp-if'),
+                            jade = require('gulp-jade'),
+                            del = require('del'),
+                            connect = require('gulp-connect'),
+                            open = require('gulp-open'),
+                            config = require('./config.json'),
+                            gulpWatch = require('gulp-watch');
+
+                        // 파일 삭제
+                        function clean() {
+                            return del(
+                                [config.path.del.dest],
+                                {
+                                    dryRun: true
+                                }
+                            );
+                        }
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        function styles() {
+                            return src(config.path.css.src)
+                                .pipe(gulpif(config.lint, csslint({
+                                    'import': false
+                                })))
+                                .pipe(gulpif(config.lint, csslint.formatter()))
+                                .pipe(gulpif(config.concat, concatcss(config.path.css.filename)))
+                                .pipe(gulpif(config.rename, dest(config.path.css.dest)))
+                                .pipe(gulpif(config.uglify, uglifycss()))
+                                .pipe(gulpif(config.rename, rename({
+                                    suffix: '.min'
+                                })))
+                                .pipe(dest(config.path.css.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // JS 문법 검사
+                        function jsHint() {
+                            return src(config.path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        }
+
+                        // JS 병합
+                        function jsConcat() {
+                            return src(config.path.js.src)
+                                .pipe(concat(config.path.js.filename))
+                                .pipe(dest(config.path.js.dest));
+                        }
+
+                        // JS 압축
+                        function jsUglify() {
+                            return src(config.path.js.dest + config.path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(dest(config.path.js.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // Jade 컴파일
+                        function jadeCompile() {
+                            return src(config.path.html.src + 'jade/**/*.jade')
+                                .pipe(jade({
+                                    pretty: true
+                                }))
+                                .pipe(dest(config.path.html.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // html
+                        function html() {
+                            return src(config.path.html.src + '*.html')
+                                .pipe(dest(config.path.html.dest))
+                                .pipe(connect.reload())
+                        }
+
+                        // 웹 서버 업무 (LiveReload 사용)
+                        function server() {
+                            return connect.server({
+                                root: config.path.html.dest,
+                                port: config.port,
+                                livereload: config.livereload
+                            })
+                        }
+
+                        // 브라우저 오픈 업무
+                        function browserOpen() {
+                            const options = {
+                                uri: 'http://localhost:' + config.port,
+                                app: config.browser //chrome, firefox, iexplore, opera, safari
+                            };
+                            return src(config.path.html.dest)
+                                .pipe(open(options)); // local 서버가 아닌 파일 경로로 열려면 '<%file.path%>' 를 넣어주면된다.
+                        }
+
+                        // 지속적 관찰(Watch) 업무 정의
+                        function fileWatch() {
+                            gulpWatch(config.path.html.src+'*.html', series(clean, html));
+                            gulpWatch(config.path.html.src+'jade/**/*.jade', series(clean, jadeCompile));
+                            gulpWatch(config.path.css.src, series(clean, styles));
+                            gulpWatch(config.path.js.src, series(clean, series(jsHint, jsConcat, jsUglify)));
+                        }
+
+                        // Gulp 기본(Default) 테스크 정의
+                        exports.default = series(clean, parallel(styles, html, series(jsHint, jsConcat, jsUglify, jadeCompile, parallel(server, browserOpen, fileWatch))));
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        {
+                          "port": 90,
+                          "livereload": true,
+                          "browser": "chrome",
+                          "lint": true,
+                          "concat": true,
+                          "uglify": true,
+                          "rename": true,
+                          "path": {
+                            "del": {
+                              "dest": "dist/"
+                            },
+                            "html": {
+                              "src": "src/html/",
+                              "dest": "dist/"
+                            },
+                            "css": {
+                              "src": [
+                                "src/css/**/*.css",
+                                "src/css/style.css"
+                              ],
+                              "dest": "dist/css/",
+                              "filename": "style.css"
+                            },
+                            "js": {
+                              "src": "src/js/libs/**/*.js",
+                              "dest": "dist/js/",
+                              "filename": "DOMlibrary.js"
+                            }
+                          }
+                        }
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">[dist/parts] 디렉터리에 불필요한 docHead.html 파일이 생성되는데요?</dt>
+            <dd class="d_txt">
+                분리한 docHead.jade 파일에도 jade 업무가 적용되어 HTML 파일이 생성됩니다. <br>
+                하지만 문서에서 분리된 부품은 HTML로 컴파일되지 않아야 합니다. <br>
+                실제 웹서비스에선 필요치 않습니다.
+                <span class="img_wrap"><img src="img/gulp72.jpg" alt=""></span>
+                Jade 컴파일 업무에서 제외되도록 설정하려면 파일 이름 앞에 밑줄(_)을 붙입니다. <br>
+                다음을 참고하여 분리된 부품 jade 파일의 이름을 바꾸고, index2.jade 파일의 include 구문에서 파일 이름 역시
+                바꿉니다. <br>
+                밑줄이 붙은 jade 파일이 컴파일 처리에서 제외되는지 정확하게 확인해봅니다.
+                <span class="img_wrap"><img src="img/gulp73.jpg" alt=""></span>
+                언더바를 붙였는데 dist 폴더에 파일이 생성된다... 책에서는 생성 안된다고 나와있는데.. <br>
+                npm 사이트 확인해보니까 jade template는 업데이트된지 4년정도 되었고 ejs는 불과 2달전까지 업데이트 됨. <br>
+                즉, 업데이트가 장기적으로 안되다보니까 원래 되던게 안된다던지 그런게있는거같음... <span class="em">ejs를 더 많이 쓰는 이유가 있는듯?</span><br>
+                <span class="em">아 이것도 config 파일에 설정을 따로 해줘야되네.. 다른 템플릿 파일은 자동으로 _(언더바) 있는건 컴파일 안하도록 기능을 넣은거같은데, <br>
+                여튼 따로 src에 설정을 해줘야됨</span>
+                <br><br>
+                내비게이션 영역도 index2.jade 파일에서 잘라낸 후 [parts] 디렉터리에 _navigation.jade 파일을 생성합니다. <br>
+                그런 다음 아래처럼 붙여 넣고 들여쓰기를 한 후 저장합니다. <br>
+                그리고 index2.jade 문서에는 잘라낸 내비게이션 위치에 include 구문을 작성하고 저장합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp74.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <span class="em">mixin 함수들은 따로 빼놓고 불러오고 이런거 없나? 흠.... _navigation.jade에 저렇게 mixin과 mixin 호출식까지 같이넣는건 비효율적인거 같은데.. <br>
+                extends로 해봤는데, 연결은 되는데 못읽네... 역시 jade말고 ejs가 답인듯</span><br>
+                <strong>아 include로 하니깐 됨</strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp75.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                include는 문서의 일부분을 분리하여 관리할 뿐만 아니라 외부 파일의 텍스트 내용을 문서에 포함시킨 HTML 파일도 생성할 수 있습니다. <br>
+                index2.jade 파일에서 아래처럼 선택 영역을 잘라낸 후 [parts] 디렉터리에 _sloganText.jade 파일을 생성하여 붙여넣습니다. <br>
+                그리고 include 코드를 사용하여 _sloganText.jade 파일을 호출합니다. <br>
+                include 구문을 작성할 때는 p 요소 바로 옆이 아닌 한 줄 아래쪽에 들여쓰기해야 정상적으로 작동합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp76.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                분리된 _sloganText.jade 파일의 내용을 수정한 후 저장합니다. <br>
+                index2.jade 파일을 저장하면, 메인 페이지의 슬로건 영역 텍스트가 변경됩니다.
+            </dd>
+            <dt class="d_tit">외부 CSS 파일의 텍스트 내용도 불러와 문서에 포함할 수 있나요?</dt>
+            <dd class="d_txt">
+                물론 가능합니다. 아래처럼 style 요소를 생성합니다. 이때 주의할 점은 include로 불러오는 style은 style 요소 뒤에 .(점)을 작성하면 안된다는 것입니다. <br>
+                그리고 또 주의할 점은 _docHead.jade 파일의 경로에서 상대적 경로로 style.css 파일에 접근해야 오류없이 Jade 컴파일이 된다는 것입니다. <br>
+                아래를 보면 style.css 파일 텍스트 내용이 포함되어 index2.html 파일이 생성되었습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp77.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <p class="phrase">
+                    <span class="em">깨알 Tip</span><br>
+                    동일한 방법으로 외부 자바스크립트 파일의 텍스트 내용 역시 include 구문을 사용하여 문서에 포함할 수 있습니다.
+                </p>
+
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

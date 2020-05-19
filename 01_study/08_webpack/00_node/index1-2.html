@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">NVM - 오류 없이 설치하는 법</h1>
+        <dl>
+            <dt class="d_tit">NVM - 오류 없이 설치하는 법</dt>
+            <dd class="d_txt">
+                <dl>
+                    <dt class="d_tit">1. 먼저 기존에 설치되어있던 nodejs를 제거합니다.</dt>
+                    <dd class="d_txt">
+                        <div class="pinch">
+                            <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                                <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                                    <div data-elem="slide">
+                                        <img data-src="img/nvm07.jpg" data-elem="bg"/>
+                                    </div>
+                                </div>
+                                <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                            </div>
+                        </div>
+                    </dd>
+                    <dt class="d_tit">2. c드라이브 program file 폴더 안에 nodejs 폴더도 삭제합니다.</dt>
+                    <dd class="d_txt">
+
+                    </dd>
+                    <dt class="d_tit">3. nvm을 다운받아 설치합니다.</dt>
+                    <dd class="d_txt">
+
+                    </dd>
+                    <dt class="d_tit">4. nvm install (version) 명령어로 설치합니다.</dt>
+                    <dd class="d_txt">
+
+                    </dd>
+                    <dt class="d_tit">5. 바이너리 오류가 뜰 때 (download 제대로 안된 오류) nvm uninstall (해당버전) 명령어로 지우고 재설치합니다.</dt>
+                    <dd class="d_txt">
+
+                    </dd>
+                </dl>
+
+                NVM 설치시 회사컴퓨터에선 오류가 났었는데 은주 전임님 도움으로 해결했습니다.
+
+                1. 프로그램 추가 및 제어로 Node.js를 제거해주세요
+                2. C드라이브 ProgramFiles 폴더에 nodejs 폴더도 제거해주세요.
+                3. cmd 또는 git bash 창에 which npm 명령어로 npm 폴더가 있는곳을 검색하여 제거해주세요.
+                4. C:user/user/AppData/Roaming 폴더 안에 있는 npm 도 제거해주세요
+                5. nvm을 다운받은 후 설치합니다.
+                6. nvm install (nodeVersion) 명령어를 통해 노드를 설치합니다.
+                7. nvm list 명령어를 통해 설치된 노드 버전들을 확인합니다.
+                8. nvm use (노드버전) 명령어를 통해 사용하고자 하는 노드버전을 선택합니다.
+                9. 만약 바이너리 오류가 뜬다면( 또는 downloading ~~ stream error ~~ stream id 7~~~) 오류가 뜬다면 nvm uninstall (해당버전) 명령어로 해당 노드를 지워주고 재설치합니다.
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

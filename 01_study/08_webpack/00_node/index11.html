@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">File System 모듈로 파일 변경 내용을 계속 관찰(Watch File)하기</h1>
+        <dl>
+            <dt class="d_tit">File System 모듈로 파일 변경 내용을 계속 관찰(Watch File)하기</dt>
+            <dd class="d_txt">
+                File System 모듈을 이용하여 파일을 읽고, 쓰는 방법을 알아 보았습니다. <br>
+                이어서 배울 내용은 지속적 관찰(Watch File)입니다. <br>
+                fs.watchFile() 메소드로 파일의 변경 내용을 지속적으로 관찰할 수 있고, 변경된 사항을 체크하여 어떤 일을 수행할 수도 있습니다. <br>
+                예를 들어, 책에서 다루는 Jade, Sass, CoffeScript 등 프리프로세싱(pre-proccessing) 과정에서 Jade는 HTML로, Sass는 CSS로,
+                CoffeeScript는 자바스크립트로 변경(compile)하는 일을 지속적으로 관찰, 처리할 수 있습니다. <br>
+                Jade, Sass, CoffeeScript 등은 뒤에서 차차 다루고, 여기서는 fs.watchFile() 메소드를 사용하는 방법을 살펴보겠습니다. <br>
+                먼저 [nodejs] 디렉터리에 실습용 watchFile.js 파일을 생성하고, 다음을 참고하여 fs.watchFile() 메소드 코드를 입력합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+
+                        fs.watchFile('files/style.css', function(cur, prv){
+                            console.log('파일이 변경되었습니다.');
+                        })
+                    </code>
+                </pre>
+                래퍼런스(<a href="http://nodejs.org/api/fs.html#fs_fs_watchfile_filename_options_listner" target="_blank">http://nodejs.org/api/fs.html#fs_fs_watchfile_filename_options_listner</a>)를 보면,
+                fs.watchFile() 메소드에 전달되는 첫 번째 전달인자 값은 관찰할 파일 이름(filename)입니다. <br>
+                그리고 옵션(options), 리스너(listner) 등이 전달인자 값으로 전달되는데, 옵션은 생략 가능합니다. <br>
+                리스너(listner)에는 관찰하는 파일이 변경된 것을 감지할 때마다 처리하는 일을 정의한 함수를 입력합니다. <br><br>
+                앞서 입력한 코드에 관찰할 파일 경로를 첫 번째 전달인자로 입력하고, 옵션은 생략합니다. <br>
+                그리고 리스너에 함수를 전달인자로 설정합니다. <br>
+                함수는 관찰 파일이 변경될 때마다 콘솔에 파일이 변경되었음을 알리는 메시지를 출력하는 일을 수행합니다. <br><br>
+                <strong>node watchFile.js</strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node18.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                파일이 변경되었다는 메시지만으로는 어떤 내용이 변경되었는지 가늠하기 어렵습니다. <br>
+                그러므로 파일을 저장할 때마다 변경된 내용까지 출력되도록 코드를 수정합니다. <br>
+                다음과 같이 watchFile.js 파일의 코드를 수정합니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+
+                        // style.css 문서 경로
+                        var styleDoc = 'files/style.css';
+
+                        // watchFile() - 파일 변화를 지속적으로 관찰
+                        fs.watchFile(styleDoc, function(cur, prv){
+                            // readFileSync() - 파일을 동기적으로 읽어옴
+                            var doc = fs.readFileSync(styleDoc);
+                            // 변경된 파일 내용을 콘솔에 출력
+                            console.log('변경된 문서 내용 : \n' + doc);
+                        })
+                    </code>
+                </pre>
+                수정한 코드는 두 번 이상 사용되는 관찰 파일인 style.css의 경로를 변수 styleDoc에 참조하여 캐싱(Caching)합니다. <br>
+                fs.watchFile() 메소드의 첫번째 전달인자 값을 변수 styleDoc으로 설정한 후 관찰 파일을 읽으려고 fs.readFileSync() 메소드 코드를 입력합니다. <br>
+                그리고 전달인자로 styleDoc를 설정합니다. <br>
+                이렇게 읽은 데이터를 참조하도록 변수 doc를 선언합니다. <br>
+                마지막으로 변경된 내용 코드가 콘솔에 출력되도록 console.log() 메소드 코드를 삽입합니다.
+                <br><br>
+                수정한 코드를 저장한 후 Git Bash에서 <strong>node watchFile.js</strong> 명령어를 수행합니다. <br>
+                관찰 파일로 설정한 style.css 파일을 수정하고 저장합니다. <br>
+                저장할 때마다 변경된 내용이 콘솔에 출력되면 제대로 수정되었습니다. <br>
+                (관찰을 중지하려면 ctrl + c 를 누릅니다.)
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node19.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

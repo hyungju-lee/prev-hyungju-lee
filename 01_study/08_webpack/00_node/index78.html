@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">EJS scripts 문법</h1>
+        <dl>
+            <dt class="d_tit">EJS scripts 문법 - include</dt>
+            <dd class="d_txt">
+                HTML 파일을 포함하려면 &lt;%- include(파일 경로, 데이터) %&gt;을 하면 됩니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        body.ejs 파일 내용입니다.
+                        
+                        &lt;!DOCTYPE html&gt;
+                        &lt;html&gt;
+                            &lt;head&gt;
+                                &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+                                &lt;link rel="stylesheet" href="/stylesheets/style.css"&gt;
+                            &lt;/head&gt;
+                            &lt;body&gt;
+                                &lt;%- include('header') %&gt;
+                                &lt;div&gt;내용입니다.&lt;/div&gt;
+                                &lt;%- include('footer', { category: 'Node.js' }) %&gt;
+                            &lt;/body&gt;
+                        &lt;/html&gt;
+                        
+                        header.ejs 파일 내용입니다.
+                        
+                        &lt;header&gt;헤더입니다.&lt;/header&gt;
+                        
+                        footer.ejs 파일 내용입니다.
+                        &lt;footer&gt;푸터입니다. 변수: &lt;%= category %&gt;&lt;/footer&gt;
+                    </code>
+                </pre>
+                아쉽게도 EJS는 Pug의 layout과 block은 지원하지 않습니다. <br>
+                이 기능을 사용하려면 express-ejs-layouts 패키지를 설치해야합니다. <br>
+                <br>
+                Express-generator가 기본적으로 생성한 Pug 파일을 EJS로 바꾸면 다음과 같습니다.
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        views/index.ejs
+                        
+                        &lt;html&gt;
+                        &lt;head&gt;
+                            &lt;title&gt;&lt;%= title %&gt;&lt;/title&gt;
+                            &lt;link rel="stylesheet" href="stylesheets/style.css"&gt;
+                        &lt;/head&gt;
+                        &lt;body&gt;
+                            &lt;h1&gt;&lt;%= title %&gt;&lt;/h1&gt;
+                            &lt;p&gt;Welcome to &lt;%= title %&gt;&lt;/p&gt;
+                        &lt;/body&gt;
+                        &lt;/html&gt;
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-ejs">
+                        views/error.ejs
+
+                        &lt;html&gt;
+                        &lt;head&gt;
+                            &lt;title&gt&lt;/title&gt;
+                            &lt;link rel="stylesheet" href="stylesheets/style.css"&gt;
+                        &lt;/head&gt;
+                        &lt;body&gt;
+                            &lt;h1&gt;&lt;%= message %&gt;&lt;/h1&gt;
+                            &lt;h2&gt;&lt;%= error.status %&gt;&lt;/h2&gt;
+                            &lt;pre&gt;&lt;%= error.stack %&gt;&lt;/pre&gt;
+                        &lt;/body&gt;
+                        &lt;/html&gt;
+                    </code>
+                </pre>
+                head 태그 같이 중복되는 부분은 나중에 별도의 파일로 분리하여 include로 넣으면 됩니다. <br>
+                <br>
+                Pug와 EJS 중 취향에 맞는 템플릿으로 진행하면 됩니다. <br>
+                보통 HTML에 크게 벗어나고 싶지 않다면 EJS를, 깔끔한 문법을 원한다면 Pug를 사용합니다. <br>
+                <br>
+                Pug와 EJS 외에도 Nunjucks, Hogan, Dust, Twig, Vash 등의 템플릿 엔진이 있습니다. <br>
+                하지만 문법만 다르고 핵심 기능은 다 비슷합니다. <br>
+                다른 것도 살펴본 후 취향에 맞는 템플릿 엔진을 사용하기 바랍니다. <br>
+                이 책은 실습 시 Pug를 사용합니다.
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

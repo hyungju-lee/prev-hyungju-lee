@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>indexOf for IE8</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<button type="button" class="btn">버튼1</button>
+<button type="button" class="btn">버튼2</button>
+<button type="button" class="btn">버튼3</button>
+<button type="button" class="btn">버튼4</button>
+<button type="button" class="btn">버튼5</button>
+
+<div id="result"></div>
+
+<script>
+    // https://www.zerocho.com/category/JavaScript/post/5af6f9e707d77a001bb579d2
+    // 유사배열 개념 정리
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+
+    // IE8 indexOf 프로퍼티 생성
+    // IE8엔 indexOf 처럼 유용한 프로퍼티가 없습니다.
+    // 때문에 해당 프로퍼티를 생성해줍니다.
+    if (!Array.indexOf) {
+        Array.prototype.indexOf = function (obj, start) {
+            for (var i = (start || 0); i < this.length; i++) {
+                if (this[i] == obj) {
+                    return i;
+                }
+            }
+        }
+    }
+
+    var btn = getElementsByClassNameCompatible("btn"),
+        realArrayBtn = new Array();
+
+    if (window.addEventListener) {
+        Array.prototype.forEach.call(btn, function (el) {
+            realArrayBtn.push(el);
+        });
+        for (var i = 0; i < realArrayBtn.length; i++) {
+            realArrayBtn[i].addEventListener("click", function () {
+                document.getElementById("result").innerText = realArrayBtn.indexOf(this);
+            })
+        }
+    } else if (window.attachEvent) {
+        for (var i = 0; i < btn.length; i++) {
+            realArrayBtn.push(btn[i]);
+        }
+        for (var i = 0; i < realArrayBtn.length; i++) {
+            realArrayBtn[i].onclick = function () {
+                document.getElementById("result").innerText = realArrayBtn.indexOf(this);
+            }
+        }
+    }
+</script>
+</body>
+</html>

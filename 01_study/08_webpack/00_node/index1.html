@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Chrome V8 엔진 기반의 플랫폼 구성, Node.js &amp; NPM</h1>
+        <dl>
+            <dt class="d_tit">Node.js란?</dt>
+            <dd class="d_txt">
+                명칭에서도 알 수 있듯, 자바스크립트를 개발 언어로 사용하는 소프트웨어 플랫폼입니다. <br>
+                구글 크롬 웹브라우저와 Android 웹브라우저에 탑재된 V8 엔진 위에서 동작합니다. <br>
+                보통 자바스크립트라고 하면 웹브라우저에서 실행되는 프로그래밍 언어를 떠올리지만, <br>
+                Node.js는 서버 측에서 실행되는 서버 사이드 언어(server side language)입니다.
+            </dd>
+            <dt class="d_tit">Node.js 설치하기</dt>
+            <dd class="d_txt">
+                Node.js는 윈도우, Mac OS X 등 운영체제에 기본적으로 설치되어 있지 않습니다. <br>
+                따라서 <a href="http://nodejs.org" target="_blank">http://nodejs.org</a>에서 설치 파일을 다운로드하여 설치해야 합니다. <br>
+                웹사이트에 방문한 후 화면 가운데에 위치한 INSTALL 버튼을 클릭합니다. <br><br>
+
+                다운로드한 설치 파일을 더블클릭하여 다음과 같이 설치를 진행합니다. <br><br>
+
+                Custom Setup 단계에 'npm package manager'라는 항목이 있습니다. <br>
+                이를 NPM(node package manager)라고도 하는데, Node.js 기반의 패키지 모듈을 관리하는 도구입니다. <br>
+                NPM은 뒤에서 자세히 다룹니다. <br>
+                계속 next 버튼을 클릭하여 설치를 끝냅니다. <br>
+                (운영체제를 다시 시작해야 Node.js가 정상적으로 작동합니다.)
+            </dd>
+            <dt class="d_tit">Node.js가 제대로 설치되었는지 확인하는 방법</dt>
+            <dd class="d_txt">
+                Node.js를 아직 운영체제에 설치하지 않았거나 설치했어도 운영체제를 다시 시작하지 않았다면, <br>
+                Git Bash에서 node --version을 실행했을 때 노드 명령어를 찾을 수 없다(node: command not found)는 메시지가 화면에 출력됩니다. <br>
+                Node.js를 설치하고 운영체제를 다시 시작했다면, node --version을 실행했을 때 설치된 Node.js 버전을 화면에 출력합니다. <br>
+                설치된 npm 버전 또한 npm -v 명령어로 확인할 수 있습니다. <br>
+                (--version은 -v로 줄여서 사용할 수 있습니다.)
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node1.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">Node.js와 NPM은 어디에 설치되나요?</dt>
+            <dd class="d_txt">
+                Git bash에서 which 명령어를 입력하여 실행하면 설치된 Node.js와 NPM의 위치를 확인할 수 있습니다. <br>
+                which node와 which npm 명령어를 입력한 후 실행하여 위치를 확인합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node2.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

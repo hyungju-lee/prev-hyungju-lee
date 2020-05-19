@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">환경 설정(Configuration) 분리하기</h1>
+        <dl>
+            <dt class="d_tit">환경 설정(Configuration) 분리하기</dt>
+            <dd class="d_txt">
+                이제 템플릿 문서에서 환경 설정 영역을 분리하여 _config.jade 문서를 작성합니다. <br>
+                먼저 _docTemplate.jade 파일을 열어 위쪽에 위치한 설정 변수 영역의 코드를 잘라냅니다. <br>
+                <strong>빨강색 테두리 영역입니다.</strong> <br>
+                [parts] 디렉터리에 _config.jade 파일을 추가한 후 잘라 낸 코드를 붙여 넣습니다. <br>
+                그리고 _docTemplate.jade 파일의 설정 변수 주석 영역에 분리된 _config.jade 파일을 포함(include)하도록 코드를 입력하여 저장합니다.
+                <span class="img_wrap"><img src="img/gulp90.jpg" alt=""></span>
+                <span class="img_wrap"><img src="img/gulp91.jpg" alt=""></span>
+                <span class="em">아 아까 내가 의문품었던거네.. <br>
+                    나는 _mixins라는 파일명으로 분리해서 include했었고 책에서는 _config라는 파일명으로 분리</span>
+            </dd>
+            <dt class="d_tit">변수 curPage 덮어쓰는 방법 (환경 설정 덮어쓰기 Overriding)</dt>
+            <dd class="d_txt">
+                index2.html 웹페이지에서 해당 변수를 변경하려면 _mixins.jade 파일의 변수 curPage 값을 변경해야합니다. <br>
+                즉, index2.jade 파일에서 환경변수 curPage 설정 값을 덮어쓸 수 있도록 만듭니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp92.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

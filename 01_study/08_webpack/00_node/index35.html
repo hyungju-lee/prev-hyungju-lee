@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">환경 설정 외부로 분리</h1>
+        <dl>
+            <dt class="d_tit">환경 설정 외부로 분리</dt>
+            <dd class="d_txt">
+                사용자 정의 환경 설정(Configuration)을 gulpfile.js에서 분리하여 별도로 관리하는 방법을 알아봅니다. <br>
+                먼저 다음처럼 코드를 블록으로 지정한 후 ctrl+x를 눌러 gulpfile.js 파일에서 잘라냅니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // 환경 설정
+                        const config = {
+                            lint: true,
+                            concat: true,
+                            uglify: true,
+                            rename: true
+                        };
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+                    </code>
+                </pre>
+                위 코드를 아래와 같이 수정합니다. <br>
+                config.json 파일은 JSON 문법에 맞게 작성해야 하므로 작은 따옴표(')를 모두 큰 따옴표(")로 바꿔야 합니다. <br>
+                <strong>꼼꼼히 확인하면서 코드를 수정하지 않으면 오류가 발생할 수 있습니다.</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        {
+                          "lint": true,
+                          "concat": true,
+                          "uglify": true,
+                          "rename": true,
+                          "path": {
+                            "css": {
+                              "src": [
+                                "src/css/**/*.css",
+                                "src/css/style.css"
+                              ],
+                              "dest": "dist/css/",
+                              "filename": "style.css"
+                            },
+                            "js": {
+                              "src": "src/js/libs/**/*.js",
+                              "dest": "dist/",
+                              "filename": "DOMlibrary.js"
+                            }
+                          }
+                        }
+                    </code>
+                </pre>
+                config.json 파일을 새로 생성하여 잘라낸 코드를 붙여 넣습니다. <br>
+                다시 gulpfile.js 파일에서 다음과 같이 위쪽에 config.json 모듈을 호출하는 코드를 입력합니다. <br>
+                그리고 path로 시작하는 부분의 코드를 모두 config.path 형태로 변경합니다. <br>
+                config 는 config.json 파일을 참조하는 변수로, 내부의 path 객체에 접근하기 위함입니다. <br>
+                이후부터는 별도로 gulpfile.js 파일을 열어 수정하는 대신 config.json 파일을 열어 환경 설정 값을 변경하면 됩니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        const {src, dest, watch, series, parallel} = require('gulp'),
+                            csslint = require('gulp-csslint'),
+                            concatcss = require('gulp-concat-css'),
+                            uglifycss = require('gulp-uglifycss'),
+                            stylish = require('jshint-stylish'),
+                            jshint = require('gulp-jshint'),
+                            uglify = require('gulp-uglify'),
+                            concat = require('gulp-concat'),
+                            rename = require('gulp-rename'),
+                            gulpif = require('gulp-if'),
+                            del = require('del'),
+                            config = require('./config.json');
+
+                        // 파일 삭제
+                        function clean() {
+                            return del([config.path.js.dest + '*']);
+                        }
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        function styles() {
+                            return src(config.path.css.src)
+                                .pipe(gulpif(config.lint, csslint({
+                                    'import': false
+                                })))
+                                .pipe(gulpif(config.lint, csslint.formatter()))
+                                .pipe(gulpif(config.concat, concatcss(config.path.css.filename)))
+                                .pipe(gulpif(config.rename, dest(config.path.css.dest)))
+                                .pipe(gulpif(config.uglify, uglifycss()))
+                                .pipe(gulpif(config.rename, rename({
+                                    suffix: '.min'
+                                })))
+                                .pipe(dest(config.path.css.dest))
+                        }
+
+                        // JS 문법 검사
+                        function jsHint() {
+                            return src(config.path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        }
+
+                        // JS 병합
+                        function jsConcat() {
+                            return src(config.path.js.src)
+                                .pipe(concat(config.path.js.filename))
+                                .pipe(dest(config.path.js.dest));
+                        }
+
+                        // JS 압축
+                        function jsUglify() {
+                            return src(config.path.js.dest + config.path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(dest(config.path.js.dest));
+                        }
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        exports.default = series(clean, parallel(styles, series(jsHint, jsConcat, jsUglify)));
+
+                        // 지속적 관찰(Watch) 업무 정의
+                        exports.watch = function () {
+                            watch(config.path.css.src, series(clean, styles));
+                            watch(config.path.js.src, series(clean, series(jsHint, jsConcat, jsUglify)));
+                        };
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp32.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

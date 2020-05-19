@@ -1,0 +1,23 @@
+{
+  "name": "combinejs3",
+  "version": "1.0.0",
+  "description": "combineJS 모듈은 js 파일을 병합 및 압축합니다.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "combine",
+    "merge",
+    "js",
+    "javascript",
+    "minify",
+    "compress"
+  ],
+  "author": "hyungju-lee",
+  "license": "ISC",
+  "dependencies": {
+    "minify": "^5.1.0"
+  },
+  "devDependencies": {}
+}

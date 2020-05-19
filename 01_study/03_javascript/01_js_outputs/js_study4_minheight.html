@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>min height</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style type="text/css">
+        .tab_area{position: relative;margin:20px 0}
+        .tab_tit{font-size:0}
+        .btn_tit{border:1px solid #eee}
+        .txt_area{display:none;background-color: #fff}
+        .txt_area.on{display:block}
+    </style>
+</head>
+
+<body>
+<div id="wrap">
+    <div id="head">head</div>
+    <div id="container">
+        <div id="contents">minheight 설정 지역</div>
+    </div>
+    <div id="foot">foot</div>
+</div>
+
+<script type="text/javascript">
+    // device height, element height (padding + border), element height (padding), element padding-top padding-bottom
+    var winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight,
+        // headClientHeight = document.getElementById("head").clientHeight,
+        // footClientHeight = document.getElementById("foot").clientHeight,
+        headOffsetHeight = document.getElementById("head").offsetHeight,
+        footOffsetHeight = document.getElementById("foot").offsetHeight,
+        containerPaddingTop,
+        containerpaddingBottom,
+        minHeight;
+
+    // IE8, FireFox, Chrome cross browsing
+    if (window.getComputedStyle) {
+        containerPaddingTop = window.getComputedStyle(document.getElementById("container")).getPropertyValue("padding-top");
+        containerpaddingBottom = window.getComputedStyle(document.getElementById("container")).getPropertyValue("padding-bottom");
+    } else {
+        containerPaddingTop = document.getElementById("container").currentStyle.paddingTop;
+        containerpaddingBottom = document.getElementById("container").currentStyle.paddingBottom;
+    }
+
+    containerPaddingTop = parseInt(containerPaddingTop);
+    containerpaddingBottom = parseInt(containerpaddingBottom);
+    minHeight = winHeight - headOffsetHeight - footOffsetHeight - containerPaddingTop - containerpaddingBottom;
+    document.getElementById("contents").style.minHeight = minHeight + "px";
+
+    if(window.addEventListener){
+        window.addEventListener("resize", function(){
+            winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            minHeight = winHeight - headOffsetHeight - footOffsetHeight - containerPaddingTop - containerpaddingBottom;
+            document.getElementById("contents").style.minHeight = minHeight + "px";
+        })
+    }else if(window.attachEvent){
+        window.onresize = function(){
+            winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            minHeight = winHeight - headOffsetHeight - footOffsetHeight - containerPaddingTop - containerpaddingBottom;
+            document.getElementById("contents").style.minHeight = minHeight + "px";
+        }
+    }
+</script>
+</body>
+</html>

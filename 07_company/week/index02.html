@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>study</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../css/prism.css">
+    <link rel="stylesheet" href="../../css/font.css">
+    <link rel="stylesheet" href="../../css/child_style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">2주차 - 1주차 실습 복습</h1>
+        <dl>
+            <dt class="d_tit">Node.js 설치되었는지 확인 방법</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        node -v / node --version
+                        npm -v / npm --version
+
+                        // 버전이 뜨지 않는다면 재설치해야됩니다.
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Node.js와 NPM 설치된 위치 확인 방법</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        which node
+                        which npm
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Interactive node shell 사용하기 (console창 같은거)</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        node
+                        // 여기부턴 크롬 개발자창의 console창처럼 사용할 수 있습니다.
+                        // Interactive node shell 모드를 종료하려면 ctrl+c를 누릅니다.
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">cmd 창과 node.js 명령어로 폴더, 파일, 자바스크립트 파일 생성 및 실행</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        mkdir nodejs // 'nodejs' 폴더 생성
+                        cd nodejs // 'nodejs' 폴더로 들어가기
+                        echo 'var hyungju={}; &gt; hyungju.js' // hyungju.js라는 파일을 생성하고 그 파일 안에 var hyungju={} 라는 내용 넣기
+                        cat hyungju.js // hyungju.js 파일 내용 읽기
+                        echo 'console.log(typeof hyungju) &gt;&gt; hyungju.js // 꺽새 두번, hyungju.js 파일에 내용 추가하기
+                        node hyungju.js // hyungju.js 파일 실행
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">클라이언트 자바스크립트 VS. 서버사이드 자바스크립트</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        console.log(__filename);
+                        console.log(__dirname);
+
+                        // 위 자바스크립트 코드를 크롬 개발자 콘솔창과 node에서 각각 실행해보세요
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">fileSystem(fs) 모듈 사용할 때 반드시 참고해야할 사이트</dt>
+            <dd class="d_txt">
+                <a href="https://nodejs.org/api/fs.html" target="_blank"><strong>https://nodejs.org/api/fs.html</strong></a>
+            </dd>
+            <dt class="d_tit">FileSystem(fs) 모듈을 사용하여 파일 읽기 (readfile)</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        // file system 모듈의 readFile() 사용
+                        fs.readFile('files/about-node.txt', function (err, data) {
+                            console.log('data:' + data);
+                        })
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        node (실행할 파일 이름)
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">파일읽기 비동기적 실행</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        console.log('파일 읽기 프로세스 시작...');
+                        // file system 모듈의 readFile() 사용
+                        fs.readFile('files/about-node.txt', function (err, data) {
+                            console.log('data:' + data);
+                        })
+                        console.log('파일 읽기 프로세스 끝');
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">파일읽기 동기적 실행</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        // file system 모듈의 readFile() 사용
+                        fs.readFileSync('files/about-node.txt');
+                        console.log('데이터:' + data);
+                        console.log('파일 읽기 프로세스 끝');
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">JSON 파일 읽기</dt>
+            <dd class="d_txt">
+                <strong>JSON 파일을 작성할 땐 쌍따옴표를 사용해야됩니다.</strong>
+                <pre class="line-numbers">
+                    <code class="language-json">
+                        {
+                            "name": "hyungju-lee",
+                            "old": "33",
+                            "regidence": "seoul"
+                        }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        // file system 모듈의 readFile() 사용
+                        fs.readFile('files/config.json', function (err, data) {
+                            console.log('data:' + data);
+                        })
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">JSON 데이터의 name 값 출력하기</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-json">
+                        {
+                            "name": "hyungju-lee",
+                            "old": "33",
+                            "regidence": "seoul"
+                        }
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        console.log('파일 읽기 프로세스 시작');
+                        // file system 모듈의 readFile() 사용
+                        var data = fs.readFileSync('files/config.json');
+                        console.log('데이터 : ' +  data.name);
+                        console.log('파일 읽기 프로세스 끝');
+
+                        // 결과
+                        // 파일 읽기 프로세스 시작
+                        // 데이터 : undefined
+                        // 파일 읽기 프로세스 끝
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        console.log('파일 읽기 프로세스 시작');
+                        // file system 모듈의 readFile() 사용
+                        var data = fs.readFileSync('files/config.json');
+                        var jsonObj = JSON.parse(data);
+                        console.log('데이터 : ' +  jsonObj.name);
+                        console.log('파일 읽기 프로세스 끝');
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Nodejs 파일 읽고 쓰기</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        console.log('파일 쓰기 프로세스 시작');
+
+                        var cssDoc = "#nodejs {margin:0;}";
+                        fs.writeFile('files/style.css', cssDoc, function () {
+                            console.log('files/style.css 파일 생성');
+                        })
+
+                        console.log('파일 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Node 파일 엔코딩 옵션</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        console.log('파일 쓰기 프로세스 시작');
+
+                        var cssDoc = "#nodejs {margin:0;}";
+                        var options = {encoding: 'utf8'};
+                        fs.writeFile(
+                            'files/style.css',
+                            cssDoc,
+                            options,
+                            function () {
+                                console.log('files/style.css 파일 생성');
+                            }
+                        );
+
+                        console.log('파일 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">파일 쓰기 동기적 실행</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+                        console.log('파일 쓰기 프로세스 시작');
+
+                        var cssDoc = "#nodejs {margin:0;}";
+                        var options = {encoding: 'utf8'};
+                        fs.writeFileSync(
+                            'files/style.css',
+                            cssDoc,
+                            options
+                        );
+
+                        console.log('코드의 흐름을 동기(sync)적으로 처리')
+                        console.log('파일 쓰기 프로세스 끝');
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">Node fileSystem(fs) 모듈로 파일 변경 내용을 계속 관찰(watchFile)하기</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+
+                        fs.watchFile('files/style.css', function (cur, prv) {
+                            console.log('파일이 변경되었습니다.');
+                        })
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+
+                        // style.css 문서 경로
+                        var styleDoc = 'files/style.css';
+
+                        // watchFile() - 파일 변화를 지속적으로 관찰
+                        fs.watchFile('files/style.css', function (curr, prev) {
+                            // readFileSync() 메소드를 통해 파일을 동기적으로 읽어옴
+                            var doc = fs.readFileSync(styleDoc);
+                            // 변경된 파일 내용을 콘솔에 출력
+                            console.log('변경된 문서 내용 : \n' + doc);
+                        })
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">파일이 아닌 폴더 관찰하기 (watch)</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-js">
+                        var fs = require('fs');
+
+                        // 폴더 경로
+                        var folderPath = 'files';
+
+                        fs.watch(folderPath, function (event, filename) {
+                            console.log('event is : ' + event);
+                            if (filename) {
+                                console.log('filename provided : ' + filename);
+                            } else {
+                                console.log('filename not provided');
+                            }
+                        })
+                    </code>
+                </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+
+
+<script src="../../js/prism.js"></script>
+</body>
+</html>

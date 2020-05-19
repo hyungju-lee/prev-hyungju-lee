@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>simple</title>
+    <link rel="stylesheet" href="../css/font.css">
+    <link rel="stylesheet" href="../css/prism.css">
+    <link rel="stylesheet" href="../css/child_style.css">
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">try? catch? 예외처리란 뭐 하는 건가요?</h1>
+        <dl>
+            <dt class="d_tit">try, catch (Exception Handling)</dt>
+            <dd class="d_txt">
+                다음과 같은 코드가 있다고 가정해봅시다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        15000원을 챙긴다.
+                        다이소에 갇나.
+                        5000원짜리 구매를 고무장갑한다.
+                        과일가게에 간다.
+                        8000원 짜리 포도를 구매한다.
+                        슈퍼에 간다.
+                        4000원 짜리 계란을 산다.
+                        집에 온다.
+                    </code>
+                </pre>
+                2번째 줄과 3번째 줄, 철자와 문법 오류가 있죠? <br>
+                이런 오류는 컴퓨터가 알아서 바로 걸러냅니다. <br>
+                "야 개발자야 코딩 똑바로해" <br>
+                코딩 프로그램에서 빨간줄 딱 그어버리죠. <br>
+                특히 자바 같은 컴파일 언어들, 즉 실행되기 전에 기계에게 더 친숙한 언어로 번역, 컴파일 되는 언어들은, <br>
+                문법 오류들은 컴파일 오류 과정에서부터 차단하기 때문에 실행 과정에서 이런 오류가 나는 일은 없습니다. <br>
+                이런걸 <span class="em">컴파일 오류</span>라고 합니다. <br>
+                <br>
+                그렇다면, 컴퓨터가 실행 전에 걸러내지 못하는 런타임 오류들을 찾아봅시다. <br>
+                위에 소스 보시면 총 17000원짜리 물건들을 사러 보내는데 15000원을 쥐어보냅니다. <br>
+                이는 개발자도 의도했던 상황이 아닙니다. <br>
+                이렇게 프로그래머의 논리적 결함에 의해 발생하는 걸 <span class="em">'논리 오류'</span>라고 합니다. <br>
+                이런 오류들은 전적으로 이 코드에 달려 있기 때문에 프로그래밍 하는 과정에서 방지할 수 있습니다. <br>
+                프로그래머가 실수만 안하면 되는 거기 때문입니다. <br>
+                <br>
+                <span class="em">하지만 프로그래머가 코드로 제어할 수 없는 돌발 상황이 발생할 수 있습니다.</span> <br>
+                <br>
+                <a href="http://hyungju12.dothome.co.kr/06_portfolio/2018_portfolio/made2018/201811_costerfile_php02/kr/contactUs/contactus.php" target="_blank">예제</a><br>
+                <br>
+                위와 같은 form 태그 양식을 코딩했다고 합시다. <br>
+                회사명에는 당연히 회사명을 적어야할 것이고 사업자등록번호에는 당연히 사업자 등록번호를 적어야할 것입니다. <br>
+                하지만 입력 과정에서 입력하는 사람이 실수할 수 있죠. <br>
+                회사명에 오타가 생긴다던가, 사업자등록번호에 실수로 핸드폰 번호를 적는다던가 하는 오류가 생길 수 있습니다. <br>
+                그런 오류를 방지하고자 정규식으로 최대한 방지하는 소스를 만들었지만 프로그래머가 상정하지 못한 경우의 수가 있을 수도 있습니다. <br>
+                <span class="em">즉, 모든 경우의 수를 다 예측하긴 힘듭니다.</span> <br>
+                컴퓨터란 놈은 이렇게 융통성이 없어서 이렇게 오류란 벽에 부딛치면 해당 프로세스가 죽어버립니다. <br>
+                <br>
+                그래서 프로그래밍 언어들은 일반적으로 이런 돌발상황에 대처하기 위해 <span class="em">'예외 처리', 'Exception Handling'</span>이란 장치들을 마련해놨습니다.
+                <br>
+                보통은 <strong>try</strong>와 <strong>catch</strong> 라는 명령어로 되어있습니다.
+                <pre class="line-numbers">
+                    <code class="language-java">
+                        public class ExceptionHandling {
+                            public void myMethod () {
+                                try {
+                                    // 시도해 볼 동작
+                                } catch (Exception e) {
+                                    // 오류 발생 시
+                                }
+
+                                // ... 이후 동작
+
+                            }
+                        }
+                    </code>
+                </pre>
+                파이썬의 <strong>try  - except</strong>, 루비의 <strong>begin - rescue</strong> 처럼
+                <pre class="line-numbers">
+                    <code class="language-python">
+                        # 파이썬
+                        def exceptionHandling
+
+                            try :
+                                # 시도해 볼 동작
+                            except :
+                                # 오류 발생 시
+                            else :
+                                # 오류가 없을 시
+
+                            # ... 이후 동작
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-ruby">
+                        # Ruby
+                        def exceptionHandling
+
+                            begin
+                                # 시도해 볼 동작
+                            rescue
+                                # 오류 발생 시
+                            end
+
+                            # ... 이후 동작
+                        end
+                    </code>
+                </pre>
+                말이나 기능이 조금씩 다른 경우도 있습니다. <br>
+                여튼 예외 처리를 한 자바스크립트 코드를 예로 보여드리자면,
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        goTo(superMarket); // 슈퍼마켓으로 가
+
+                        try {
+                            superMarket.buy("eggs"); // 슈퍼마켓에서 계란을 사, 만약 계란을 사는 데 뭔가 오류가 생긴다면 프로세스를 중지하지말고
+                        } catch (Exception e) {
+                            // 오류 발생 시
+                        }
+
+                        comeBackHome(); // 집으로 돌아와!
+                    </code>
+                </pre>
+                이런 식으로 되는 겁니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        goTo(superMarket); // 슈퍼마켓으로 가
+
+                        try {
+                            superMarket.buy("eggs"); // 슈퍼마켓에서 계란을 사, 만약 계란을 사는 데 뭔가 오류가 생긴다면 프로세스를 중지하지말고
+                        } catch (NoMoneyException e) {
+                            // 계란값이 가진 돈을 초과할 시 동작
+                        } catch (HalMoneyException e) {
+                            // 가계 주인 할머니가 안 꼐실 시 동작
+                        } finally {
+                            // 계란을 사든 못 사든 동작
+                        }
+
+                        comeBackHome(); // 집으로 돌아와!
+                    </code>
+                </pre>
+                위에 처럼 어떤 오류에 따라 어떤 행동을 해야할지를 나눌 수도 있습니다. <br>
+                하지만 여기서 궁금한점
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        try {
+                            // 시도해 볼 동작
+                        } catch (Exception e) {
+                            // 오류 발생 시
+                        } finally {
+                            // 성공 시, 오류 발생 시 모두 동작
+                        }
+
+                        // finally 구문은 왜 쓰죠? 이 부분에다가 적으면 어차피 똑같은거 아닌가요?
+                    </code>
+                </pre>
+                위에 finally 구문은 왜 쓰는 걸까요? <br>
+                오류가 나든 안나든 실행되는 거라면 try-catch 다음에 놓아도 똑같은 거잖아요. <br>
+                try의 명령이 성공하거나 실패했을 경우 둘 중 하나에 바로 return 해버리는 경우가 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        public void myMethod() {
+                            try {
+                                // 시도해 볼 동작
+                                return
+                            } catch (Exception e) {
+                                // 오류 발생 시
+                                return
+                            }
+
+                            // 성공 또는 오류 발생으로 return이 되면
+                            // 이곳은 실행되지 않음
+                        }
+                    </code>
+                </pre>
+                위에 처럼 말입니다. 그러면 해당 함수는 거기서 종료되는 겁니다. <br>
+                아래는 출근하기 전 차키를 찾는 함수입니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        public boolean lookForCarKey () {
+                            // ...(생략)...
+
+                            deskDrawer.open(); // 책상 서랍을 연다
+                            try {
+                                deskDrawer.searchCarkey();
+                                return true // 찾았다면 집을 나선다
+                            } catch (Exception e) {
+                                // 아 어따 뒀지..
+                            } finally {
+                                deskDrawer.close(); // 책상서랍을 닫는다
+                            }
+
+                            // ...(옷장과 가방 뒤지기)...
+                        }
+                    </code>
+                </pre>
+                책상 서랍을 열어 차키를 찾습니다. <br>
+                찾았다면 return값으로 true를 반환합니다. 그러면 함수는 여기서 끝나게 되겠죠. <br>
+                하지만 못 찾았다면 아래 옷장과 가방 뒤지기 함수가 이어서 실행될 겁니다. <br>
+                하지만 키를 찾든 못찾든 열었던 서랍은 닫아야하죠(finally) <br>
+                <br>
+                데이터베이스에 접속해 데이터를 찾고, 원하는 데이터를 찾던 못찾던 해당 접속을 종료해야하는 서비스 등에서 <br>
+                이 finally가 많이 사용됩니다. <br>
+                <br>
+                프로그래머의 실수를 많이 줄여줄 겁니다. 하지만 이런 편리함이 장기적으론 독이되기도 합니다. <br>
+                오류들을 철저하게 예측하고 계산해서 해결하는 것이 아닌, 예외처리로 대충 묻어버리고 가는 나태한 습관들이 쌓일지도 모르죠. <br>
+                그런 습관들은 이후 큰 문제를 발생시키기도 합니다. <br>
+                그래서 이러한 예외 처리에도 다양한 입장들이 있고 논란이 있습니다.
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../js/prism.js"></script>
+</body>
+</html>

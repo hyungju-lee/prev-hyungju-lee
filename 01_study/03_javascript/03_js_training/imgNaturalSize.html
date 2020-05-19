@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>Image natural size for crossbrowsing</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<img id="image" src="img/image1.png" alt="라이언">
+<div id="result1"></div>
+<div id="result2"></div>
+<script>
+    // IE8에선 naturalWidth, naturalHeight 프로퍼티가 없으므로 아래 식을 이용합니다.
+    function getNatural(DOMelement) {
+        var img = new Image();
+        img.src = DOMelement.src;
+        return {width: img.width, height: img.height};
+    }
+
+    if (window.addEventListener) {
+        window.addEventListener("load", function () {
+            var naturalWidth = document.getElementById("image").naturalWidth,
+                naturalHeight = document.getElementById("image").naturalHeight;
+            document.getElementById("result1").innerText = "위 이미지의 원본 width 값은 " + naturalWidth + "px 입니다.";
+            document.getElementById("result2").innerText = "위 이미지의 원본 height 값은 " + naturalHeight + "px 입니다.";
+        })
+    } else if (window.attachEvent) {
+        window.onload = function () {
+            var naturalWidth = getNatural(document.getElementById("image")).width,
+                naturalHeight = getNatural(document.getElementById("image")).height;
+            document.getElementById("result1").innerText = "위 이미지의 원본 width 값은 " + naturalWidth + "px 입니다.";
+            document.getElementById("result2").innerText = "위 이미지의 원본 height 값은 " + naturalHeight + "px 입니다.";
+        };
+    }
+</script>
+</body>
+</html>

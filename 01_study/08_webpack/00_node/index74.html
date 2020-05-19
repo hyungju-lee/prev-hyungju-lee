@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">EJS 템플릿 설치 방법</h1>
+        <dl>
+            <dt class="d_tit">EJS 템플릿 설치 방법</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-powershell">
+                        npm i -D ejs
+                        npm i -D gulp-ejs
+                    </code>
+                </pre>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        // gulpfile.babel.js 파일에 추가
+
+                        // ejs 컴파일
+                        const EjsCompile = () => {
+                            return src(config.path.ejs.src)
+                                .pipe(ejs({
+                                    msg: "Hello Gulp!"
+                                }))
+                                .pipe(rename({
+                                    extname: ".html"
+                                }))
+                                .pipe(dest(config.path.ejs.dest))
+                                .pipe(connect.reload())
+                        };
+                    </code>
+                </pre>
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">gulp-if 모듈로 조건에 따른 업무 처리</h1>
+        <dl>
+            <dt class="d_tit">gulp-if 모듈로 조건에 따른 업무 처리</dt>
+            <dd class="d_txt">
+                이번에는 조건에 따라 업무 중 일부 과정을 처리하거나 처리하지 않게 하는 방법을 알아봅니다. <br>
+                먼저 조건에 따라 동작을 처리하는 gulp-if 모듈을 설치하고, 설치한 모듈을 호출하는 코드를 입력합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp29.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                config 객체를 생성하여 문법 검사, 병합, 압축, 새 이름 변경 항목을 속성으로 정의합니다. <br>
+                각 속성값에 참(true) 논리형 데이터를 입력합니다. <br>
+                설정 값 중 일부를 거짓(false)으로 변경하면 해당 과정은 수행하지 않습니다. <br>
+                예를 들어, concat 속성 값을 거짓(false)으로 설정하면 병합은 처리되지 않습니다.
+                <pre class="line-numbers" data-line="10, 13-20">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const gulpif = require('gulp-if');
+                        const del = require('del');
+
+                        // 환경 설정
+                        const config = {
+                            lint: true,
+                            concat: true,
+                            uglify: true,
+                            rename: true
+                        };
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            return gulp.src(path.css.src)
+                                .pipe(csslint({
+                                    'import': false
+                                }))
+                                .pipe(csslint.formatter())
+                                .pipe(concatcss(path.css.filename))
+                                .pipe(gulp.dest(path.css.dest))
+                                .pipe(uglifycss())
+                                .pipe(rename({
+                                    suffix: '.min'
+                                }))
+                                .pipe(gulp.dest(path.css.dest))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+                <p class="phrase">
+                    <span class="em">gulpif(조건, 참일 때 실행되는 동작, 거짓일 때 실행되는 동작)</span>
+                </p>
+                gulpif() 함수는 세 개의 전달인자를 받습니다. <br>
+                첫번째는 조건이고, 두번째는 참일 때 실행되는 동작이며, 세번째는 거짓일 때 실행되는 동작입니다. <br>
+                <strong>세번째 전달인자는 생략될 수 있습니다.</strong> <br>
+                <br>
+                다음을 참고하여 styles 업무 코드에 gulpif() 함수를 적용합니다. <br>
+                코드를 적용하는 패턴이 동일하니 csslint() 부분만 다루겠습니다. <br>
+                .pipe() 내부의 csslint() 코드를 잘라 낸 후 gulpif() 함수를 입력합니다. <br>
+                그리고 첫번째 전달인자인 조건에 config 객체의 lint 속성(config.lint)을 대입합니다. <br>
+                콤마(,)로 구분한 후 두 번째 전달인자로 잘라 낸 csslint() 코드를 붙여 넣습니다. <br>
+                <br>
+                입력한 코드는 config 객체의 lint 속성 값이 참(true)일 때만 csslint() 과정을 수행하라는 의미입니다. <br>
+                즉, 사용자가 환경 설정 객체인 config의 lint 속성 값을 거짓(false)으로 변경한 후 명령어를 실행하면, <br>
+                문법 검사 과정은 진행하지 않은 채 다음 과정으로 넘어갑니다. <br>
+                연결된 나머지 파이프(pipe) 코드 또한 동일한 방법으로 다음을 참고하여 코드를 입력하고 저장합니다.
+                <pre class="line-numbers" data-line="13-20, 40-56">
+                    <code class="language-javascript">
+                        const gulp = require('gulp');
+                        const csslint = require('gulp-csslint');
+                        const concatcss = require('gulp-concat-css');
+                        const uglifycss = require('gulp-uglifycss');
+                        const stylish = require('jshint-stylish');
+                        const jshint = require('gulp-jshint');
+                        const uglify = require('gulp-uglify');
+                        const concat = require('gulp-concat');
+                        const rename = require('gulp-rename');
+                        const gulpif = require('gulp-if');
+                        const del = require('del');
+
+                        // 환경 설정
+                        const config = {
+                            lint: true,
+                            concat: true,
+                            uglify: false,
+                            rename: false
+                        };
+
+                        const path = {
+                            css: {
+                                src: 'src/css/style.css',
+                                dest: 'dist/css/',
+                                filename: 'style.css'
+                            },
+                            js: {
+                                src: 'src/js/libs/**/*.js',
+                                dest: 'dist/',
+                                filename: 'DOMlibrary.js'
+                            }
+                        };
+
+                        // 파일 삭제
+                        gulp.task('clean', function () {
+                            return del([path.js.dest + '*']);
+                        });
+
+                        // NPM 설치 모듈 : gulp-csslint, gulp-concat-css, gulp-uglifycss
+                        // CSS 문법 검사 > 병합 > 압축
+                        gulp.task('styles', function () {
+                            return gulp.src(path.css.src)
+                                .pipe(gulpif(config.lint, csslint({
+                                    'import': false
+                                })))
+                                .pipe(gulpif(config.lint, csslint.formatter()))
+                                .pipe(gulpif(config.concat, concatcss(path.css.filename)))
+                                .pipe(gulpif(config.rename, gulp.dest(path.css.dest)))
+                                .pipe(gulpif(config.uglify, uglifycss()))
+                                .pipe(gulpif(config.rename, rename({
+                                    suffix: '.min'
+                                })))
+                                .pipe(gulp.dest(path.css.dest))
+                        });
+
+                        // JS 문법 검사
+                        gulp.task('js:hint', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(jshint())
+                                .pipe(jshint.reporter(stylish));
+                        });
+
+                        // JS 병합
+                        gulp.task('js:concat', function () {
+                            return gulp.src(path.js.src)
+                                .pipe(concat(path.js.filename))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 압축
+                        gulp.task('js:uglify', function () {
+                            return gulp.src(path.js.dest + path.js.filename)
+                                .pipe(uglify())
+                                .pipe(rename({suffix: '.min'}))
+                                .pipe(gulp.dest(path.js.dest));
+                        });
+
+                        // JS 문법검사 > 병합 > 압축
+                        gulp.task('scripts',
+                            gulp.series('js:hint', 'js:concat', 'js:uglify')
+                        );
+
+                        // Gulp.task()를 사용해 기본(Default) 테스크 정의
+                        gulp.task('default',
+                            gulp.series('clean', 'scripts')
+                        );
+                    </code>
+                </pre>
+                config 객체의 uglify, rename 설정 값을 거짓(false)으로 변경하여 저장합니다. <br>
+                명령어를 실행하면 사용자 환경 설정에 따라 결과가 제대로 수행되는지 확인할 수 있습니다. <br>
+                압축과 이름 변경은 반영되지 않은 채 업무가 처리됩니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp30.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>callback img size</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+</head>
+<body>
+<img id="image" src="img/image1.png" alt="라이언">
+<button type="button" id="btn">버튼</button>
+<div id="result1"></div>
+<div id="result2"></div>
+
+<script>
+    function getSize(callbackFunc) {
+        var naturalWidth = document.getElementById("image").naturalWidth,
+            naturalheight = document.getElementById("image").naturalHeight;
+        callbackFunc(naturalWidth, naturalheight);
+    }
+
+    document.getElementById("btn").addEventListener("click", function () {
+        getSize(function (naturalWidth, naturalheight) {
+            document.getElementById("result1").innerText = "원본 너비 : " + naturalWidth;
+            document.getElementById("result2").innerText = "원본 높이 : " + naturalheight;
+        });
+    })
+</script>
+</body>
+</html>

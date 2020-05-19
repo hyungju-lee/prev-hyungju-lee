@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">디렉터리(폴더) 안의 모든 파일을 일괄적으로 관찰할 수 있나요?</h1>
+        <dl>
+            <dt class="d_tit">디렉터리(폴더) 안의 모든 파일을 일괄적으로 관찰할 수 있나요?</dt>
+            <dd class="d_txt">
+                File System 모듈이 지원하는 watch()를 사용하면 디렉터리의 모든 파일을 지속적으로 관찰할 수 있습니다. <br>
+                래퍼런스(<a href="http://nodejs.org/api/fs.html#fs_filename_argument">http://nodejs.org/api/fs.html#fs_filename_argument</a>)를 보면,
+                fs.watch() 메소드의 첫 번째 전달인자로 디렉터리(폴더) 이름을 입력해야 합니다. <br>
+                그리고 리스너 함수의 filename 매개변수 값은 디렉터리 안의 각 파일을 가리킵니다. <br>
+                <strong>(2015년 3월 기준으로 모든 플랫폼을 지원하지는 않으며, 파일 이름 또한 정확하게 처리하지 못할 수 있음을 안내하고 있습니다. <br>그러므로 사용에 주의가 필요합니다.)</strong>
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                        var fs = require('fs');
+
+                        // 폴더 경로
+                        var folderPath = 'files';
+
+                        fs.watch(folderPath, function(event, filename){
+                            console.log('event is : ' + event);
+                            if(filename){
+                                console.log('filename provided : ' + filename);
+                            }else{
+                                console.log('filename not provided');
+                            }
+                        })
+                    </code>
+                </pre>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node20.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

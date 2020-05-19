@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>eventDefault</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/tab.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <!--[if lt IE 9]>
+    <style>
+        code{overflow: auto}
+    </style>
+    <![endif]-->
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">자바스크립트 클로져 쉽게 이해하기</h1>
+        <p class="phrase">클로저(closure)는 프로그래머가 창조적이고 인상적이며 간결한 프로그래밍을 할 수 있게 해줍니다.<br>
+            클로저는 빈번하게 사용되며 자바스크립트 스킬과 관계없이 자주 마주치게 될 것입니다. <br>
+            물론, 지금 당장 클로저는 복잡해 보일 수 있습니다만, 이 글을 읽고 클로저에 대해 이해하게 된다면 자바스크립트 코딩시에 매일 사용하게 될 것입니다.<br><br>
+            이 글은 비교적 클로저에 대해 간략히 설명하고 있습니다. 이 글을 계속 읽기 전에 먼저 자바스크립트 변수 범위에 대해 이해할 필요가 있습니다. <br>
+            만약 그렇지 못하다면 호이스팅에 관한 지식을 먼저 이해하시고 이 글을 읽어주시기 바랍니다.
+        </p>
+        <dl>
+            <dt class="d_tit">클로저란 무엇인가</dt>
+            <dd class="d_txt">
+                클로저는 외부함수(포함하고 있는)의 변수에 접근할 수 있는 내부 함수를 일컫습니다.<br>
+                스코프 체인(scope chain)으로 표현되기도 합니다. <br>
+                클로저는 세가지 스코프 체인을 가집니다.
+                <ul class="lst">
+                    <li class="item">클로저 자신에 대한 접근(자신의 블럭 내에 정의된 변수)</li>
+                    <li class="item">외부 함수의 변수에 대한 접근</li>
+                    <li class="item">전역변수에 대한 접근</li>
+                </ul>
+                내부 함수는 외부 함수의 변수뿐만 아니라 파라미터에도 접근할 수 있습니다.<br>
+                단, 내부함수는 외부함수의 arguments 객체를 호출할 수는 없습니다. (하지만 외부함수의 파라미터는 직접 호출할 수 있습니다.)
+            </dd>
+            <dt class="d_tit">기본적인 클로저 예제</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         function showName(firstName, lastName) {
+                            var nameIntro = "Your name is ";
+                            // 이 내부 함수는 외부함수의 변수뿐만 아니라 파라미터 까지 사용할 수 있습니다.
+                            function makeFullName() {
+                                return nameIntro + firstName + " " + lastName;
+                            }
+                            return makeFullName();
+                        }
+                        showName("Michael", "Jackson"); // Your name is Michael Jackson
+                    </code>
+                </pre>
+                클로저는 Node.js의 비동기, 논-블록킹 아키텍처의 핵심기능으로 활용되고 있습니다.<br>
+                클로저는 jQuery에서도 빈번히 사용되며, 거의 모든 자바스크립트 코드에서 볼 수 있습니다.
+            </dd>
+            <dt class="d_tit">jQuery의 전형적인 클로저 사용예</dt>
+            <dd class="d_txt">
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         $(function() {
+                            var selections = [];
+                            $(".niners").click(function() { // 이 클로저는 selections 변수에 접근합니다.
+                                selections.push(this.prop("name")); // 외부 함수의 selections 변수를 갱신함
+                            });
+                        });
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">클로저 규칙과 부수 효과</dt>
+            <dd class="d_txt">
+                <strong>클로저는 외부함수가 리턴된 이후에도 외부함수의 변수에 접근할수 있습니다.</strong> <br><br>
+                클로저를 사용하면서 가장 헷갈리는것 중의 하나는 외부함수가 리턴된 이후에도 여전히 내부함수가 외부함수의 변수에 접근하고 있다는 것입니다. (네. 당신이 바로 읽은것 맞습니다.-.-)<br>
+                자바스크립트의 함수가 실행되었을때, 함수는 자신이 생성되었을때와 동일한 스코프 체인을 사용합니다. <br>
+                그러므로, 당신은 내부 함수를 나중에 호출할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         function celebrityName(firstName) {
+                            var nameIntro = "This is celebrity is ";
+                            // 이 내부 함수는 외부함수의 변수와 파라미터에 접근할 수 있습니다.
+                            function lastName(theLastName) {
+                                return nameIntro + firstName + " " + theLastName;
+                            }
+                            return lastName;
+                        }
+                        var mjName = celebrityName("Michael"); // 여기서 celebrityName 외부함수가 리턴됩니다.
+                        // 외부함수가 위에서 리턴된 후에, 클로저(lastName)가 호출됩니다.
+                        // 아직, 클로저는 외부함수의 변수와 파라미터에 접근 가능합니다.
+                        mjName("Jackson"); // This celebrity is Michael Jackson
+                    </code>
+                </pre>
+                클로저는 외부 함수의 변수에 대한 참조를 저장합니다. <br><br>
+                클로저는 실제 값을 저장하지 않습니다. <br>
+                클로저가 호출되기 전에 외부함수의 변수가 변되었을때, 클로저는 더 흥미로워 집니다.<br>
+                그리고, 이 강력한 기능은 창의적인 방법으로 활용될 수 있습니다. <br>
+                아래의 내부(private) 변수예제는 더글라스 크락포드(Douglas Crockford)에 의해 처음 시연되었습니다:
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         function celebrityID() {
+                            var celebrityID = 999;
+                            // 우리는 몇개의 내부 함수를 가진 객체를 리턴할것입니다.
+                            // 모든 내부함수는 외부변수에 접근할 수 있습니다.
+                            return {
+                                getID: function() {
+                                    // 이 내부함수는 갱신된 celebrityID변수를 리턴합니다.
+                                    // 이것은 changeThdID함수가 값을 변경한 이후에도 celebrityID의 현재값을 리턴합니다.
+                                    return celebrityID;
+                                },
+                                setID: function(theNewID) {
+                                    // 이 내부함수는 외부함수의 값을 언제든지 변경할 것입니다.
+                                    celebrityID = theNewID;
+                                }
+                            }
+                        }
+                        var mjID = celebrityID(); // 이 시점에, celebrityID외부 함수가 리턴됩니다.
+                        mjID.getID(); // 999
+                        mjID.setID(567); // 외부함수의 변수를 변경합니다.
+                        mjID.getID(); // 567; 변경된 celebrityID변수를 리턴합니다.
+                    </code>
+                </pre>
+            </dd>
+            <dt class="d_tit">클로저 비꼬기</dt>
+            <dd class="d_txt">
+                클로저가 갱신된 외부함수의 변수에 접근함으로써, 외부 함수의 변수가 for문에 의해 변경될 경우 의도치 않은 버그가 발생할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         function aaa(b) {
+                            var i;
+                            var num = 100;
+                            for (i=0; i&lt;b.length; i++) {
+                                b[i].id = function(){
+                                    return num+i;
+                                };
+                            }
+                            return b;
+                        }
+
+                        var abcd = [
+                            {name:"LHJ", id:0},
+                            {name:"JJJ", id:0},
+                            {name:"AAA", id:0}
+                        ]
+
+                        var c = aaa(abcd);
+
+                        console.log(c);
+                        [{…}, {…}, {…}]
+                            0: {name: "LHJ", id: ƒ}
+                            1: {name: "JJJ", id: ƒ}
+                            2: {name: "AAA", id: ƒ}
+                            length: 3
+                            __proto__: Array(0)
+
+                        console.log(c[0]["id"]());
+                        103
+                    </code>
+                </pre>
+                위의 예제에서 익명의 내부함수가 실행될 시점에 i의 값은 3입니다. (배열의 크기만큼 증가한 값) <br>
+                숫자 3은 num에 더해져 c 배열의 모든 id 프로퍼티에 저장되어있는 내부함수(클로저)를 실행하면 103의 값을 반환합니다. <br><br>
+                이런 결과가 나타난 이유는, 앞서 언급했듯이 클로저(내부함수)는 (위 예제에선 내부의 익명함수)<br>
+                외부 변수에 대해 값이 아닌 <strong>참조</strong>로 접근하기 때문입니다. <br>
+                즉, 클로저는 최종 갱신된 변수 i에 대해서만 접근할 수 있으므로, 외부 함수가 전체 for문을 실행하고 리턴한 최종의 i값을 리턴하게 됩니다. <br>
+                100 + 3 = 103; <br><br>
+                이런 부작용을 고치기 위해서 "즉시 호출된 함수 표현식 (Immediately Invoked Function Expression. IIFE)"를 사용할 수 있습니다.
+                <pre class="line-numbers">
+                    <code class="language-javascript">
+                         function aaa(b) {
+                            var i;
+                            var num = 100;
+                            for (i=0; i&lt;b.length; i++) {
+                                b[i].id = function(){
+                                    return num+i;
+                                }();
+                            }
+                            return b;
+                        }
+
+                        var abcd = [
+                            {name:"LHJ", id:0},
+                            {name:"JJJ", id:0},
+                            {name:"AAA", id:0}
+                        ]
+
+                        var c = aaa(abcd);
+
+                        console.log(c);
+                        (3) [{…}, {…}, {…}]
+                            0: {name: "LHJ", id: 100}
+                            1: {name: "JJJ", id: 101}
+                            2: {name: "AAA", id: 102}
+                            length: 3
+                            __proto__: Array(0)
+                    </code>
+                </pre>
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<script src="../../../js/prism.js"></script>
+<script src="../../../js/tab.js"></script>
+</body>
+</html>

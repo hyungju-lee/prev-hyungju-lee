@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>jQuery Quiz</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style>
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="text"]::-webkit-inner-spin-button,
+        input[type="text"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"], input[type="text"] {
+            padding: 10px;
+            border: 1px solid #000;
+        }
+
+        .btn_enter {
+            display: block;
+            width: 70px;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid gray;
+            background: white
+        }
+
+        .btn_enter:disabled {
+            background-color: #000;
+            color: #fff
+        }
+
+        .btn_enter.disabled {
+            background-color: #000;
+            color: #fff
+        }
+    </style>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">오로지 숫자키만 입력되어야됨</dd>
+            <dd class="d_txt">숫자외의 키가 입력된 후에 지워지는거 최대한 방지</dd>
+            <dd class="d_txt">IE8까지 지원</dd>
+            <dd class="d_txt">jquery 활용</dd>
+            <dt class="d_tit">기법</dt>
+            <dd class="d_txt">ime-mode:disabled 속성 사용
+                <ul class="lst">
+                    <li class="item">한글 키보드 입력 방지하는 역할</li>
+                    <li class="item">ms와 moz에서만 적용됨</li>
+                    <li class="item">크롬에선 적용 안됨</li>
+                    <li class="item">크롬을 위한 js식이 필요함 (하지만 ime-mode:disabled처럼 완벽하진 않음)</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">keycode 사용
+                <ul class="lst">
+                    <li class="item">각 key마다 code값이 존재, 그 값을 이용해 눌려도되는 키와 눌리지 말아야될 키를 나눔</li>
+                    <li class="item">눌리지 말아야할 키가 눌렸을 때 event 발생을 막아버림 (하지만 크롬에선 한글은 한계가 있음)</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">해당 이벤트가 존재하는 안하는지 if문을 활용한 구분
+                <ul class="lst">
+                    <li class="item">IE8까지 대응하기 위함</li>
+                </ul>
+            </dd>
+            <dt class="d_tit">한계</dt>
+            <dd class="d_txt">PC 크롬에서 한글키보드는 keycode값이 229로 반환, 229로 반환되었을 때 event를 막는식이 작동하지 않음
+                <ul class="lst">
+                    <li class="item">즉 한글이 입력되었다가 지워지는 현상 발생</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">아이폰 X IOS 12.4.1 테스트 결과 숫자가 1~3개 입력된 상황에서 한글을 마구 연타하면 숫자까지 지워지는 현상 발생
+                <ul class="lst">
+                    <li class="item">정규식으로 한글 입력시 자동으로 지워지게하는 식을 넣었는데 아무래도 그 식이 실행되면서 오류가 발생하는 듯</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">PC 크롬, 갤럭시노트5 안드로이드 7.0 한글키를 마구 입력한 후 백스페이스를 누르면 한번에서 두번 누르고나서 그 다음에 눌러야 지워지는 현상 발생</dd>
+        </dl>
+        <p class="phrase"><strong>파이어폭스와 IE8+에선 큰 오류없음, ime-mode:disabled 덕분인듯</strong></p>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+    <!-- ime-mode:disabled 한글키보드 입력 방지! ms와 moz에서만 작동. 크롬에선 적용안됨! 크롬을 위한 js식 필요(ime-mode:disabled 처럼 완벽하진않음) -->
+    <!-- ios 12.4.1 숫자가 1~3개 입력된 상황에서 한글을 마구연타하면 숫자까지 지워지는 한계 발생 -->
+    <!-- Aos 7.0 한글키를 마구 입력한 후 백스페이스를 누르면 한번에서 두번 누른 후에 지워지는 한계 발생 -->
+    <!-- 크롬 한글키를 마구 입력한 후 백스페이스를 누르면 한번에서 두번 누른 후에 지워지는 한계 발생, 한글키입력 시 한글이 입력되었다가 지워지는게 보임, 사용시 큰 문제는 아니나 보기에 좀 안좋아보일수도있음 -->
+    <!-- 파이어폭스 큰오류없음, ime-mode:disabled 덕분인듯 -->
+    <!-- 익스플로러8+ 큰오류없음, ime-mode:disabled 덕분인듯 -->
+
+    <input type="text" class="txt" id="auth_num" placeholder="숫자 세자리 입력" maxlength="3"
+           style="-ms-ime-mode:disabled;ime-mode:disabled">
+    <button type="button" class="btn_enter disabled" disabled>입력</button>
+
+    <br>
+    <br>
+    <br>
+
+    <input type="text" class="txt" placeholder="숫자 세자리 입력" maxlength="3"
+           style="-ms-ime-mode:disabled;ime-mode:disabled">
+    <button type="button" class="btn_enter disabled" disabled>입력</button>
+
+    <br>
+    <br>
+    <br>
+
+    <input type="text" class="txt" placeholder="숫자 세자리 입력" maxlength="3"
+           style="-ms-ime-mode:disabled;ime-mode:disabled">
+    <button type="button" class="btn_enter disabled" disabled>입력</button>
+
+    <br>
+    <br>
+    <br>
+
+    <input type="text" class="txt" placeholder="숫자 세자리 입력" maxlength="3"
+           style="-ms-ime-mode:disabled;ime-mode:disabled">
+    <button type="button" class="btn_enter disabled" disabled>입력</button>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // keydown event란 우리가 키보드를 눌렀을 때 event가 발생하게 하는 역할을 한다.
+        $('.txt').on("keydown", function (event) {
+            // keydown event가 발생했을 때, 해당 키의 keycode 값을 받아온다.
+            // 각 키마다 특정 숫자 코드가 있는데 그 값을 받아오는 것.
+            // 그 값을 x 변수에 저장한다.
+            var x = event.which ? event.which : event.keyCode;
+            // 그 값이 만약 48보다 작다면, 그리고 8이 아니라면, 9가 아니라면....
+            // 이 조건문은 숫자키(이 문제는 숫자가 입력되어야하므로)뿐만 아니라, esc키, f5키 등등.. 필요한 키를 제외하기 위해 넣었다.
+            // 즉, 숫자기, esc키, f5키 등등....이 아닌 키를 눌렀을 땐!!! event 발생을 막아!!!! 그래야 input text에 아무것도 입력이 되지 않으니깐!!!!
+            if ((x < 48 && x != 8 && x != 9 && x != 37 && x != 39 && x != 46) || (x > 57 && x != 123 && x != 116 && x != 144 && x != 103 && x != 111 && x != 106 && x != 109 && x != 104 && x != 105 && x != 107 && x != 100 && x != 101 && x != 102 && x != 97 && x != 98 && x != 99 && x != 96 && x != 110)) { //숫자이외의 키, 그리고 백스페이스랑.. f12키랑.. 여러개있음 뭐넣었지.. keyCode보면 알 수 있음! keyCode 229 오류는 처음 알았음!! 한글자판오류!
+                event.preventDefault();
+            }
+        });
+        // keyup은 keydown과 반대로 키보드를 눌렀다 뗄때 event를 발생하게 한다.
+        $('.txt').on("keyup", function () {
+            // 정규식 활용, 현재 keyup event가 발생한 input에서 숫자가 아닌 string은 빈문자열로 바꿔! 숫자만 입력되어야하므로. 아래식은 ime-mode:disabled 가 적용안되는 webkit 기반 브라우저를 위해 넣었다.
+            $(this).val($(this).val().replace(/[^0-9]/g, ""));
+            var inputIdVal = $(this).val(),
+                inputIdMaxLength = $(this).attr("maxlength"),
+                inputIdValLength = inputIdVal.length;
+            if (inputIdValLength == inputIdMaxLength) {
+                $(this).next(".btn_enter").prop("disabled", false);
+                $(this).next(".btn_enter").removeClass("disabled");
+            } else if (inputIdValLength < inputIdMaxLength) {
+                $(this).next(".btn_enter").prop("disabled", true);
+                $(this).next(".btn_enter").addClass("disabled");
+            }
+        })
+    });
+</script>
+</body>
+</html>

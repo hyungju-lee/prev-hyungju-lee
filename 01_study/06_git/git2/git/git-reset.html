@@ -1,0 +1,166 @@
+<style>
+    .git-sub caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+    .git-sub{table-layout:fixed;border-collapse:collapse}
+    .git-sub th{padding:10px;background-color:#eee;text-align:center}
+    .git-sub td{padding:10px;}
+</style>
+
+<strong>reset 명확히 알고 가기</strong>
+Git의 다른 특별한 도구를 더 살펴보기 보기 전에 reset 과 checkout 에 대해 이야기를 해보자.
+이 두 명령은 Git을 처음 사용하는 사람을 가장 헷갈리게 하는 부분이다.
+제대로 이해하고 사용할 수 없을 것으로 보일 정도로 많은 기능을 지녔다.
+이해하기 쉽게 간단한 비유를 들어 설명해보자.
+
+<strong>세 개의 트리</strong>
+Git을 서로 다른 세 트리를 관리하는 컨텐츠 관리자로 생각하면 reset 과 checkout 을 좀 더 쉽게 이해할 수 있다.
+여기서 "트리" 란 실제로는 "파일의 묶음" 이다.
+자료구조의 트리가 아니다 (세 트리 중 Index는 트리도 아니지만, 이해를 쉽게 하려고 일단 트리라고 한다).
+
+Git은 일반적으로 세 가지 트리를 관리하는 시스템이다.
+
+<table class="git-sub">
+    <caption>세 개의 트리</caption>
+    <colgroup>
+        <col width="50px">
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th scope="col">트리</th>
+        <th scope="col">역할</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>HEAD</td>
+        <td>마지막 커밋 스냅샷, 다음 커밋의 부모 커밋</td>
+    </tr>
+    <tr>
+        <td>index</td>
+        <td>다음에 커밋할 스탭샷</td>
+    </tr>
+    <tr>
+        <td>워킹 디렉토리</td>
+        <td>샌드박스</td>
+    </tr>
+    </tbody>
+</table>
+
+<strong>HEAD</strong>
+HEAD는 현재 브랜치를 가리키는 포인터이며, 브랜치는 브랜치에 담긴 커밋 중 가장 마지막 커밋을 가리킨다.
+지금의 HEAD가 가리키는 커밋은 바로 다음 커밋의 부모가 된다.
+단순하게 생각하면 HEAD는 *현재 브랜치 마지막 커밋의 스냅샷*이다.
+
+HEAD가 가리키는 스냅샷을 살펴보기는 쉽다.
+아래는 HEAD 스냅샷의 디렉토리 리스팅과 각 파일의 SHA-1 체크섬을 보여주는 예제다.
+
+    $ git cat-file -p HEAD
+    tree cfda3bf379e4f8dba8717dee55aab78aef7f4daf
+    author Scott Chacon  1301511835 -0700
+    committer Scott Chacon  1301511835 -0700
+
+    initial commit
+
+    $ git ls-tree -r HEAD
+    100644 blob a906cb2a4a904a152...   README
+    100644 blob 8f94139338f9404f2...   Rakefile
+    040000 tree 99f1a6d12cb4b6f19...   lib
+
+cat-file 와 ls-tree 명령은 일상적으로는 잘 사용하지 않는 저수준 명령이다.
+이런 저수준 명령을 “plumbing” 명령이라고 한다.
+Git이 실제로 무슨 일을 하는지 볼 때 유용하다.
+
+<strong>Index</strong>
+Index는 바로 다음에 커밋할 것들이다.
+이미 앞에서 우리는 이런 개념을 “Staging Area” 라고 배운 바 있다.
+“Staging Area” 는 사용자가 git commit 명령을 실행했을 때 Git이 처리할 것들이 있는 곳이다.
+
+먼저 Index는 워킹 디렉토리에서 마지막으로 Checkout 한 브랜치의 파일 목록과 파일 내용으로 채워진다.
+이후 파일 변경작업을 하고 변경한 내용으로 Index를 업데이트 할 수 있다.
+이렇게 업데이트 하고 git commit 명령을 실행하면 Index는 새 커밋으로 변환된다.
+
+    $ git ls-files -s
+    100644 a906cb2a4a904a152e80877d4088654daad0c859 0	README
+    100644 8f94139338f9404f26296befa88755fc2598c289 0	Rakefile
+    100644 47c6340d6459e05787f644c2447d2595f5d3a54b 0	lib/simplegit.rb
+
+또 다른 저수준 git ls-files 명령은 훨씬 더 장막 뒤에 가려져 있는 명령으로 이를 실행하면 현재 Index가 어떤 상태인지를 확인할 수 있다.
+
+Index는 엄밀히 말해 트리구조는 아니다. 사실 Index는 평평한 구조로 구현되어 있다.
+여기에서는 쉽게 이해할 수 있도록 그냥 트리라고 설명한다.
+
+<strong>워킹 디렉토리</strong>
+마지막으로 워킹 디렉토리를 살펴보자.
+위의 두 트리는 파일과 그 내용을 효율적인 형태로 .git 디렉토리에 저장한다.
+하지만, 사람이 알아보기 어렵다.
+워킹 디렉토리는 실제 파일로 존재한다.
+바로 눈에 보이기 때문에 사용자가 편집하기 수월하다.
+워킹 디렉토리는 샌드박스로 생각하자.
+커밋하기 전에는 Index(Staging Area)에 올려놓고 얼마든지 변경할 수 있다.
+
+    $ tree
+    .
+    ├── README
+    ├── Rakefile
+    └── lib
+        └── simplegit.rb
+
+    1 directory, 3 files
+
+<strong>워크플로</strong>
+Git의 주목적은 프로젝트의 스냅샷을 지속적으로 저장하는 것이다.
+이 트리 세 개를 사용해 더 나은 상태로 관리한다.
+
+<img src="img/git-workflow5.jpg" alt="">
+
+이 과정을 시각화해보자.
+파일이 하나 있는 디렉토리로 이동한다.
+이걸 파일의 v1이라고 하고 파란색으로 표시한다.
+git init 명령을 실행하면 Git 저장소가 생기고 HEAD는 아직 없는 브랜치를 가리킨다(master 는 아직 없다).
+
+<img src="img/git-workflow6.jpg" alt="">
+
+이 시점에서는 워킹 디렉토리 트리에만 데이터가 있다.
+
+이제 파일을 커밋해보자.
+git add 명령으로 워킹 디렉토리의 내용을 Index로 복사한다.
+
+<img src="img/git-workflow7.jpg" alt="">
+
+그리고 git commit 명령을 실행한다.
+그러면 Index의 내용을 스냅샷으로 영구히 저장하고 그 스냅샷을 가리키는 커밋 객체를 만든다.
+그리고는 master 가 그 커밋 객체를 가리키도록 한다.
+
+<img src="img/git-workflow8.jpg" alt="">
+
+이때 git status 명령을 실행하면 아무런 변경 사항이 없다고 나온다.
+세 트리 모두가 같기 때문이다.
+
+다시 파일 내용을 바꾸고 커밋해보자.
+위에서 했던 것과 과정은 비슷하다.
+먼저 워킹 디렉토리의 파일을 고친다.
+이를 이 파일의 v2라고 하자.
+이건 빨간색으로 표시한다.
+
+<img src="img/git-workflow9.jpg" alt="">
+
+git status 명령을 바로 실행하면 "changes not staged for commit," 아래에 빨간색으로 된 파일을 볼 수 있다.
+index와 워킹 디렉토리가 다른 내용을 담고 있기 때문에 그렇다.
+git add 명령을 실행해서 변경 사항을 index에 올려주자.
+
+<img src="img/git-workflow10.jpg" alt="">
+
+이 시점에서 git status 명령을 실행하면 "changes to be committed" 아래에 파일 이름이 녹색으로 변한다.
+index와 HEAD의 다른 파일들이 여기에 표시된다.
+즉 다음 커밋할 것과 지금 마지막 커밋이 다르다는 말이다.
+마지막으로 git commit 명령을 실행해 커밋한다.
+
+<img src="img/git-workflow11.jpg" alt="">
+
+이제 git status 명령을 실행하면 아무것도 출력하지 않는다.
+세 개의 트리의 내용이 다시 같아졌기 때문이다.
+
+브랜치를 바꾸거나 clone 명령도 내부에서는 비슷한 절차를 밟는다.
+브랜치를 checkout 하면, HEAD가 새로운 브랜치를 가리키도록 바뀌고,
+새로운 커밋의 스냅샷을 index에 놓는다.
+그리고 index의 내용을 워킹 디렉토리로 복사한다.

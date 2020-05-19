@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">block 앞뒤에 내용 추가(prepend/append block)하기</h1>
+        <dl>
+            <dt class="d_tit">block 앞뒤에 내용 추가(prepend/append block)하기</dt>
+            <dd class="d_txt">
+                Jade에서는 block 내용 앞뒤에 내용을 추가하는 prepend, append 기능을 사용할 수 있습니다. <br>
+                먼저 _docTemplate.jade 파일에서 아래 처럼 block으로 메타 요소를 metatags로 정의한 후 기본 값으로 두 개의 meta 요소를 작성합니다. <br>
+                index2.jade 파일에서 해당 block 뒤에 내용을 추가하는 코드를 입력합니다. <br>
+                뒤에 내용을 추가하는 데 필요한 키워드는 append 입니다. <br>
+                아래 그림을 참고하여 코드를 입력한 후 저장합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp87.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                index2.jade 파일을 열고 다음을 참고하여 prepend, append 코드를 입력합니다. <br>
+                stylesheets block 앞(prepend)에는 css/style2.css 파일을 호출하는 link 코드를, <br>
+                scripts block 앞에는 Modernizr.js를 호출하는 코드를 입력합니다. <br>
+                그리고 scripts block 뒤(append)에는 Detectizr.js를 호출하는 코드와 실행하는 코드를 입력합니다. <br>
+                <strong>prepend와 append를 사용할 때 block 키워드는 생략할 수 있습니다.</strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp88.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <p class="phrase">
+                    <span class="em">깨알 tip</span> <br>
+                    HTML 문서에 자바스크립트를 포함하는 script 코드를 작성하려면 점(.) 기호를 붙여야합니다.
+                </p>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp89.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                <p class="phrase">
+                    <span class="em">깨알 tip</span> <br>
+                    Modernizr.js 라이브러리는 사용자 웹브라우저의 HTML5, CSS3 등 신기술 지원 유무를 체크하고, <br>
+                    Detectizr.js 라이브러리는 Modernizr.js를 확장하여 사용자의 플랫폼 환경, 웹브라우저, 플러그인 정보를 html 요소의 class 속성 값으로 출력합니다.
+                    <br>
+                    위 사진 노랑색 음영 표시한 부분은 Detectizr.js가 처리하여 추가한 class 속성 값입니다. <br>
+                    현재 필자의 환경 정보가 정확히 출력됩니다.
+                </p>
+            </dd>
+
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 기본(Basic) 사용 방법</h1>
+        <dl>
+            <dt class="d_tit">Sass 기본(Basic) 사용 방법</dt>
+            <dd class="d_txt">
+                Sass 언어는 Jade와 마찬가지로 변수와 중첩, 믹스인, 확장, 상속 등 다양하고 유용한 기능을 지원합니다. <br>
+                실무에 Sass 언어를 활용하면 CSS를 보다 효율적으로 사용할 수 있습니다.
+            </dd>
+            <dt class="d_tit">Sass 사용 규칙 파악하기 - 주석</dt>
+            <dd class="d_txt">
+                <strong>Sass 주석(Comments)</strong>_ 주석은 두 가지 방법으로 달 수 있습니다. <br>
+                하나는 CSS로 변경 작업을 거칠 때 해석되는 주석이며, 다른 하나는 해석되지 않는 주석입니다. <br>
+                CSS로 변경될 때 해석되는 주석은 CSS의 기본 주석(/**/)과 동일하게 사용하며, 해석되지 않는 주석은 자바스크립트의 한 줄 주석(//)과 동일하게 사용합니다. <br>
+                다음을 보고 실습을 따라 합니다. <br>
+                <span class="em">여기서 실습한 파일은 [src/sass] 디렉터리에 [modules] 디렉터리를 추가한 후 새로운 파일을 생성해 작성했습니다.</span>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp104.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">Sass 사용 규칙 파악하기 - 중첩규칙(Nested Rules)</dt>
+            <dd class="d_txt">
+                다음처럼 부모 선택자 내부에 자식 선택자를 포함하는 중첩 구조 형태로 들여쓰기하면 <br>
+                CSS로 변경할 때 상위 선택자를 자동으로 붙인 상태로 처리합니다. <br>
+                중첩 규칙을 효과적으로 사용하면 CSS 코드의 중복 문제를 해결할 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp105.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">Sass 부모참조 선택자(Referencing Parent Selectors: &amp;)</dt>
+            <dd class="d_txt">
+                부모 선택자에 중첩 형태로 자식 선택자를 사용할 때 앤퍼센드(&amp;) 기호를 앞에 붙이면 부모 선택자를 참조합니다. <br>
+                이것은 가상 클래스(Pseudo-Class), 가상 요소(Pseudo-Element) 등을 사용할 때 주로 참조하는 방법입니다. <br>
+                반면, &amp; 기호 앞에 선택자를 추가하면 아래에서 빨강 화살표 부분처럼 &amp; 가 참조하는 상위 선택자 앞에 해당 선택자가 붙습니다. <br>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp106.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">속성 중복(Nested Properties)</dt>
+            <dd class="d_txt">
+                중첩 규칙과 마찬가지로 속성도 중첩하여 사용할 수 있습니다. <br>
+                다음처럼 속성을 작성한 후 한 줄 아래쪽에 들여쓰기하여 속성의 세부 항목을 입력합니다. <br>
+                CSS로 변경할 때 속성 이름을 하나로 합칩니다. <br>
+                세부 속성이 있는 모든 속성(margin, padding, border, font, background 등)은 이 방법을 사용할 수 있습니다. <br>
+                이를 활용하면 중복되는 CSS 속성 이름 값을 줄여 효율적으로 작성할 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp109.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">Sass 선택자 상속(Selector Inheritance : @extend)</dt>
+            <dd class="d_txt">
+                선택자 상속은 말 그대로 선택자에 설정된 속성을 그대로 물려받습니다. <br>
+                CSS에는 이러한 능력이 없어 효율이 떨어지는 반면, Sass는 상속 기능을 지원하기에 효율적으로 코드 관리가 가능합니다. <br>
+                선택자를 상속할 때는 @extend 키워드를 선택자 이름 앞에 붙여 사용합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp107.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                다른 페이지에 있는 스타일도 확장할 수 있습니다. <br>
+                저렇게 @import로 연결되어있다면 말이죠.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp108.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+            </dd>
+            <dt class="d_tit">대체 선택자 %</dt>
+            <dd class="d_txt">
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp142.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                % 를 활용하여 작성하면 해당 내용은 css 파일로 컴파일되지 않습니다. <br>
+                하지만 그 내용은 얼마든지 가져다 쓸 수 있습니다. <br>
+                소스를 더 효율적으로 관리할 수 있습니다.
+            </dd>
+            <dt class="d_tit">부모 선택자 변수로 지정</dt>
+            <dd class="d_txt">
+                <span class="img_wrap"><img src="img/gulp162.jpg" alt=""></span>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Sass 반복문(Loops) 사용하기 (@each) : Map 데이터 활용</h1>
+        <dl>
+            <dt class="d_tit">Sass 반복문(Loops) 사용하기 (@each) : Map 데이터 활용</dt>
+            <dd class="d_txt">
+                Map 데이터도 사용방법은 유사합니다. <br>
+                in 키워드 뒤에 리스트 대신 맵을 작성합니다. <br>
+                in 키워드 앞에 있는 순환 변수 $H는 맵의 아이템을 가리키기 때문에 그대로 사용할 수 없습니다. <br>
+                <strong>순환 변수 $H는 h1:3rem이기에 바로 사용할 수 없습니다.</strong><br>
+                <br>
+                맵 아이템의 각 원소를 꺼내려면 Sass 언어에서 지원하는 nth() 함수를 사용해야 합니다. <br>
+                사용 방법은 CSS3 고급 선택자 nth-child()와 유사합니다. <br>
+                nth() 함수에 첫 번째 전달인자로 순환 변수 $H를 전달하고, <br>
+                두 번째 전달인자로 순환 변수 $H가 참조한 데이터에서 꺼낼 원소의 순번을 지정하면 해당 원소를 꺼낼 수 있습니다. <br>
+                예를 들어, 순환 변수 $H가 h1:3rem 데이터를 참조할 때 nth($H, 1)을 입력하면 h1 원소를 꺼내 옵니다. <br>
+                nth($H, 2)를 입력하면 3rem 원소를 꺼내 옵니다. <br>
+                이렇게 꺼낸 원소를 다음처럼 @each 구문의 스타일 선언문에 변수처럼 사용하면 됩니다. <br>
+                그러면 아래쪽 코드와 동일한 결과를 생성할 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp151.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                nhn() 함수 사용 방법이 다소 복잡하고 어렵게 느껴진다면, 다음처럼 여러 개의 순환 변수를 사용하여 손쉽게 처리할 수 있습니다. <br>
+                예를 들어, 반복 구문을 시작할 때 순환 변수 $heading은 h1을, 순환 변수 $size는 3rem을 참조합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/gulp152.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

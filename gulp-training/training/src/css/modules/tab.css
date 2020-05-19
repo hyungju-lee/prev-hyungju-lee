@@ -1,0 +1,5 @@
+.tab_area{position: relative;margin:20px 0}
+.tab_tit{font-size:0}
+.btn_tit{border:1px solid #eee}
+.txt_area{display:none;background-color: #fff}
+.txt_area.on{display:block}

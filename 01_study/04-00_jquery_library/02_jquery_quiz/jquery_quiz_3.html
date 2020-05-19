@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Header Bg scroll</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000
+        }
+
+        .bg h1 {
+            position: relative;
+            z-index: 10;
+            margin-top: 120px;
+            font-size: 100px;
+            color: #fff;
+            text-align: center
+        }
+
+        .header .bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("http://geochat.co.kr/data/file/B64/1904394176_d07b6e89_b10_gooodream.jpg") no-repeat;
+            background-size: cover;
+            background-position: 50% 50%
+        }
+    </style>
+</head>
+
+<body>
+<div class="header">
+    <div class="bg">
+        <h1>Vacation</h1>
+    </div>
+</div>
+<section>
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">IE8까지 지원</dd>
+            <dd class="d_txt">IE에서 페럴렉스 효과 적용시 떨리는 현상 없애기</dd>
+            <dd class="d_txt">only javascript만 활용</dd>
+            <dt class="d_tit">기법</dt>
+            <dd class="d_txt">IE8에선 background-size 속성이 적용 안됨
+                <ul class="lst">
+                    <li class="item">IE8에선 background-image 속성을 none으로 바꾼 후 img태그 생성 및 입력</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">IE8에서 background-position:center와 동일한 효과를 주기 위해 이미지의 원본 width, height 값과 해당 이미지를 감싸고
+                있는 영역의 width,
+                height 값의 비율을 비교
+                <ul class="lst">
+                    <li class="item">비교 후 비율이 작은 경우와 높은 경우를 나눠 스타일을 따로 적용</li>
+                </ul>
+            </dd>
+            <dt class="d_tit">한계</dt>
+            <dd class="d_txt">파이어폭스와 크롬은 img의 원본 너비, 높이값을 바로 가져오지 못함, IE는 가져오긴하는데 다시 f5를 누르면 못가져옴..왜지?
+                <ul class="lst">
+                    <li class="item">load 된 이후에 값을 가져와야됨 (load 프로퍼티 사용)</li>
+                    <li class="item">IE는 위에 적어놓은 것처럼 처음에 바로 원본 너비, 높이 값을 가져옴. 하지만 그 상태에서 f5를 누르면 가져오지 못함..후..</li>
+                    <li class="item">즉 세 브라우저의 호환성을 맞추기 위해선 어찌됐든 load 프로퍼티를 사용해야됨</li>
+                    <li class="item">굳이 안맞춰도 될것같지만 IE11에서 IE8, IE10에서 IE8, IE9에서 IE8로 넘어갈 때 또 load 프로퍼티가 작동을 안하길래
+                        ready 상태일 때와
+                        load상태일 때 모두 원본너비를 갖고올 수 있도록 코드작성
+                    </li>
+                    <li class="item">위에처럼 작성하면 코드 낭비인거 같긴한데 더 좋은 해결책을 아직은 모르겠음.. 더 봐야됨</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">IE에서 흔들리는 현상을 없애기 위해선 뚝뚝 끊어지면서 스크롤되게끔 하는 방법밖엔 아직 모름..</dd>
+            <dd class="d_txt">IE만이 아니라 크롬이나 파이어폭스에서도 가끔 화면이 떨리는 현상 발생</dd>
+        </dl>
+    </div>
+
+    <h2>What?</h2>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+    <p>Lorem rebum takimata labore sed sadipscing et ut nonumy. Clita duo ea no aliquyam sea rebum dolore, est
+        tempor
+        tempor dolor clita elitr sed et rebum. Vero dolor sed sed rebum. Gubergren no vero takimata et invidunt
+        dolor
+        sed ipsum vero. Kasd dolores aliquyam diam stet sadipscing tempor. Labore duo ut clita amet accusam ea vero
+        diam
+        ipsum. Vero amet sit elitr eirmod takimata accusam nonumy. Dolor diam dolores rebum magna sed, labore
+        dolores et
+        amet lorem at et. Voluptua et sit et et rebum duo tempor accusam eos. Ipsum clita dolor diam eos dolor
+        gubergren
+        kasd elitr lorem, consetetur diam nonumy sit sadipscing no sanctus amet dolore. Ipsum sed vero magna ipsum,
+        sadipscing amet ipsum dolore amet diam. Elitr diam duo sanctus justo, sit ea sit erat kasd magna ea rebum
+        diam
+        lorem, vero gubergren gubergren eirmod consetetur sadipscing kasd sit. Nonumy sanctus sanctus et duo, sit
+        dolor
+        no.</p>
+</section>
+
+<script>
+    function getNatural(DOMelement) {
+        var img = new Image();
+        img.src = DOMelement.src;
+        return {width: img.width, height: img.height};
+    }
+
+    function has3d() {
+        if (!window.getComputedStyle) {
+            return false;
+        }
+        var el = document.createElement('p'),
+            has3d,
+            transforms = {
+                'webkitTransform': '-webkit-transform',
+                'OTransform': '-o-transform',
+                'msTransform': '-ms-transform',
+                'MozTransform': '-moz-transform',
+                'transform': 'transform'
+            };
+        // Add it to the body to get the computed style.
+        document.body.insertBefore(el, null);
+        for (var t in transforms) {
+            if (el.style[t] !== undefined) {
+                el.style[t] = "translate3d(1px,1px,1px)";
+                has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
+            }
+        }
+        document.body.removeChild(el);
+        var val = (has3d !== undefined && has3d.length > 0 && has3d !== "none") ? true : "IE9";
+        return val;
+    }
+
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+
+    function parallax(className) {
+        var paralArea = getElementsByClassNameCompatible(className),
+            y,
+            winWidth,
+            winHeight;
+
+        if (navigator.userAgent.match(/Trident\/7\./)) {
+            if (window.addEventListener) {
+                document.body.addEventListener("mousewheel", function (event) {
+                    event.preventDefault();
+                    var wd = event.wheelDelta;
+                    var csp = window.pageYOffset;
+                    window.scrollTo(0, csp - wd);
+                });
+            } else if (window.attachEvent) {
+                document.body.onwheel = function (event) {
+                    event.preventDefault();
+                    var wd = event.wheelDelta;
+                    var csp = window.pageYOffset;
+                    window.scrollTo(0, csp - wd);
+                }
+            }
+        }
+
+        if (window.addEventListener) {
+            window.addEventListener("scroll", function () {
+                y = document.documentElement.scrollTop / 1.5;
+                winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                //paralArea[0].style.backgroundPositionY = y +"px";
+                if (has3d() == true) {
+                    paralArea[0].style.msTransform = "translate3d(0," + y + "px,0)";
+                    paralArea[0].style.WebkitTransform = "translate3d(0," + y + "px,0)";
+                    paralArea[0].style.transform = "translate3d(0," + y + "px,0)";
+                } else if (has3d() == "IE9") {
+                    paralArea[0].style.msTransform = "translate(0," + y + "px)";
+                    paralArea[0].style.WebkitTransform = "translate(0," + y + "px)";
+                    paralArea[0].style.transform = "translate(0," + y + "px)";
+                }
+                paralArea[0].style.opacity = 1 - (y / winHeight);
+            })
+        } else if (window.attachEvent) {
+            var img,
+                natural,
+                naturalWidth,
+                naturalHeight,
+                opa;
+
+            paralArea[0].style.backgroundImage = "none";
+
+            img = document.createElement("IMG");
+            img.className = "bg_img";
+
+            img.src = "http://geochat.co.kr/data/file/B64/1904394176_d07b6e89_b10_gooodream.jpg";
+            img.style.width = "100%";
+            img.style.position = "absolute";
+            img.style.top = "50%";
+            img.style.left = "50%";
+
+            paralArea[0].appendChild(img);
+
+            // 크롬과 파이어폭스에선 이미지가 불러와지기 전에 height값을 읽음, 그래서 height값을 0으로 갖고옴.
+            // width는 위에 100% 줬기 때문에 읽을 수 있음
+            // load 프로퍼티를 활용해 이미지가 로드된 후에 height 값을 읽도록 해야됨 onload 프로퍼티 사용
+            // 어 그런데 IE는 onload 프로퍼티 안써도 한번은 되기는 함 - IE 11에서 8, 10에서 8, 9에서 8로 변할 때
+
+            // 1. IE 11에서 8, 10에서 8, 9에서 8로 변할 땐 아래식이 잘 적용됨. 딱 중앙정렬 잘됨
+            // 하지만 f5를 누르면 안됨. 원래는 가져왔던 naturalWidth, naturalHeight값이 다 0이됨. 그렇게되면서 img가 의도한대로 크기를 못잡음
+            // 즉, 아래는 IE 11에서 8, 10에서 8, 9에서 8로 변할할때 대비용으로 넣어두고,,,,
+            natural = getNatural(img);
+            naturalWidth = natural.width;
+            naturalHeight = natural.height;
+            winWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+            winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+            if (naturalWidth / naturalHeight <= winWidth / winHeight) {
+                img.style.width = "100%";
+                img.style.height = "auto";
+                img.style.marginLeft = -img.width / 2 + "px";
+                img.style.marginTop = -img.height / 2 + "px";
+            } else if (naturalWidth / naturalHeight > winWidth / winHeight) {
+                img.style.width = "auto";
+                img.style.height = "100%";
+                img.style.marginLeft = -img.width / 2 + "px";
+                img.style.marginTop = -img.height / 2 + "px";
+            }
+
+            // ie8에서 f5를 눌렀을 경우를 대비해서 아래식 작성!!!!!!
+            img.onload = function () {
+                natural = getNatural(img);
+                naturalWidth = natural.width;
+                naturalHeight = natural.height;
+                winWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+                if (naturalWidth / naturalHeight <= winWidth / winHeight) {
+                    img.style.width = "100%";
+                    img.style.height = "auto";
+                    img.style.marginLeft = -img.width / 2 + "px";
+                    img.style.marginTop = -img.height / 2 + "px";
+                } else {
+                    img.style.width = "auto";
+                    img.style.height = "100%";
+                    img.style.marginLeft = -img.width / 2 + "px";
+                    img.style.marginTop = -img.height / 2 + "px";
+                }
+            };
+
+            // 리사이즈 경우 대비해서 아래식 입력!!
+            window.onresize = function () {
+                natural = getNatural(img);
+                naturalWidth = natural.width;
+                naturalHeight = natural.height;
+                winWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+                winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+
+                if (naturalWidth / naturalHeight <= winWidth / winHeight) {
+                    img.style.width = "100%";
+                    img.style.height = "auto";
+                    img.style.marginLeft = -img.width / 2 + "px";
+                    img.style.marginTop = -img.height / 2 + "px";
+                } else {
+                    img.style.width = "auto";
+                    img.style.height = "100%";
+                    img.style.marginLeft = -img.width / 2 + "px";
+                    img.style.marginTop = -img.height / 2 + "px";
+                }
+            }
+
+            window.onscroll = function () {
+                y = document.documentElement.scrollTop / 1.5;
+                winHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+                opa = 100 - (y * 100 / winHeight);
+                paralArea[0].style.top = y + "px";
+                img.style.filter = 'alpha(opacity=' + opa + ')'; // IE fallback
+            }
+        }
+    }
+
+    parallax('bg')
+</script>
+</body>
+</html>

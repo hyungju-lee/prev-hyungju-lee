@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Css 코드를 여러 줄이 아닌 한 줄로도 출력할 수 있나요?</h1>
+        <dl>
+            <dt class="d_tit">Css 코드를 여러 줄이 아닌 한 줄로도 출력할 수 있나요?</dt>
+            <dd class="d_txt">
+                국내 실무 환경에서는 CSS 코드를 여러 줄이 아닌 한 줄로 사용할 때가 많습니다. <br>
+                필자는 읽기 힘든 한 줄보다는 읽기 쉬운 여러 줄을 선호하지만, 한 줄을 선호하는 사용자도 분명 있습니다. <br>
+                <a href="https://github.com/sass/node-sass#outputstyle" target="_blank">https://github.com/sass/node-sass#outputstyle</a>에 쓰여있는 걸 보면
+                expand, compact 기능을 지원하는 걸 볼 수 있습니다. (5년 전엔 안됐습니다.)
+                <span class="img_wrap"><img src="img/gulp112.jpg" alt=""></span>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide" data-options="thumb:img/gulp113.jpg">
+                                <img data-src="img/gulp113.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/gulp114.jpg">
+                                <img data-src="img/gulp114.jpg" data-elem="bg"/>
+                            </div>
+                            <div data-elem="slide" data-options="thumb:img/gulp115.jpg">
+                                <img data-src="img/gulp115.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                위처럼 소스를 작성하면 알아서 압축해주고, 알아서 해당 소스들이 어떤 파일에서 왔는지를 보여줍니다. (sourcemaps 기능 - gulp 4.0 부턴 내장되어있는 모듈임) <br>
+                <br>
+                compact 방식은 위의 스크린샷처럼 '촘촘하게' CSS 코드를 한 줄로 출력합니다. <br>
+                국내 실무 환경에서 가장 많이 사용하는 방식입니다. <br>
+                왜냐면 코드를 여러줄로 내보내는 것보다 성능 면에서 훨씬 낫기 때문입니다. <br>
+                비록 코드를 compressed 하고, 안하고의 차이는 기껏해야 수십~수백 키로바이트겠지만, 해당 서버에 접속하는 사람의 수가 수천명 아니 수만을 넘어 수천만명이라고 생각한다면
+                이 리소스는 결코 적은 리소스가 아닐 것입니다. <br>
+                때문에 압축해서 내보내는 것이 좋습니다.
+                <dl class="d_table">
+                    <dt class="d_table_tit">compressed</dt>
+                    <dd class="d_table_txt">코드를 한줄로 압축하여 출력</dd>
+                    <dt class="d_table_tit">compact</dt>
+                    <dd class="d_table_txt">코드를 선택자마다 한줄로 출력</dd>
+                    <dt class="d_table_tit">nested</dt>
+                    <dd class="d_table_txt">코드를 선택자마다 여러 줄로 출력하되, 선언 구문의 끝이 마지막 속성 뒤에 위치(기본값)</dd>
+                    <dt class="d_table_tit">expanded</dt>
+                    <dd class="d_table_txt">코드를 선택자마다 여러줄로 출력</dd>
+                </dl>
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

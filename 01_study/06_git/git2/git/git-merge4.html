@@ -1,0 +1,50 @@
+충돌의 기초
+가끔씩 3-way Merge가 실패할 때도 있다.
+Merge 하는 두 브랜치에서 같은 파일의 한 부분을 동시에 수정하고 Merge 하면 Git은 해당 부분을 Merge 하지 못한다.
+예를 들어, 53번 이슈와 hotfix 가 같은 부분을 수정했다면 Git은 Merge 하지 못하고 아래와 같은 충돌(Conflict) 메시지를 출력한다.
+
+    $ git merge iss53
+    Auto-merging index.html
+    CONFLICT (content): Merge conflict in index.html
+    Automatic merge failed; fix conflicts and then commit the result.
+
+Git은 자동으로 Merge 하지 못해서 새 커밋이 생기지 않는다.
+변경사항의 충돌을 개발자가 해결하지 않는 한 Merge 과정을 진행할 수 없다.
+Merge 충돌이 일어났을 때 Git이 어떤 파일을 Merge 할 수 없었는지 살펴보려면 git status 명령을 이용한다.
+
+    $ git status
+    On branch master
+    You have unmerged paths.
+    (fix conflicts and run "git commit")
+
+    Unmerged paths:
+    (use "git add &lt;file&gt;..." to mark resolution)
+
+        both modified:      index.html
+
+    no changes added to commit (use "git add" and/or "git commit -a")
+
+충돌이 일어난 파일은 unmerged 상태로 표시된다.
+Git은 충돌이 난 부분을 표준 형식에 따라 표시해준다.
+그러면 개발자는 해당 부분을 수동으로 해결한다.
+충돌 난 부분은 아래와 같이 표시된다.
+
+    &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD:index.html
+    &lt;div id="footer"&gt;contact : email.support@github.com&lt;/div&gt;
+    =======
+    &lt;div id="footer"&gt;
+        please contact us at support@github.com
+    &lt;/div&gt;
+    &gt;&gt;&gt;&gt;&gt;&gt;&gt; iss53:index.html
+
+======= 위쪽의 내용은 HEAD 버전(merge 명령을 실행할 때 작업하던 master 브랜치)의 내용이고 아래쪽은 iss53 브랜치의 내용이다.
+충돌을 해결하려면 위쪽이나 아래쪽 내용 중에서 고르거나 새로 작성하여 Merge 한다.
+아래는 아예 새로 작성하여 충돌을 해결하는 예제다.
+
+    &lt;div id="footer"&gt;
+        please contact us at email.support@github.com
+    &lt;/div&gt;
+
+충돌한 양쪽에서 조금씩 가져와서 새로 수정했다. 
+그리고 &lt;&lt;&lt;&lt;&lt;&lt;&lt;, =======, &gt;&gt;&gt;&gt;&gt;&gt;&gt;`가 포함된 행을 삭제했다. 
+이렇게 충돌한 부분을 해결하고 `git add 명령으로 다시 Git에 저장한다.

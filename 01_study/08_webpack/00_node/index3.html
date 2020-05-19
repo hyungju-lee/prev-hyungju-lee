@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">Node.js 환경을 이해하는 간단 실습</h1>
+        <dl>
+            <dt class="d_tit">Node.js 환경을 이해하는 간단 실습</dt>
+            <dd class="d_txt">
+                Node.js는 자바스크립트 언어를 사용합니다. 자바스크립트를 다룬 적이 없는 사용자는 실습을 어렵다고 생각할 수 있습니다. <br>
+                그러므로 한번에 배우려고 하기보다는 여러 번 반복해서 '내 것으로 만든다'는 생각으로 하나씩 차근하게 배워봅시다.
+            </dd>
+            <dt class="d_tit">Node 명령어 사용하기</dt>
+            <dd class="d_txt">
+                Git Bash에서 node 명령어를 입력하여 실행하면, &gt; 모양이 출력됩니다. <br>
+                여기에 자바스크립트를 입력하고 실행하면 코드를 해석하여 출력합니다. <br>
+                이를 인터렉티브 노드 셸(interactive node.js shell)이라고 하는데, <br>
+                간단히 자바스크립트 코드를 입력하여 바로 확인할 수 있습니다. <br><br>
+
+                간단한 실습으로 인터랙티브한 node.js shell을 사용해 보겠습니다. <br>
+                먼저 node 명령어를 입력하고 실행합니다. <br>
+                그런 다음 간단한 자바스크립트 코드를 실행하여 결과를 확인할 수 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node4.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                 첫번째 코드는 변수 book_author를 선언하고, 문자 '이형주' 값을 대입하라는 의미입니다. <br>
+                두번째 코드는 console 객체의 log 메소드에 앞서 정의한 변수 book_author를 인자로 전달하여 화면에 출력하라는 의미입니다. <br>
+                결과로 변수 book_author가 참조하는 문자 값인 '이형주'가 화면에 출력됩니다. <br><br>
+                Git Bash에서 실행한 내용은 크롬 웹브라우저 개발 도구인 콘솔 패널에서 코드를 실행한 것과 유사한 결과를 출력합니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node5.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                인터렉티브 노드 셸 모드를 종료하려면, Ctrl+C를 두번 누릅니다. <br>
+                (한 번 누르면 다시 눌러야 종료된다고 안내 메시지가 출력됩니다.)
+            </dd>
+
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

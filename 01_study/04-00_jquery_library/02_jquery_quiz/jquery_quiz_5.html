@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes animateSunset {
+            from {
+                background-position: 0 100%
+            }
+            to {
+                background-position: 0 0
+            }
+        }
+
+        @keyframes animateSunrise {
+            from {
+                background-position: 0 0
+            }
+            to {
+                background-position: 0 100%
+            }
+        }
+
+        #header {
+            width: 1020px;
+            height: 413px;
+            background-image: url(img/day-night.jpg);
+            background-position: 0 100%
+        }
+
+        #header.bg-night-default {
+            background-position: 0 0
+        }
+
+        .bg-night {
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            animation: animateSunset 3s linear;
+            animation-fill-mode: both
+        }
+
+        .bg-day {
+            background-position: 0 100%;
+            background-repeat: no-repeat;
+            animation: animateSunrise 3s linear;
+            animation-fill-mode: both
+        }
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">설명</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">위도, 경도도 받아오기 navigator 객체 활용</dd>
+            <dd class="d_txt">구글 지도도 연동하기</dd>
+            <dd class="d_txt">IE8까지 지원 (귀찮아서 CSS는 IE10+까지만..)</dd>
+            <dd class="d_txt">only javascript만 활용</dd>
+            <dt class="d_tit">기법</dt>
+            <dd class="d_txt">팀장님께서준 위도, 경도 활용한 일출몰 계산 js바탕으로 식 작성하기</dd>
+            <dd class="d_txt">현재시간과 일출몰 시간 비교</dd>
+            <dt class="d_tit">한계</dt>
+            <dd class="d_txt">navigator 객체로 당사자 위도 경도 받아오는 것이 사생활 침해라 크롬과 파이어폭스에선 아예 막아놓음
+                <ul class="lst">
+                    <li class="item">때문에 로컬 서버에서는 잘 되는데 크롬, 파이어폭스 브라우저에선 실행이 안됨</li>
+                    <li class="item">IE는 됨.. IE는 제한이 그렇게 심하진 않은가봄</li>
+                    <li class="item">안되는 브라우저에서는 해당 위치를 사용하기 위해선 보안인증을 받아야된다고 함</li>
+                </ul>
+            </dd>
+            <dd class="d_txt">어쩔수 없이 위도, 경도를 직접 입력 후 일출몰을 알아내 현재시간과 비교</dd>
+            <dd class="d_txt">내가 있는 위치에 따라서 자동으로 계산되게 하고싶었으나 이런 제한이 있을줄은...
+                <ul class="lst">
+                    <li class="item">tip. 구글맵 api는 IE9 이하는 지원을 안한다.</li>
+                </ul>
+            </dd>
+        </dl>
+    </div>
+    <!-- 공부 사이트 : http://dev.youngkyu.kr/31 -->
+    <!-- 공부 사이트 : https://m.blog.naver.com/PostView.nhn?blogId=javaking75&logNo=220753696472&proxyReferer=https%3A%2F%2Fwww.google.com%2F -->
+    <h1>JS는 IE8+, CSS keyframes은 IE10+</h1>
+    <div id="sun"></div>
+    <div id="nowTime"></div>
+    <div id="header"></div>
+</div>
+
+<script src="js/sunrise.js"></script>
+<script src="js/script2.js"></script>
+</body>
+</html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">추가내용 : spritemith와 Sass 연동하기</h1>
+        <dl>
+            <dt class="d_tit">추가내용 : spritemith와 Sass 연동하기</dt>
+            <dd class="d_txt">
+                <dl>
+                    <dt class="d_tit">필요 모듈</dt>
+                    <dd class="d_txt">
+                        <span class="img_wrap"><img src="img/gulp153.jpg" alt=""></span>
+                        위의 네가지 모듈이 필요합니다. <br>
+                        imagemin은 image 파일의 용량을 줄여주는 모듈이고 spritesmith 모듈은
+                        이미지를 sprite 이미지로 합쳐주는 모듈입니다. <br>
+                        buffer 모듈은 spritesmith 모듈로 생성된 img stream을 imagemin 모듈의 버퍼로 연결시켜주는 모듈입니다. <br>
+                        merge 모듈은 모든 스트림을 병합하여 종료 처리를 할 수 있게 해주는 모듈입니다.
+                    </dd>
+                    <dt class="d_tit">필요 gulpfile.babel.js 파일 식</dt>
+                    <dd class="d_txt">
+                        <div class="pinch">
+                            <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                                <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                                    <div data-elem="slide" data-options="thumb:img/gulp154.jpg">
+                                        <img data-src="img/gulp154.jpg" data-elem="bg"/>
+                                    </div>
+                                    <div data-elem="slide" data-options="thumb:img/gulp155.jpg">
+                                        <img data-src="img/gulp155.jpg" data-elem="bg"/>
+                                    </div>
+
+                                </div>
+                                <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                                <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                            </div>
+                        </div>
+                        위와 같이 스프라이트 이미지를 생성해주는 식과 이미지 용량을 줄여주는 식을 작성하고, <br>
+                        이미지 파일에 변화가 없는지 watch 함수에 추가해줍니다.
+                    </dd>
+                    <dt class="d_tit">필요 환경설정 config.json</dt>
+                    <dd class="d_txt">
+                        <span class="img_wrap"><img src="img/gulp156.jpg" alt=""></span>
+                        gulpfile.babel.js 파일에 위와 같은 정보들을 적어넣으면 나중에 환경설정하는데 귀찮아질 수 있으므로 <br>
+                        config.json 파일에 정리해줍니다.
+                    </dd>
+                    <dt class="d_tit">scss 파일에 입력 방법</dt>
+                    <dd class="d_txt">
+                        위와 같은 준비들이 끝나면 준비는 끝났습니다. <br>
+                        gulp 또는 gulp SpriteAndImgCompress 명령어를 입력합니다. <br>
+                        <strong>(SpriteAndImgCompress 함수는 export 되어있으므로 외부에서 사용이 가능합니다.)</strong>
+                        <span class="img_wrap"><img src="img/gulp157.jpg" alt=""></span>
+                        그러면 위와 같이 src/img/sp 에 있던 파일들이 dist/img/sp 에 처럼 스프라이트 파일로 합쳐진 것을 확인하실 수 있습니다. <br>
+                        레티나 모니터를 대비한 @2x 이미지는 @2x이미지로, 아닌 1배수 이미지는 그냥 sprite.png로 파일이 출력됨을 볼 수 있습니다. <br>
+                        그리고 _sprite.scss 파일을 보면,
+                        <pre class="line-numbers">
+                            <code class="language-scss">
+                                // SCSS variables are information about icon's compiled state, stored under its original file name
+                                //
+                                // .icon-home {
+                                //   width: $icon-home-width;
+                                // }
+                                //
+                                // The large array-like variables contain all information about a single icon
+                                // $icon-home: x y offset_x offset_y width height total_width total_height image_path;
+                                //
+                                // At the bottom of this section, we provide information about the spritesheet itself
+                                // $spritesheet: width height image $spritesheet-sprites;
+                                $arrow-r-name: 'arrow-r';
+                                $arrow-r-x: 0px;
+                                $arrow-r-y: 172px;
+                                $arrow-r-offset-x: 0px;
+                                $arrow-r-offset-y: -172px;
+                                $arrow-r-width: 140px;
+                                $arrow-r-height: 71px;
+                                $arrow-r-total-width: 384px;
+                                $arrow-r-total-height: 243px;
+                                $arrow-r-image: '../img/sp/sprite.png';
+                                $arrow-r: (0px, 172px, 0px, -172px, 140px, 71px, 384px, 243px, '../img/sp/sprite.png', 'arrow-r', );
+                                $image1-name: 'image1';
+                                $image1-x: 229px;
+                                $image1-y: 0px;
+                                $image1-offset-x: -229px;
+                                $image1-offset-y: 0px;
+                                $image1-width: 155px;
+                                $image1-height: 148px;
+                                $image1-total-width: 384px;
+                                $image1-total-height: 243px;
+                                $image1-image: '../img/sp/sprite.png';
+                                $image1: (229px, 0px, -229px, 0px, 155px, 148px, 384px, 243px, '../img/sp/sprite.png', 'image1', );
+                                $pentagon-name: 'pentagon';
+                                $pentagon-x: 0px;
+                                $pentagon-y: 0px;
+                                $pentagon-offset-x: 0px;
+                                $pentagon-offset-y: 0px;
+                                $pentagon-width: 227px;
+                                $pentagon-height: 170px;
+                                $pentagon-total-width: 384px;
+                                $pentagon-total-height: 243px;
+                                $pentagon-image: '../img/sp/sprite.png';
+                                $pentagon: (0px, 0px, 0px, 0px, 227px, 170px, 384px, 243px, '../img/sp/sprite.png', 'pentagon', );
+                                $arrow-r-2x-name: 'arrow-r@2x';
+                                $arrow-r-2x-x: 0px;
+                                $arrow-r-2x-y: 344px;
+                                $arrow-r-2x-offset-x: 0px;
+                                $arrow-r-2x-offset-y: -344px;
+                                $arrow-r-2x-width: 280px;
+                                $arrow-r-2x-height: 142px;
+                                $arrow-r-2x-total-width: 768px;
+                                $arrow-r-2x-total-height: 486px;
+                                $arrow-r-2x-image: '../img/sp/sprite@2x.png';
+                                $arrow-r-2x: (0px, 344px, 0px, -344px, 280px, 142px, 768px, 486px, '../img/sp/sprite@2x.png', 'arrow-r@2x', );
+                                $image1-2x-name: 'image1@2x';
+                                $image1-2x-x: 458px;
+                                $image1-2x-y: 0px;
+                                $image1-2x-offset-x: -458px;
+                                $image1-2x-offset-y: 0px;
+                                $image1-2x-width: 310px;
+                                $image1-2x-height: 296px;
+                                $image1-2x-total-width: 768px;
+                                $image1-2x-total-height: 486px;
+                                $image1-2x-image: '../img/sp/sprite@2x.png';
+                                $image1-2x: (458px, 0px, -458px, 0px, 310px, 296px, 768px, 486px, '../img/sp/sprite@2x.png', 'image1@2x', );
+                                $pentagon-2x-name: 'pentagon@2x';
+                                $pentagon-2x-x: 0px;
+                                $pentagon-2x-y: 0px;
+                                $pentagon-2x-offset-x: 0px;
+                                $pentagon-2x-offset-y: 0px;
+                                $pentagon-2x-width: 454px;
+                                $pentagon-2x-height: 340px;
+                                $pentagon-2x-total-width: 768px;
+                                $pentagon-2x-total-height: 486px;
+                                $pentagon-2x-image: '../img/sp/sprite@2x.png';
+                                $pentagon-2x: (0px, 0px, 0px, 0px, 454px, 340px, 768px, 486px, '../img/sp/sprite@2x.png', 'pentagon@2x', );
+                                $spritesheet-width: 384px;
+                                $spritesheet-height: 243px;
+                                $spritesheet-image: '../img/sp/sprite.png';
+                                $spritesheet-sprites: ($arrow-r, $image1, $pentagon, );
+                                $spritesheet: (384px, 243px, '../img/sp/sprite.png', $spritesheet-sprites, );
+                                $retina-spritesheet-width: 768px;
+                                $retina-spritesheet-height: 486px;
+                                $retina-spritesheet-image: '../img/sp/sprite@2x.png';
+                                $retina-spritesheet-sprites: ($arrow-r-2x, $image1-2x, $pentagon-2x, );
+                                $retina-spritesheet: (768px, 486px, '../img/sp/sprite@2x.png', $retina-spritesheet-sprites, );
+
+                                // These "retina group" variables are mappings for the naming and pairing of normal and retina sprites.
+                                //
+                                // The list formatted variables are intended for mixins like `retina-sprite` and `retina-sprites`.
+                                $arrow-r-group-name: 'arrow-r';
+                                $arrow-r-group: ('arrow-r', $arrow-r, $arrow-r-2x, );
+                                $image1-group-name: 'image1';
+                                $image1-group: ('image1', $image1, $image1-2x, );
+                                $pentagon-group-name: 'pentagon';
+                                $pentagon-group: ('pentagon', $pentagon, $pentagon-2x, );
+                                $retina-groups: ($arrow-r-group, $image1-group, $pentagon-group, );
+
+                                // The provided mixins are intended to be used with the array-like variables
+                                //
+                                // .icon-home {
+                                //   @include sprite-width($icon-home);
+                                // }
+                                //
+                                // .icon-email {
+                                //   @include sprite($icon-email);
+                                // }
+                                //
+                                // Example usage in HTML:
+                                //
+                                // `display: block` sprite:
+                                // &lt;div class="icon-home"&gt;&lt;/div&gt;
+                                //
+                                // To change `display` (e.g. `display: inline-block;`), we suggest using a common CSS class:
+                                //
+                                // // CSS
+                                // .icon {
+                                //   display: inline-block;
+                                // }
+                                //
+                                // // HTML
+                                // &lt;i class="icon icon-home"&gt;&lt;/i&gt;
+                                @mixin sprite-width($sprite) {
+                                  width: nth($sprite, 5);
+                                }
+
+                                @mixin sprite-height($sprite) {
+                                  height: nth($sprite, 6);
+                                }
+
+                                @mixin sprite-position($sprite) {
+                                  $sprite-offset-x: nth($sprite, 3);
+                                  $sprite-offset-y: nth($sprite, 4);
+                                  background-position: $sprite-offset-x  $sprite-offset-y;
+                                }
+
+                                @mixin sprite-image($sprite) {
+                                  $sprite-image: nth($sprite, 9);
+                                  background-image: url(#{$sprite-image});
+                                }
+
+                                @mixin sprite($sprite) {
+                                  @include sprite-image($sprite);
+                                  @include sprite-position($sprite);
+                                  @include sprite-width($sprite);
+                                  @include sprite-height($sprite);
+                                }
+
+                                // The `retina-sprite` mixin sets up rules and a media query for a sprite/retina sprite.
+                                //   It should be used with a "retina group" variable.
+                                //
+                                // The media query is from CSS Tricks: https://css-tricks.com/snippets/css/retina-display-media-query/
+                                //
+                                // $icon-home-group: ('icon-home', $icon-home, $icon-home-2x, );
+                                //
+                                // .icon-home {
+                                //   @include retina-sprite($icon-home-group);
+                                // }
+                                @mixin sprite-background-size($sprite) {
+                                  $sprite-total-width: nth($sprite, 7);
+                                  $sprite-total-height: nth($sprite, 8);
+                                  background-size: $sprite-total-width $sprite-total-height;
+                                }
+
+                                @mixin retina-sprite($retina-group) {
+                                  $normal-sprite: nth($retina-group, 2);
+                                  $retina-sprite: nth($retina-group, 3);
+                                  @include sprite($normal-sprite);
+
+                                  @media (-webkit-min-device-pixel-ratio: 2),
+                                         (min-resolution: 192dpi) {
+                                    @include sprite-image($retina-sprite);
+                                    @include sprite-background-size($normal-sprite);
+                                  }
+                                }
+
+                                // The `sprites` mixin generates identical output to the CSS template
+                                //   but can be overridden inside of SCSS
+                                //
+                                // @include sprites($spritesheet-sprites);
+                                @mixin sprites($sprites) {
+                                  @each $sprite in $sprites {
+                                    $sprite-name: nth($sprite, 10);
+                                    .#{$sprite-name} {
+                                      @include sprite($sprite);
+                                    }
+                                  }
+                                }
+
+                                // The `retina-sprites` mixin generates a CSS rule and media query for retina groups
+                                //   This yields the same output as CSS retina template but can be overridden in SCSS
+                                //
+                                // @include retina-sprites($retina-groups);
+                                @mixin retina-sprites($retina-groups) {
+                                  @each $retina-group in $retina-groups {
+                                    $sprite-name: nth($retina-group, 1);
+                                    .#{$sprite-name} {
+                                      @include retina-sprite($retina-group);
+                                    }
+                                  }
+                                }
+                            </code>
+                        </pre>
+                        위와 같은 내용들이 자동으로 생성된 것을 볼 수 있습니다. <br>
+                        너무 걱정하지 맙시다. 위에 비록 영어로 되어있긴 하지만 사용 방법이 모두 다 적혀있습니다.
+                        <div class="pinch">
+                            <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                                <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                                    <div data-elem="slide" data-options="thumb:img/gulp158.jpg">
+                                        <img data-src="img/gulp158.jpg" data-elem="bg"/>
+                                    </div>
+                                    <div data-elem="slide" data-options="thumb:img/gulp159.jpg">
+                                        <img data-src="img/gulp159.jpg" data-elem="bg"/>
+                                    </div>
+                                    <div data-elem="slide" data-options="thumb:img/gulp160.jpg">
+                                        <img data-src="img/gulp160.jpg" data-elem="bg"/>
+                                    </div>
+                                    <div data-elem="slide" data-options="thumb:img/gulp161.jpg">
+                                        <img data-src="img/gulp161.jpg" data-elem="bg"/>
+                                    </div>
+                                </div>
+                                <div data-elem="thumbs" class="thumbs" style="bottom:0px"></div>
+                                <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                            </div>
+                        </div>
+                        위에 처럼 입력하면, 원하시는대로 언제든지 해당 스프라이트 이미지를 불러와 작성하실 수 있습니다. <br>
+                        위에서 필요한 것만 불러오고 싶을 때 쓰는 방법을 쓰시면 클래스명은 본인이 임의로 다른 것으로 바꿀 수 있으나 <br>
+                        1배수 이미지 모두, 또는 1, 2배수 이미지 모두를 불러오신다면 클래스명 이름은 자동으로 해당 이미지파일명으로 설정됩니다. <br>
+                        <span class="em">_sprite.scss 믹스인 함수가 자동으로 그렇게 생성됩니다.</span>
+
+
+
+                    </dd>
+                </dl>
+            </dd>
+            <dt class="d_tit">주의사항</dt>
+            <dd class="d_txt">
+                <span class="em">1배수 이미지와 2배수 이미지는 항상 짝이 맞아야됩니다. <br>
+                1배수가 이미지가 5개면 2배수 이미지도 5개, 1배수 이미지가 3개면 2배수 이미지도 3개여야하고, <br>
+                2배수 이미지는 1배수 이미지의 정확하게 2배가 되어야 합니다.</span> <br>
+                <br>
+                참고 사이트입니다.
+                <br><br>
+                <a href="https://blog.outsider.ne.kr/1145" target="_blank">https://blog.outsider.ne.kr/1145</a> <br>
+                <a href="https://www.npmjs.com/package/gulp.spritesmith#padding" target="_blank">https://www.npmjs.com/package/gulp.spritesmith#padding</a>
+                <br>
+                <a href="https://www.npmjs.com/package/gulp.spritesmith" target="_blank">https://www.npmjs.com/package/gulp.spritesmith</a><br>
+                <a href="https://github.com/twolfson/spritesheet-templates#templates" target="_blank">https://github.com/twolfson/spritesheet-templates#templates</a>
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>

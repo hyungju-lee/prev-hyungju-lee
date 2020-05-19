@@ -1,0 +1,36 @@
+<strong>Modified 파일 되돌리기</strong>
+어떻게 해야 CONTRIBUTING.md 파일을 수정하고 나서 다시 되돌릴 수 있을까?
+그러니까 최근 커밋된 버전으로(아니면 처음 Clone 했을 때처럼 워킹 디렉토리에 처음 Checkout 한 그 내용으로) 되돌리는 방법이 무얼까?
+git status 명령이 친절하게 알려준다.
+바로 위에 있는 예제에서 Unstaged 부분을 보자.
+
+
+Changes not staged for commit:
+(use "git add &lt;file&gt;..." to update what will be committed)
+    (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+        modified:   CONTRIBUTING.md
+        위의 메시지는 수정한 파일을 되돌리는 방법을 꽤 정확하게 알려준다. 알려주는 대로 한 번 해보자.
+
+        $ git checkout -- CONTRIBUTING.md
+        $ git status
+        On branch master
+        Changes to be committed:
+        (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+            renamed:    README.md -> README
+
+
+정상적으로 복원된 것을 알 수 있다.
+
+<strong>Important</strong>
+    git checkout -- [file] 명령은 꽤 위험한 명령이라는 것을 알아야 한다.
+    원래 파일로 덮어썼기 때문에 수정한 내용은 전부 사라진다.
+    수정한 내용이 진짜 마음에 들지 않을 때만 사용하자.
+
+변경한 내용을 쉽게 버릴수는 없고 하지만 당장은 되돌려야만 하는 상황이라면 Stash와 Branch를 사용하자.
+Git 브랜치 에서 다루는 이 방법들이 훨씬 낫다.
+
+Git으로 커밋 한 모든 것은 언제나 복구할 수 있다.
+삭제한 브랜치에 있었던 것도, --amend 옵션으로 다시 커밋한 것도 복구할 수 있다(자세한 것은 데이터 복구 에서 다룬다).
+하지만 커밋하지 않고 잃어버린 것은 절대로 되돌릴 수 없다.

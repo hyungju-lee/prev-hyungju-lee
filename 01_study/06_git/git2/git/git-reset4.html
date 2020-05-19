@@ -1,0 +1,40 @@
+<strong>경로를 주고 reset 하기</strong>
+지금까지 reset 명령을 실행하는 기본 형태와 사용 방법을 살펴봤다.
+reset 명령을 실행할 때 경로를 지정하면 1단계를 건너뛰고 정해진 경로의 파일에만 나머지 reset 단계를 적용한다.
+이는 당연한 이야기다.
+HEAD는 포인터인데 경로에 따라 파일별로 기준이 되는 커밋을 부분적으로 적용하는 건 불가능하다.
+하지만, index나 워킹 디렉토리는 일부분만 갱신할 수 있다.
+따라서 2, 3단계는 가능하다.
+
+예를 들어 git reset file.txt 명령을 실행한다고 가정하자.
+이 형식은(커밋의 해시 값이나 브랜치도 표기하지 않고 --soft 나 --hard 도 표기하지 않은) git reset --mixed HEAD file.txt 를 짧게 쓴 것이다.
+
+    1. HEAD의 브랜치를 옮긴다. (건너뜀)
+    2. Index를 HEAD가 가리키는 상태로 만든다. (여기서 멈춤)
+
+본질적으로는 file.txt 파일을 HEAD에서 Index로 복사하는 것뿐이다.
+
+<img src="img/git-workflow16.jpg" alt="">
+
+이 명령은 해당 파일을 Unstaged 상태로 만든다.
+이 명령의 다이어그램과 git add 명령을 비교해보면 정확히 반대인 것을 알 수 있다.
+
+<img src="img/git-workflow17.jpg" alt="">
+
+이것이 git status 명령에서 이 명령을 보여주는 이유다.
+이 명령으로 파일을 Unstaged 상태로 만들 수 있다.
+(더 자세한 내용은 파일 상태를 Unstage로 변경하기를 참고한다.)
+
+특정 커밋을 명시하면 Git은 “`HEAD에서 파일을 가져오는” 것이 아니라 그 커밋에서 파일을 가져온다.
+git reset eb43bf file.txt 명령과 같이 실행한다.
+
+<img src="img/git-workflow18.jpg" alt="">
+
+이 명령을 실행한 것과 같은 결과를 만들려면 워킹 디렉토리의 파일을 v1으로 되돌리고
+git add 명령으로 Index를 v1으로 만들고 나서 다시 워킹 디렉토리를 v3로 되돌려야 한다(결과만 같다는 얘기다).
+이 상태에서 git commit 명령을 실행하면 v1으로 되돌린 파일 내용을 기록한다.
+워킹 디렉토리를 사용하지 않았다.
+
+git add 명령처럼 reset 명령도 Hunk 단위로 사용할 수 있다.
+--patch 옵션을 사용해서 Staging Area에서 Hunk 단위로 Unstaged 상태로 만들 수 있다.
+이렇게 선택적으로 Unstaged 상태로 만들거나 내리거나 이전 버전으로 복원시킬 수 있다.

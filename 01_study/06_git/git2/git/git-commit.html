@@ -1,0 +1,22 @@
+<div class="git-bash"><strong>$ git commit</strong></div>
+
+Git 설정에 지정된 편집기가 실행되고, 아래와 같은 텍스트가 자동으로 포함된다
+(아래 예제는 Vim 편집기의 화면이다.
+이 편집기는 쉘의 EDITOR 환경 변수에 등록된 편집기이고 보통은 Vim이나 Emacs을 사용한다.
+또 시작하기 에서 설명했듯이 git config --global core.editor 명령으로 어떤 편집기를 사용할지 설정할 수 있다).
+
+편집기는 아래와 같은 내용을 표시한다(아래 예제는 Vim 편집기).
+
+    # Please enter the commit message for your changes. Lines starting
+    # with '#' will be ignored, and an empty message aborts the commit.
+    # On branch master
+    # Your branch is up-to-date with 'origin/master'.
+    #
+    # Changes to be committed:
+    #	new file:   README
+    #	modified:   CONTRIBUTING.md
+    #
+    ~
+    ~
+    ~
+    ".git/COMMIT_EDITMSG" 9L, 283C

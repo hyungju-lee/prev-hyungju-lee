@@ -1,0 +1,29 @@
+<img src="img/git-branch3.jpg" alt="">
+
+<strong>새 브랜치 생성하기</strong>
+브랜치를 하나 새로 만들면 어떨까.
+브랜치를 하나 만들어서 놀자.
+아래와 같이 git branch 명령으로 testing 브랜치를 만든다.
+
+    $ git branch testing
+
+새로 만든 브랜치도 지금 작업하고 있던 마지막 커밋을 가리킨다.
+
+<img src="img/git-branch4.jpg" alt="">
+
+지금 작업 중인 브랜치가 무엇인지 Git은 어떻게 파악할까.
+다른 버전 관리 시스템과는 달리 Git은 'HEAD’라는 특수한 포인터가 있다.
+이 포인터는 지금 작업하는 로컬 브랜치를 가리킨다.
+브랜치를 새로 만들었지만, Git은 아직 master 브랜치를 가리키고 있다.
+git branch 명령은 브랜치를 만들기만 하고 브랜치를 옮기지 않는다.
+
+<img src="img/git-branch5.jpg" alt="">
+
+git log 명령에 --decorate 옵션을 사용하면 쉽게 브랜치가 어떤 커밋을 가리키는지도 확인할 수 있다.
+
+    $ git log --oneline --decorate
+    f30ab (HEAD -> master, testing) add feature #32 - ability to add new formats to the central interface
+    34ac2 Fixed bug #1328 - stack overflow under certain conditions
+    98ca9 The initial commit of my project
+
+"master" 와 "testing" 이라는 브랜치가 f30ab 커밋 옆에 위치하여 이런식으로 브랜치가 가리키는 커밋을 확인할 수 있다.

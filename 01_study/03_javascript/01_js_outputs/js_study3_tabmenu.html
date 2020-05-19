@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>input text</title>
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/child_style.css">
+    <style type="text/css">
+        .tab_area{position: relative;margin:20px 0}
+        .tab_tit{font-size:0}
+        .btn_tit{border:1px solid #eee}
+        .txt_area{display:none;background-color: #fff}
+        .txt_area.on{display:block}
+    </style>
+</head>
+
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">tab menu</h1>
+        <dl>
+            <dt class="d_tit">조건</dt>
+            <dd class="d_txt">IE8 호환성 고려</dd>
+            <dd class="d_txt">js 소스 간결화</dd>
+            <dd class="d_txt">class명으로만 제어</dd>
+            <dt class="d_tit">어려움</dt>
+            <dd class="d_txt">class명으로만 제어하는 것이 제이쿼리 라이브러리 없이 하기엔 너무 버거웠음</dd>
+            <dd class="d_txt">구현하긴 했으나 소스가 길어지고 마크업 제약이 생김</dd>
+            <dd class="d_txt">IE 저버전을 안 맞추거나 jQuery라이브러리를 사용할 시 보다 더 깔끔한 코딩 가능</dd>
+            <dd class="d_txt">아직 완성한건 아님... 수정해야되는데 귀찮..</dd>
+        </dl>
+    </div>
+
+    <div class="tab_area">
+        <div class="tab_tit">
+            <button type="button" class="btn_tit btn_result">Result</button>
+            <button type="button" class="btn_tit btn_html">HTML</button>
+            <button type="button" class="btn_tit btn_js">javaScript</button>
+        </div>
+        <div class="tab_txt">
+            <div class="txt_area result on" style="overflow:auto;max-height:400px">
+               result area
+            </div>
+            <div class="txt_area html">
+                 html area
+            </div>
+            <div class="txt_area js">
+                js area
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // class 명으로 선택하기
+    var getElementsByClassNameCompatible = function (className) {
+        if (document.getElementsByClassName) {
+            return document.getElementsByClassName(className);
+        }
+        var regEx = new RegExp('(^| )' + className + '( |$)');
+        var nodes = new Array();
+        var elements = document.body.getElementsByTagName("*");
+        var len = elements.length;
+        for (var i = 0; i < len; i++) {
+            if (regEx.test(elements[i].className)) {
+                nodes.push(elements[i]);
+            }
+        }
+        elements = null;
+        return nodes;
+    };
+
+    // jquery에 있고 js에 없는 replaceAll 프로퍼티 생성하기
+    String.prototype.replaceAll = function (org, dest) {
+        return this.split(org).join(dest);
+    }
+
+    // tab 함수 시작
+    var btnTit = getElementsByClassNameCompatible("btn_tit"),
+        ArrayBtnTit = [],
+        txtName = new RegExp("^|txt_area|$"),
+        pattArray = [new RegExp("result"), new RegExp("html"), new RegExp("css"), new RegExp("js")],
+        activeClass = "on";
+
+    (function(){
+        for (var i = 0; i < btnTit.length; i++) {
+            ArrayBtnTit.push(btnTit[i]);
+        }
+    })();
+
+    for (var i = 0; i < ArrayBtnTit.length; i++) {
+        if(window.addEventListener){
+            ArrayBtnTit[i].addEventListener("click", function () {
+                for (var j = 0; j < pattArray.length; j++) {
+                    if (pattArray[j].test(this.className)) {
+                        var tabTxt = this.parentElement.nextSibling.nodeName != "#text" ? this.parentElement.nextSibling : this.parentElement.nextSibling.nextSibling,
+                            txtArea = tabTxt.childNodes,
+                            realTxtArea = [],
+                            thisMatch,
+                            thisName,
+                            hasClass = false;
+
+                        (function(){
+                            for (var k = 0; k < txtArea.length; k++) {
+                                if (txtArea[k].nodeName != "#text") {
+                                    if (txtName.test(txtArea[k].className)) {
+                                        realTxtArea.push(txtArea[k])
+                                    }
+                                }
+                            }
+                        })();
+
+                        (function(){
+                            for (var k = 0; k < realTxtArea.length; k++) {
+                                realTxtArea[k].className = realTxtArea[k].className.replace(/\b on\b/, "");
+                            }
+                        })();
+
+
+                        thisMatch = this.parentElement.parentElement.querySelector("." + pattArray[j].toString().replaceAll("/", ""));
+                        thisName = thisMatch.className.split(" ");
+
+                        (function(){
+                            for (var k = 0; k < thisName.length; k++) {
+                                if (thisName[k] == activeClass) {
+                                    hasClass = true;
+                                }
+                            }
+                        })();
+
+                        if (!hasClass) {
+                            thisName.push(activeClass);
+                            thisMatch.className = thisName.join(" ");
+                        }
+                    }
+                }
+            })
+        }else if(window.attachEvent){
+            ArrayBtnTit[i].onclick = function () {
+                for (var j = 0; j < pattArray.length; j++) {
+                    if (pattArray[j].test(this.className)) {
+                        var tabTxt = this.parentElement.nextSibling.nodeName != "#text" ? this.parentElement.nextSibling : this.parentElement.nextSibling.nextSibling,
+                            txtArea = tabTxt.childNodes,
+                            realTxtArea = [],
+                            thisMatch,
+                            thisName,
+                            hasClass = false;
+
+                        (function(){
+                            for (var k = 0; k < txtArea.length; k++) {
+                                if (txtArea[k].nodeName != "#text") {
+                                    if (txtName.test(txtArea[k].className)) {
+                                        realTxtArea.push(txtArea[k])
+                                    }
+                                }
+                            }
+                        })();
+
+                        (function(){
+                            for (var k = 0; k < realTxtArea.length; k++) {
+                                realTxtArea[k].className = realTxtArea[k].className.replace(/\b on\b/, "");
+                            }
+                        })();
+
+                        thisMatch = this.parentElement.parentElement.querySelector("." + pattArray[j].toString().replaceAll("/", "")),
+                            thisName = thisMatch.className.split(" ");
+
+                        (function(){
+                            for (var k = 0; k < thisName.length; k++) {
+                                if (thisName[k] == activeClass) {
+                                    hasClass = true;
+                                }
+                            }
+                        })();
+
+                        if (!hasClass) {
+                            thisName.push(activeClass);
+                            thisMatch.className = thisName.join(" ");
+                        }
+                    }
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

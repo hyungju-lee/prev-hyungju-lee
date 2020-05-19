@@ -1,0 +1,130 @@
+<style>
+    .git-sub caption{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
+    .git-sub{table-layout:fixed;border-collapse:collapse}
+    .git-sub th{padding:10px;background-color:#eee;text-align:center}
+    .git-sub td{padding:10px;}
+</style>
+
+<strong>Checkout</strong>
+아마도 checkout 명령과 reset 명령에 어떤 차이가 있는지 궁금할 것이다.
+reset 명령과 마찬가지로 checkout 명령도 위의 세 트리를 조작한다.
+checkout 명령도 파일 경로를 쓰느냐 안 쓰느냐에 따라 동작이 다르다.
+
+<strong>경로 없음</strong>
+git checkout [branch] 명령은 git reset --hard [branch] 명령과 비슷하게 [branch] 스냅샷을 기준으로 세 트리를 조작한다.
+하지만, 두 가지 사항이 다르다.
+
+첫 번째로 reset --hard 명령과는 달리 checkout 명령은 워킹 디렉토리를 안전하게 다룬다.
+저장하지 않은 것이 있는지 확인해서 날려버리지 않는다는 것을 보장한다.
+사실 보기보다 좀 더 똑똑하게 동작한다.
+워킹 디렉토리에서 Merge 작업을 한번 시도해보고 변경하지 않은 파일만 업데이트한다.
+반면 reset --hard 명령은 확인하지 않고 단순히 모든 것을 바꿔버린다.
+
+두 번째 중요한 차이점은 어떻게 checkout 명령이 HEAD를 업데이트 하는가이다.
+reset 명령은 HEAD가 가리키는 브랜치를 움직이지만(브랜치 Refs를 업데이트하지만), checkout 명령은 HEAD 자체를 다른 브랜치로 옮긴다.
+
+예를 들어 각각 다른 커밋을 가리키는 master 와 develop 브랜치가 있고 현재 워킹 디렉토리는 develop 브랜치라고 가정해보자(즉 HEAD는 develop 브랜치를 가리킨다).
+git reset master 명령을 실행하면 develop 브랜치는 master 브랜치가 가리키는 커밋과 같은 커밋을 가리키게 된다.
+반면 git checkout master 명령을 실행하면 develop 브랜치가 가리키는 커밋은 바뀌지 않고 HEAD가 master 브랜치를 가리키도록 업데이트된다.
+이제 HEAD는 master 브랜치를 가리키게 된다.
+
+그래서 위 두 경우 모두 HEAD는 결과적으로 A 커밋을 가리키게 되지만 방식은 완전히 다르다.
+reset 명령은 HEAD가 가리키는 브랜치의 포인터를 옮겼고 checkout 명령은 HEAD 자체를 옮겼다.
+
+<img src="img/git-workflow22.jpg" alt="">
+
+<strong>경로 있음</strong>
+checkout 명령을 실행할 때 파일 경로를 줄 수도 있다.
+reset 명령과 비슷하게 HEAD는 움직이지 않는다.
+동작은 git reset [branch] file 명령과 비슷하다.
+Index의 내용이 해당 커밋 버전으로 변경될 뿐만 아니라 워킹 디렉토리의 파일도 해당 커밋 버전으로 변경된다.
+완전히 git reset --hard [branch] file 명령의 동작이랑 같다.
+워킹 디렉토리가 안전하지도 않고 HEAD도 움직이지 않는다.
+
+git reset 이나 git add 명령처럼 checkout 명령도 --patch 옵션을 사용해서 Hunk 단위로 되돌릴 수 있다.
+
+<strong>요약</strong>
+reset 명령이 좀 더 쉬워졌을 거라고 생각한다.
+아직 checkout 명령과 정확하게 무엇이 다른지 혼란스럽거나 정확한 사용법을 다 익히지 못했을 수도 있지만 괜찮다.
+
+아래에 어떤 명령이 어떤 트리에 영향을 주는지에 대한 요약표를 준비했다.
+명령이 HEAD가 가리키는 브랜치를 움직인다면 “HEAD” 열에 “REF” 라고 적혀 있고 HEAD 자체가 움직인다면 “HEAD” 라고 적혀 있다.
+WD Safe? 열을 꼭 보자.
+여기에 *NO*라고 적혀 있다면 워킹 디렉토리에 저장하지 않은 내용이 안전하지 않기 때문에 해당 명령을 실행하기 전에 한 번쯤 더 생각해보아야 한다.
+
+<table class="git-sub">
+    <caption>reset 옵션</caption>
+    <colgroup>
+        <col width="">
+        <col>
+        <col>
+        <col>
+        <col>
+    </colgroup>
+    <thead>
+    <tr>
+        <th scope="col"></th>
+        <th scope="col">HEAD</th>
+        <th scope="col">Index</th>
+        <th scope="col">Workdir</th>
+        <th scope="col">WD Safe?</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="5">Commit level</td>
+    </tr>
+    <tr>
+        <td>reset --soft [commit]</td>
+        <td>REF</td>
+        <td>NO</td>
+        <td>NO</td>
+        <td>YES</td>
+    </tr>
+    <tr>
+        <td>reset [commit]</td>
+        <td>REF</td>
+        <td>YES</td>
+        <td>NO</td>
+        <td>YES</td>
+    </tr>
+    <tr>
+        <td>reset --hard [commit]</td>
+        <td>REF</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>NO</td>
+    </tr>
+    <tr>
+        <td>checkout &lt;commit&gt;</td>
+        <td>HEAD</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+    </tr>
+    <tr>
+        <td colspan="5">File Level</td>
+    </tr>
+    <tr>
+        <td>checkout &lt;commit&gt;</td>
+        <td>HEAD</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>YES</td>
+    </tr>
+    <tr>
+        <td>reset [commit] &lt;paths&gt;</td>
+        <td>NO</td>
+        <td>YES</td>
+        <td>NO</td>
+        <td>YES</td>
+    </tr>
+    <tr>
+        <td>checkout [commit] &lt;paths&gt;</td>
+        <td>NO</td>
+        <td>YES</td>
+        <td>YES</td>
+        <td>NO</td>
+    </tr>
+    </tbody>
+</table>

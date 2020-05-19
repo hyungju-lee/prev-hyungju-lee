@@ -1,0 +1,51 @@
+<strong>Rebase 활용</strong>
+Rebase는 단순히 브랜치를 합치는 것만 아니라 다른 용도로도 사용할 수 있다.
+다른 토픽 브랜치에서 갈라져 나온 토픽 브랜치 같은 히스토리가 있다고 하자.
+server 브랜치를 만들어서 서버 기능을 추가하고 그 브랜치에서 다시 client 브랜치를 만들어 클라이언트 기능을 추가한다.
+마지막으로 server 브랜치로 돌아가서 몇 가지 기능을 더 추가한다.
+
+<img src="img/git-rebase5.jpg" alt="">
+
+이때 테스트가 덜 된 server 브랜치는 그대로 두고 client 브랜치만 master 로 합치려는 상황을 생각해보자.
+server 와는 아무 관련이 없는 client 커밋은 C8, C9 이다.
+이 두 커밋을 master 브랜치에 적용하기 위해서 --onto 옵션을 사용하여 아래와 같은 명령을 실행한다:
+
+    $ git rebase --onto master server client
+
+이 명령은 master 브랜치부터 server 브랜치와 client 브랜치의 공통 조상까지의 커밋을 client 브랜치에서 없애고 싶을 때 사용한다.
+client 브랜치에서만 변경된 패치를 만들어 master 브랜치에서 client 브랜치를 기반으로 새로 만들어 적용한다.
+조금 복잡하긴 해도 꽤 쓸모 있다.
+
+<img src="img/git-rebase6.jpg" alt="">
+
+이제 master 브랜치로 돌아가서 Fast-forward 시킬 수 있다
+(master 브랜치를 client 브랜치 위치로 진행 시키기 참고).
+
+    $ git checkout master
+    $ git merge client
+
+<img src="img/git-rebase7.jpg" alt="">
+
+server 브랜치의 일이 다 끝나면 git rebase &lt;basebranch&gt; &lt;topicbranch&gt; 라는 명령으로 Checkout 하지 않고
+바로 server 브랜치를 master 브랜치로 Rebase 할 수 있다.
+이 명령은 토픽(server) 브랜치를 Checkout 하고 베이스(master) 브랜치에 Rebase 한다.
+
+    $ git rebase master server
+
+server 브랜치의 수정사항을 master 브랜치에 적용했다.
+그 결과는 master 브랜치에 server 브랜치의 수정 사항을 적용한 것과 같다.
+
+<img src="img/git-rebase8.jpg" alt="">
+
+그리고 나서 master 브랜치를 Fast-forward 시킨다.
+
+    $ git checkout master
+    $ git merge server
+
+모든 것이 master 브랜치에 통합됐기 때문에 더 필요하지 않다면 client 나 server 브랜치는 삭제해도 된다.
+브랜치를 삭제해도 커밋 히스토리는 최종 커밋 히스토리 같이 여전히 남아 있다.
+
+    $ git branch -d client
+    $ git branch -d server
+
+<img src="img/git-rebase9.jpg" alt="">

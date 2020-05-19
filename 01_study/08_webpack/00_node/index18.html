@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width">
+    <title>node</title>
+    <link rel="stylesheet" href="css/touchnswipe.min.css">
+    <link rel="stylesheet" href="../../../css/font.css">
+    <link rel="stylesheet" href="../../../css/prism.css">
+    <link rel="stylesheet" href="../../../css/child_style2.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/TweenMax.min.js"></script>
+    <script src="js/jquery.touchnswipe.min.js"></script>
+</head>
+<body>
+<div id="wrap">
+    <div class="explain">
+        <h1 class="tit">NPM에 배포한 모듈 다운로드하여 테스트하기</h1>
+        <dl>
+            <dt class="d_tit">NPM에 배포한 모듈 다운로드하여 테스트하기</dt>
+            <dd class="d_txt">
+                NPM에 배포한 모듈을 다운로드하여 정상적으로 작동하는지 테스트합니다. <br>
+                다음을 참고하여 Git Bash에서 cd 명령어로 프로젝트 루트 디렉터리로 이동합니다. <br>
+                <strong>npm install combinejss</strong> 명령어를 입력하여 실행한 후 NPM에서 모듈 패키지를 다운로드 합니다. <br>
+                모듈 패키지는 루트 디렉터리에 저장되는데, [node_modules] 디렉터리 안에 [combinejss] 모듈 패키지 디렉터리가 들어 있습니다.
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node55.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+                모듈을 테스트하려고 moduleTest.js 파일을 생성합니다. <br>
+                다음처럼 combinejss 모듈을 호출하고 앞서 배운 모듈 실행 코드를 입력합니다. <br>
+                마지막으로 Git Bash에서 node moduleTest.js 명령어를 실행합니다. <br>
+                모듈로 생성한 all.js 파일을 열면 압축, 병합된 코드를 확인할 수 있습니다. <br>
+                <strong>한번 더 해봐야할듯. 의존성 모듈이 같이 자동으로 설치되어야하는데, 난 자동으로 설치안되네.. 이럼안되는거같은데</strong> <br>
+                <strong class="em">아 아니었음. npm install(= npm i) 만 입력했어야지 devDep , Dep 다 같이 설치되는건데.. 음.. 난 이때 무슨 명령어로 설치한거지..왜 안됐던거지..?? npm i -D..?</strong>
+                <div class="pinch">
+                    <div class="slider" data-elem="touchnswipe" data-options="appendControls:false; appendControlHolder:false">
+                        <div class="slideHolder" data-elem="slides" data-options="loop:false; slideOptions:{ fullscreenAdjustHeight:0; doubleTapZoom:3; maxZoom:10; }">
+                            <div data-elem="slide">
+                                <img data-src="img/node56.jpg" data-elem="bg"/>
+                            </div>
+                        </div>
+                        <div data-elem="fullscreenToggle" data-options="onCss:{className:fullscreenToggle on}; offCss:{className:fullscreenToggle off}" class="fullscreenToggle" style="background-color:rgba(255,255,255, 0.6); border:1px solid #999; left:auto; right:10px; top:10px"></div>
+                    </div>
+                </div>
+
+
+
+            </dd>
+        </dl>
+    </div>
+</div>
+<script src="../../../js/prism.js"></script>
+</body>
+</html>
